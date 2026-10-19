@@ -180,6 +180,7 @@
   /* Valor lógico del XP: la animación puede ir por detrás, así que la fuente
      de verdad es este número y no el texto del DOM. */
   var xpValue = XP_BASE;
+  var xpTick = 0;
 
   function setXPBase() {
     xpValue = XP_BASE;
@@ -197,8 +198,12 @@
     if (REDUCE) {
       renderXP(to);
     } else {
+      /* Red de seguridad: si rAF va por detrás (pestaña oculta, captura
+         headless) el número visible acaba igualmente en el valor correcto. */
+      var token = ++xpTick;
       var t0 = null;
       function tick(ts) {
+        if (token !== xpTick) { return; }
         if (t0 === null) { t0 = ts; }
         var p = Math.min(1, (ts - t0) / 700);
         var eased = 1 - Math.pow(1 - p, 3);
@@ -207,6 +212,9 @@
         else { renderXP(to); }
       }
       window.requestAnimationFrame(tick);
+      window.setTimeout(function () {
+        if (token === xpTick) { renderXP(to); }
+      }, 780);
     }
 
     if (title) { toast("success", title, message); }
@@ -568,7 +576,8 @@
       tab.setAttribute("aria-current", "page");
 
       if (which === "inicio") {
-        toast("info", "Inicio", "Prototipo: «Inicio» no está montado en esta frame.");
+        /* «Inicio» ya tiene pantalla propia (05): se navega a ella */
+        window.location.href = "home.html";
       } else if (which === "perfil") {
         toast("info", "Perfil", "Tus medallas y tu racha viven aquí.");
       } else {

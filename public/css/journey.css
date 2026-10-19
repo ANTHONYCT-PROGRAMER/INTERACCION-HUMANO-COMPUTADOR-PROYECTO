@@ -109,6 +109,26 @@
 .jr-field__go::after { content: ""; position: absolute; inset: -5px; border-radius: 13px; }
 .jr-field__go:hover { filter: brightness(1.06); }
 .jr-field__go:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+/* estado «generando»: el icono deja paso a un anillo de carga */
+.jr-field__go.is-busy { background: var(--surface-3); box-shadow: none; }
+.jr-field__go.is-busy .od-icon { display: none; }
+.jr-field__go.is-busy::before {
+  content: "";
+  width: 15px;
+  height: 15px;
+  border: 2px solid var(--violet-line);
+  border-top-color: var(--violet-500);
+  border-radius: 50%;
+  animation: jr-spin 0.8s linear infinite;
+}
+
+/* el campo avisa con un empujoncito si se envía vacío */
+.jr-field.is-shake { animation: jr-nudge 0.32s var(--ease-out); }
+@keyframes jr-nudge {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
 
 .jr-chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .jr-chip {
@@ -457,6 +477,14 @@
   font-weight: 700;
 }
 .jr-block__title { margin: 0; font-size: 13px; font-weight: 800; letter-spacing: -0.02em; color: var(--text); }
+.jr-block__head .jr-badge-count {
+  margin-left: auto;
+  flex: none;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--mint-text);
+}
 .jr-block__text { margin: 0; font-size: 12px; line-height: 1.55; color: var(--text-2); }
 .jr-block__text b { color: var(--text); font-weight: 700; }
 
@@ -522,9 +550,13 @@
 .jr-code .c { color: #828AAD; }
 .jr-code .f { color: #8FD6FF; }
 
+/* Punto caliente secundario dentro de una línea de código: el padding
+   agranda el área pulsable sin alterar la altura de línea del bloque.
+   La información equivalente vive en las tarjetas .jr-meta (>=44 px). */
 .jr-fn {
   display: inline;
-  padding: 0 2px;
+  padding: 5px 3px;
+  margin: -5px 0;
   border: 0;
   border-bottom: 1px dashed rgba(201, 184, 255, 0.55);
   border-radius: 3px;
@@ -580,6 +612,7 @@
    --------------------------------------------------------------------------- */
 
 .jr-edge { display: grid; gap: 7px; }
+.jr-edge__item { display: grid; gap: 7px; }
 .jr-edge__row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
@@ -696,6 +729,35 @@
 .jr-alert--mint { border-color: var(--mint-line); background: var(--mint-soft); color: var(--mint-text); }
 .jr-alert--coral { border-color: var(--coral-line); background: var(--coral-soft); color: var(--coral-text); }
 
+/* Estado de recuperación: el fallo del servicio se explica sin alarmar y
+   siempre ofrece salida (reintentar, cambiar de idea o seguir con un plan base). */
+.jr-error { animation: ml-fade-up var(--dur-3) var(--ease-out); }
+.jr-error__card {
+  display: grid;
+  gap: 8px;
+  padding: 13px 13px 14px;
+  border: 1px solid var(--amber-line);
+  border-radius: 18px;
+  background: var(--amber-soft);
+}
+.jr-error__kick {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--amber-text);
+}
+.jr-error__kick .od-icon { flex: none; }
+.jr-error__title { margin: 0; font-size: 15px; font-weight: 800; letter-spacing: -0.02em; color: var(--text); }
+.jr-error__note { margin: 0; font-size: 11.5px; font-weight: 600; line-height: 1.5; color: var(--text-2); }
+.jr-error__note b { color: var(--text); font-weight: 800; }
+.jr-error__actions { display: grid; gap: 7px; margin-top: 2px; }
+.jr-error__actions .btn { width: 100%; justify-content: center; }
+.jr-error:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+
 /* ---------------------------------------------------------------------------
    11. Barra inferior de acciones de la fase
    --------------------------------------------------------------------------- */
@@ -732,9 +794,12 @@
 
 @media (prefers-reduced-motion: reduce) {
   .jr-spin,
-  .jr-skel__line { animation: none; }
+  .jr-skel__line,
+  .jr-field__go.is-busy::before { animation: none; }
+  .jr-field.is-shake { animation: none; }
   .jr-bar__i { transition: none; }
   .jr-itinerary,
+  .jr-error,
   .jr-tip,
   .jr-edge__why { animation: none; }
   .jr-edge__chev { transition: none; }

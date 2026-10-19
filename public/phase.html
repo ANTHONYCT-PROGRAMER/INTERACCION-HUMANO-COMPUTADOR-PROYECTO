@@ -64,17 +64,21 @@
             <span class="ml-streak" id="jr-streak" title="Racha de 5 días">
               <svg class="od-icon icon i-14" aria-hidden="true"><use href="#i-flame"></use></svg>
               <span>5</span>
+              <span class="sr-only">días seguidos de racha</span>
             </span>
             <span class="ml-xp" id="jr-xp">
               <svg class="od-icon icon i-14" aria-hidden="true"><use href="#i-bolt"></use></svg>
-              <b id="jr-xp-b" data-xp="1420">1,420</b>
+              <b id="jr-xp-b" data-xp="1420" aria-live="polite">1,420</b>
+              <span class="sr-only">puntos de experiencia</span>
             </span>
             <button class="ml-avatar" type="button" id="jr-avatar" aria-label="Perfil de Ana Ríos, nivel 7">AR</button>
           </div>
         </header>
 
-        <!-- Header de la fase: número · título · avance -->
-        <header class="ml-head jr-phead" id="jr-phead">
+        <!-- Cabecera de la fase: número · título · avance.
+             Es un div (no un header) para no duplicar el landmark banner:
+             el banner de la app es el .ml-top de arriba. -->
+        <div class="ml-head jr-phead" id="jr-phead" role="group" aria-labelledby="jr-phase-title">
           <div class="jr-phead__top">
             <span class="badge badge--violet" id="jr-phase-chip">Fase 1 de 3</span>
             <span class="jr-phead__time">
@@ -84,13 +88,13 @@
           </div>
           <h1 class="ml-head__title" id="jr-phase-title">Fundamentos y complejidad</h1>
           <p class="ml-head__phase" id="jr-phase-lead"><b>Dijkstra en Grafos</b> · Qué promete, por qué necesita pesos no negativos y cuánto cuesta.</p>
-          <div class="ml-seg" id="jr-phase-seg" role="progressbar" aria-label="Avance de la fase" aria-valuemin="0" aria-valuemax="4" aria-valuenow="3">
+          <div class="ml-seg" id="jr-phase-seg" role="progressbar" aria-label="Avance de la fase" aria-valuemin="0" aria-valuemax="4" aria-valuenow="3" aria-valuetext="3 de 4 objetivos">
             <span class="ml-seg__i is-full"></span>
             <span class="ml-seg__i is-full"></span>
             <span class="ml-seg__i is-full"></span>
             <span class="ml-seg__i"></span>
           </div>
-        </header>
+        </div>
 
         <!-- Contenido de la fase (lo pinta js/journey.js) -->
         <main class="ml-main" id="jr-main" tabindex="-1">

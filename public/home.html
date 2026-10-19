@@ -64,10 +64,12 @@
             <span class="ml-streak" id="jr-streak" title="Racha de 5 días">
               <svg class="od-icon icon i-14" aria-hidden="true"><use href="#i-flame"></use></svg>
               <span>5</span>
+              <span class="sr-only">días seguidos de racha</span>
             </span>
             <span class="ml-xp" id="jr-xp">
               <svg class="od-icon icon i-14" aria-hidden="true"><use href="#i-bolt"></use></svg>
-              <b id="jr-xp-b" data-xp="1420">1,420</b>
+              <b id="jr-xp-b" data-xp="1420" aria-live="polite">1,420</b>
+              <span class="sr-only">puntos de experiencia</span>
             </span>
             <button class="ml-avatar" type="button" id="jr-avatar" aria-label="Perfil de Ana Ríos, nivel 7">AR</button>
           </div>
@@ -92,6 +94,7 @@
                 <svg class="od-icon icon i-18 jr-field__icon" aria-hidden="true"><use href="#i-search"></use></svg>
                 <input class="jr-input" id="jr-topic" name="topic" type="text"
                        autocomplete="off" autocapitalize="sentences" enterkeyhint="go"
+                       aria-describedby="jr-note" aria-invalid="false"
                        placeholder="Ej. «Dijkstra en grafos»">
                 <button class="jr-field__go" type="submit" id="jr-go" aria-label="Generar itinerario de 3 fases">
                   <svg class="od-icon icon i-18" aria-hidden="true"><use href="#i-sparkles"></use></svg>
@@ -114,7 +117,7 @@
           </section>
 
           <!-- ============ Estado «generando itinerario» ====================== -->
-          <section class="jr-skel" id="jr-skel" hidden aria-live="polite">
+          <section class="jr-skel" id="jr-skel" hidden role="status" aria-live="polite">
             <p class="jr-skel__status">
               <span class="jr-spin" aria-hidden="true"></span>
               <span id="jr-skel-msg">Armando tu itinerario de 3 fases…</span>
@@ -145,7 +148,7 @@
           <section class="jr-section" id="jr-result" hidden>
             <div class="jr-itinerary">
               <div class="jr-itinerary__head">
-                <h2 class="jr-itinerary__title">Tu itinerario</h2>
+                <h2 class="jr-itinerary__title" id="jr-result-title" tabindex="-1">Tu itinerario</h2>
                 <span class="jr-itinerary__ctx" id="jr-result-ctx">3 fases · <b>≈ 38 min</b></span>
               </div>
               <p class="jr-block__text" id="jr-result-topic">Vas a estudiar <b>Dijkstra en grafos</b>. Empieza por la Fase 1: nadie nace sabiendo esto.</p>
@@ -161,6 +164,34 @@
                 Empezar Fase 1
                 <svg class="od-icon icon i-16" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
               </button>
+            </div>
+          </section>
+
+          <!-- ============ Recuperación: no se pudo generar =================== -->
+          <section class="jr-section jr-error" id="jr-error" role="alert" tabindex="-1" hidden>
+            <div class="jr-error__card">
+              <span class="jr-error__kick">
+                <svg class="od-icon icon i-16" aria-hidden="true"><use href="#i-alert"></use></svg>
+                Se nos cortó el hilo
+              </span>
+              <h2 class="jr-error__title">No pudimos armar tu itinerario</h2>
+              <p class="jr-block__text" id="jr-error-topic">
+                No pudimos armar el itinerario de <b>tu tema</b>. No es culpa tuya: la conexión falló a mitad de camino.
+              </p>
+              <p class="jr-error__note">
+                Tu tema queda guardado. Reintenta ahora, prueba otra idea o empieza con un <b>plan base de 3 fases</b> y lo ajustamos después.
+              </p>
+              <div class="jr-error__actions">
+                <button class="btn btn--primary" type="button" id="jr-error-retry">
+                  <svg class="od-icon icon i-16" aria-hidden="true"><use href="#i-refresh"></use></svg> Reintentar
+                </button>
+                <button class="btn btn--ghost" type="button" id="jr-error-idea">
+                  <svg class="od-icon icon i-16" aria-hidden="true"><use href="#i-sparkles"></use></svg> Probemos otra idea
+                </button>
+                <button class="btn btn--ghost" type="button" id="jr-error-plan">
+                  <svg class="od-icon icon i-16" aria-hidden="true"><use href="#i-route"></use></svg> Empezar con un plan base
+                </button>
+              </div>
             </div>
           </section>
 

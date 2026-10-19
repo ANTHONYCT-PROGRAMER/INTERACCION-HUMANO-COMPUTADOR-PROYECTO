@@ -1,12 +1,16 @@
 import { useEffect, useState } from 'react'
 
-type View = 'design' | 'learning' | 'mobile' | 'extension'
+type View = 'design' | 'learning' | 'mobile' | 'home' | 'phase' | 'extension'
 type MobileFrame = 'acierto' | 'incorrecto' | 'racha' | 'logro'
+type HomeFrame = 'inicio' | 'generando' | 'itinerario' | 'error'
+type PhaseFrame = '1' | '2' | '3'
 type ExtensionFrame = 'base' | 'verificado' | 'alucinacion'
 
 const VIEW_KEY = 'ml-view'
 const VARIANT_KEY = 'ml-variant'
 const FRAME_KEY = 'ml-frame'
+const HOME_FRAME_KEY = 'ml-home-frame'
+const PHASE_KEY = 'ml-phase'
 const EXT_FRAME_KEY = 'ml-ext-frame'
 
 const FRAMES: ReadonlyArray<{ id: MobileFrame; label: string; hint: string }> = [
@@ -22,8 +26,29 @@ const EXT_FRAMES: ReadonlyArray<{ id: ExtensionFrame; label: string; hint: strin
   { id: 'alucinacion', label: 'Alucinación crítica', hint: 'Fuente roja con borde pulsante y alerta «No entregues esta cita sin verificar».' },
 ]
 
+const HOME_FRAMES: ReadonlyArray<{ id: HomeFrame; label: string; hint: string }> = [
+  { id: 'inicio', label: 'Inicio', hint: 'Menú del estudiante: escribe el tema que quieres estudiar, continúa donde lo dejaste y repasa tu semana.' },
+  { id: 'generando', label: 'Generando', hint: 'Maki «piensa» mientras la app arma el itinerario: esqueleto de 3 fases con mensaje de acompañamiento.' },
+  { id: 'itinerario', label: 'Itinerario', hint: 'El tema convertido en 3 fases: Fase 1 en curso 🔵, Fase 2 y Fase 3 bloqueadas 🔒. +20 XP por decidir.' },
+  { id: 'error', label: 'Error de red', hint: 'Recuperación sin puertas cerradas: «No pudimos armar tu itinerario» con Reintentar, otra idea y plan base.' },
+]
+
+const PHASE_FRAMES: ReadonlyArray<{ id: PhaseFrame; label: string; hint: string }> = [
+  { id: '1', label: 'Fase 1', hint: 'Fundamentos y complejidad (80%): objetivos, 3 conceptos con analogía y mini-quiz de comprensión.' },
+  { id: '2', label: 'Fase 2', hint: 'Implementación con montículo: 5 pasos, snippet con desglose de complejidad y dependencias, y checklist de código.' },
+  { id: '3', label: 'Fase 3', hint: 'Optimización y casos límite: casos borde desplegables, checklist pre-entrega y envío a MakerLearn (+120 XP).' },
+]
+
 function isFrame(value: string | null): value is MobileFrame {
   return value === 'acierto' || value === 'incorrecto' || value === 'racha' || value === 'logro'
+}
+
+function isHomeFrame(value: string | null): value is HomeFrame {
+  return value === 'inicio' || value === 'generando' || value === 'itinerario' || value === 'error'
+}
+
+function isPhaseFrame(value: string | null): value is PhaseFrame {
+  return value === '1' || value === '2' || value === '3'
 }
 
 function isExtFrame(value: string | null): value is ExtensionFrame {
@@ -34,7 +59,9 @@ function useView() {
   const [view, setView] = useState<View>(() => {
     if (typeof window === 'undefined') return 'design'
     const saved = window.localStorage.getItem(VIEW_KEY)
-    return saved === 'learning' || saved === 'mobile' || saved === 'extension' ? saved : 'design'
+    return saved === 'learning' || saved === 'mobile' || saved === 'home' || saved === 'phase' || saved === 'extension'
+      ? saved
+      : 'design'
   })
 
   useEffect(() => {
@@ -82,6 +109,43 @@ function useMobileFrame() {
 }
 
 /**
+ * Frame activo de la pantalla 05 «Inicio».
+ * El estado vive en el query string `?state=inicio|generando|itinerario`,
+ * que es lo que lee public/js/journey.js.
+ */
+function useHomeFrame() {
+  const [frame, setFrame] = useState<HomeFrame>(() => {
+    if (typeof window === 'undefined') return 'inicio'
+    const saved = window.localStorage.getItem(HOME_FRAME_KEY)
+    return isHomeFrame(saved) ? saved : 'inicio'
+  })
+
+  useEffect(() => {
+    window.localStorage.setItem(HOME_FRAME_KEY, frame)
+  }, [frame])
+
+  return [frame, setFrame] as const
+}
+
+/**
+ * Fase activa de la pantalla 06 «Fase» (itinerario).
+ * El estado vive en `?phase=1|2|3`, que es lo que lee public/js/journey.js.
+ */
+function usePhaseFrame() {
+  const [frame, setFrame] = useState<PhaseFrame>(() => {
+    if (typeof window === 'undefined') return '1'
+    const saved = window.localStorage.getItem(PHASE_KEY)
+    return isPhaseFrame(saved) ? saved : '1'
+  })
+
+  useEffect(() => {
+    window.localStorage.setItem(PHASE_KEY, frame)
+  }, [frame])
+
+  return [frame, setFrame] as const
+}
+
+/**
  * Frame activo del ecosistema de extensión (pantalla 04).
  * Mismo contrato que 02 y 03: el estado vive en el query string `?state=`
  * y quien lo lee es public/js/extension.js.
@@ -104,6 +168,8 @@ export default function App() {
   const [view, setView] = useView()
   const [failVariant, setFailVariant] = useFailVariant()
   const [mobileFrame, setMobileFrame] = useMobileFrame()
+  const [homeFrame, setHomeFrame] = useHomeFrame()
+  const [phaseFrame, setPhaseFrame] = usePhaseFrame()
   const [extensionFrame, setExtensionFrame] = useExtensionFrame()
 
   const appSrc =
@@ -111,14 +177,37 @@ export default function App() {
       ? '/design.html'
       : view === 'mobile'
         ? `/mobile.html?state=${mobileFrame}`
-        : view === 'extension'
-          ? `/extension.html?state=${extensionFrame}`
-          : failVariant
-            ? '/app.html?state=fallido'
-            : '/app.html'
+        : view === 'home'
+          ? `/home.html?state=${homeFrame}`
+          : view === 'phase'
+            ? `/phase.html?phase=${phaseFrame}`
+            : view === 'extension'
+              ? `/extension.html?state=${extensionFrame}`
+              : failVariant
+                ? '/app.html?state=fallido'
+                : '/app.html'
 
   const frameTitle = FRAMES.find((item) => item.id === mobileFrame)?.hint ?? ''
+  const homeFrameTitle = HOME_FRAMES.find((item) => item.id === homeFrame)?.hint ?? ''
+  const phaseFrameTitle = PHASE_FRAMES.find((item) => item.id === phaseFrame)?.hint ?? ''
   const extFrameTitle = EXT_FRAMES.find((item) => item.id === extensionFrame)?.hint ?? ''
+
+  /* La `key` del iframe obliga a React a recrearlo al cambiar de frame:
+     así el estado del prototipo se reinicia igual que al recargar. */
+  const variantKey =
+    view === 'learning'
+      ? failVariant
+        ? 'fallido'
+        : 'ok'
+      : view === 'mobile'
+        ? mobileFrame
+        : view === 'home'
+          ? homeFrame
+          : view === 'phase'
+            ? phaseFrame
+            : view === 'extension'
+              ? extensionFrame
+              : '-'
 
   return (
     <div className="app-shell">
@@ -171,6 +260,30 @@ export default function App() {
           <span className="app-switcher__num">04</span>
           <span className="app-switcher__label">Extensión · Bridge</span>
         </a>
+        <a
+          className={`app-switcher__link${view === 'home' ? ' is-active' : ''}`}
+          href="#home"
+          onClick={(event) => {
+            event.preventDefault()
+            setView('home')
+          }}
+          aria-current={view === 'home' ? 'page' : undefined}
+        >
+          <span className="app-switcher__num">05</span>
+          <span className="app-switcher__label">Inicio · Menú</span>
+        </a>
+        <a
+          className={`app-switcher__link${view === 'phase' ? ' is-active' : ''}`}
+          href="#phase"
+          onClick={(event) => {
+            event.preventDefault()
+            setView('phase')
+          }}
+          aria-current={view === 'phase' ? 'page' : undefined}
+        >
+          <span className="app-switcher__num">06</span>
+          <span className="app-switcher__label">Fase · Itinerario</span>
+        </a>
 
         {view === 'learning' && (
           <button
@@ -219,6 +332,40 @@ export default function App() {
             ))}
           </div>
         )}
+
+        {view === 'home' && (
+          <div className="app-frames" role="group" aria-label="Estados de la pantalla de Inicio">
+            {HOME_FRAMES.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                className={`app-frames__btn${homeFrame === item.id ? ' is-on' : ''}`}
+                aria-pressed={homeFrame === item.id}
+                onClick={() => setHomeFrame(item.id)}
+                title={item.hint}
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {view === 'phase' && (
+          <div className="app-frames" role="group" aria-label="Fases del itinerario">
+            {PHASE_FRAMES.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                className={`app-frames__btn${phaseFrame === item.id ? ' is-on' : ''}`}
+                aria-pressed={phaseFrame === item.id}
+                onClick={() => setPhaseFrame(item.id)}
+                title={item.hint}
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
+        )}
       </nav>
 
       {view === 'mobile' && frameTitle && (
@@ -243,18 +390,44 @@ export default function App() {
         </p>
       )}
 
+      {view === 'home' && homeFrameTitle && (
+        <p className="app-frame-caption" aria-live="polite">
+          <span className="app-frame-caption__dot" aria-hidden="true" />
+          <span>
+            <strong>Estado «{HOME_FRAMES.find((item) => item.id === homeFrame)?.label}»</strong>
+            {' · '}
+            {homeFrameTitle}
+          </span>
+        </p>
+      )}
+
+      {view === 'phase' && phaseFrameTitle && (
+        <p className="app-frame-caption" aria-live="polite">
+          <span className="app-frame-caption__dot" aria-hidden="true" />
+          <span>
+            <strong>Vista «{PHASE_FRAMES.find((item) => item.id === phaseFrame)?.label}»</strong>
+            {' · '}
+            {phaseFrameTitle}
+          </span>
+        </p>
+      )}
+
       <div className="app-frame">
         <iframe
-          key={`${view}:${view === 'learning' ? (failVariant ? 'fallido' : 'ok') : 'base'}:${view === 'mobile' ? mobileFrame : view === 'extension' ? extensionFrame : '-'}`}
-          className={`app-iframe${view === 'mobile' ? ' is-light' : ''}`}
+          key={`${view}:${variantKey}`}
+          className={`app-iframe${view === 'mobile' || view === 'home' || view === 'phase' ? ' is-light' : ''}`}
           title={
             view === 'design'
               ? 'Sistema de diseño MakerLearn'
               : view === 'mobile'
                 ? 'Aprender · MakerLearn Studio (móvil)'
-                : view === 'extension'
-                  ? 'Extensión · MakerLearn Studio (Bridge + InsightLens)'
-                  : 'Ruta Activa · MakerLearn Studio'
+                : view === 'home'
+                  ? 'Inicio · MakerLearn Studio (móvil)'
+                  : view === 'phase'
+                    ? 'Fase del itinerario · MakerLearn Studio (móvil)'
+                    : view === 'extension'
+                      ? 'Extensión · MakerLearn Studio (Bridge + InsightLens)'
+                      : 'Ruta Activa · MakerLearn Studio'
           }
           src={appSrc}
           loading="eager"
