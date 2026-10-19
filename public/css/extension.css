@@ -1,0 +1,907 @@
+/* ============================================================================
+   MakerLearn Studio · Pantalla 04 — Ecosistema de extensión
+   Bridge Extension (popup 380×280) + InsightLens (panel lateral 320px)
+   Escenario 1440×900 simulado sobre una pestaña real de ChatGPT atenuada 40%.
+   Reutiliza css/tokens.css + css/system.css. Todo es aditivo: no se toca
+   ninguna regla de los archivos originales ni de las pantallas 01–03.
+   ========================================================================== */
+
+[hidden] { display: none !important; }
+
+.xl-body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(1200px 620px at 12% -10%, rgba(108, 76, 241, 0.14), transparent 60%),
+    radial-gradient(900px 520px at 100% 110%, rgba(0, 212, 160, 0.10), transparent 55%),
+    #0B0D14;
+  color: #F4F5FA;
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------------------------------------------------------------- escenario */
+.xl-stage {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 28px 20px 36px;
+  box-sizing: border-box;
+}
+
+.xl-caption {
+  margin: 0 0 12px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--text-xs);
+  letter-spacing: 0.02em;
+  color: rgba(244, 245, 250, 0.62);
+}
+.xl-caption b { color: #F4F5FA; font-weight: 700; }
+.xl-caption__sep { opacity: 0.35; }
+.xl-caption__dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--violet-400);
+  box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.18);
+}
+
+.xl-scaler { transform-origin: top center; }
+
+/* Pantalla 1440×900 (el interior se posiciona en absoluto) */
+.xl-screen {
+  position: relative;
+  width: 1440px;
+  height: 900px;
+  overflow: hidden;
+  border-radius: 18px;
+  background: #212123;
+  box-shadow: 0 40px 90px -40px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(255, 255, 255, 0.06);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* =========================================================================
+   1) Simulación de la pestaña de ChatGPT (fondo, se atenúa al 40%)
+   ======================================================================= */
+.xl-chat {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  background: #212123;
+  color: #ECECF1;
+}
+
+.xl-rail {
+  width: 260px;
+  flex: none;
+  background: #171717;
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 12px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.xl-rail__brand {
+  display: flex; align-items: center; gap: 9px;
+  padding: 6px 8px 14px;
+  font-weight: 700; font-size: 14px; color: #ECECF1;
+}
+.xl-rail__brand svg { width: 24px; height: 24px; }
+.xl-rail__item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 10px; border-radius: 9px;
+  font-size: 13.5px; color: #B4B4BB;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.xl-rail__item svg { width: 16px; height: 16px; flex: none; opacity: 0.75; }
+.xl-rail__item.is-on { background: rgba(255, 255, 255, 0.08); color: #F4F5FA; }
+.xl-rail__label {
+  margin: 14px 10px 6px;
+  font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: #6E6E76;
+}
+.xl-rail__spacer { flex: 1; }
+.xl-rail__user {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 10px; border-radius: 10px; background: rgba(255, 255, 255, 0.06);
+  font-size: 13px; color: #DADAE0;
+}
+.xl-rail__avatar {
+  width: 26px; height: 26px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--grad-brand); color: #fff; font-size: 11px; font-weight: 700;
+}
+
+.xl-thread {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.xl-thread__top {
+  height: 52px; flex: none;
+  display: flex; align-items: center; gap: 10px;
+  padding: 0 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: #212123;
+  font-size: 14px; font-weight: 600; color: #ECECF1;
+}
+.xl-thread__model {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 10px; border-radius: 999px;
+  background: rgba(255, 255, 255, 0.07);
+  font-size: 12.5px; font-weight: 600; color: #B4B4BB;
+}
+.xl-thread__model svg { width: 13px; height: 13px; }
+.xl-thread__body {
+  flex: 1;
+  overflow: hidden;
+  padding: 26px 40px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.xl-turn { display: flex; gap: 16px; }
+.xl-turn__avatar {
+  width: 30px; height: 30px; flex: none; border-radius: 50%;
+  display: grid; place-items: center;
+  font-size: 11px; font-weight: 700;
+}
+.xl-turn--user .xl-turn__avatar { background: #3A3A3F; color: #ECECF1; }
+.xl-turn--ai .xl-turn__avatar { background: var(--grad-brand); color: #fff; }
+.xl-turn__avatar svg { width: 17px; height: 17px; }
+.xl-turn__bubble {
+  background: #2F2F33;
+  border-radius: 16px;
+  padding: 12px 16px;
+  max-width: 640px;
+  font-size: 14.5px;
+  color: #ECECF1;
+}
+.xl-turn--ai .xl-turn__bubble { background: transparent; padding: 0; max-width: 760px; }
+.xl-turn__bubble p { margin: 0 0 12px; }
+.xl-turn__bubble p:last-child { margin-bottom: 0; }
+.xl-turn__bubble strong { color: #fff; }
+.xl-cite {
+  color: #B4A6FF;
+  text-decoration: underline dotted;
+  text-underline-offset: 3px;
+}
+.xl-cite--bad { color: #FF9AA8; }
+
+.xl-code {
+  margin: 14px 0 0;
+  background: #0D0D0F;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  line-height: 1.7;
+  color: #C9C9D1;
+  overflow: hidden;
+  position: relative;
+}
+.xl-code__bar {
+  display: flex; align-items: center; gap: 6px;
+  margin-bottom: 10px;
+}
+.xl-code__bar span { width: 9px; height: 9px; border-radius: 50%; background: #3A3A3F; }
+.xl-code__bar em {
+  margin-left: 8px; font-style: normal; font-size: 11.5px;
+  color: #6E6E76; font-family: var(--font-mono);
+}
+.xl-code .k { color: #C792EA; }
+.xl-code .t { color: #82AAFF; }
+.xl-code .f { color: #7FE0C4; }
+.xl-code .c { color: #5F657C; }
+.xl-code .n { color: #F5C86B; }
+
+.xl-composer {
+  flex: none;
+  margin: 20px 40px 22px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #2F2F33;
+  border-radius: 22px;
+  padding: 14px 18px;
+  display: flex; align-items: center; gap: 12px;
+  color: #8E8E96; font-size: 14px;
+}
+.xl-composer__send {
+  margin-left: auto;
+  width: 30px; height: 30px; border-radius: 50%;
+  background: rgba(255, 255, 255, 0.14);
+  display: grid; place-items: center; color: #ECECF1;
+}
+.xl-composer__send svg { width: 15px; height: 15px; }
+
+/* Atenuado del fondo: 40% */
+.xl-dim {
+  position: absolute;
+  inset: 0;
+  background: rgba(9, 10, 16, 0.40);
+  backdrop-filter: saturate(0.92);
+  z-index: 2;
+}
+
+/* =========================================================================
+   2) Cristal (glassmorphism) con overlay sólido al 92% → contraste AA
+   ======================================================================= */
+.xl-glass {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(108, 76, 241, 0.34);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.55) inset,
+    0 0 34px -8px rgba(139, 92, 246, 0.55),
+    0 30px 60px -28px rgba(8, 9, 16, 0.7);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  color: var(--text);
+}
+
+/* =========================================================================
+   3) Componente A — Bridge Extension (380 × 280)
+   ======================================================================= */
+.xl-bridge {
+  position: absolute;
+  right: 344px;
+  bottom: 26px;
+  width: 380px;
+  min-height: 280px;
+  border-radius: 18px;
+  padding: 16px 16px 14px;
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-sizing: border-box;
+  animation: xl-bridge-in 620ms cubic-bezier(0.22, 1.2, 0.3, 1) both;
+}
+@keyframes xl-bridge-in {
+  0%   { opacity: 0; transform: translateY(46px) scale(0.96); }
+  62%  { opacity: 1; transform: translateY(-7px) scale(1.008); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.xl-bridge__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.xl-bridge__logo {
+  width: 30px; height: 30px; flex: none; border-radius: 9px;
+  background: var(--grad-brand);
+  display: grid; place-items: center;
+  color: #fff;
+  box-shadow: var(--shadow-glow);
+}
+.xl-bridge__logo svg { width: 17px; height: 17px; }
+.xl-bridge__maki {
+  width: 34px; height: 34px; flex: none;
+  display: grid; place-items: center;
+}
+.xl-bridge__maki svg { width: 34px; height: 34px; animation: none; }
+
+/* Maki guiña el ojo al verificar una fuente (estado «wink») */
+.xl-bridge__maki .maki__eyes-wink { display: none; }
+.xl-bridge__maki .maki[data-state="wink"] .maki__eyes-open { display: none; }
+.xl-bridge__maki .maki[data-state="wink"] .maki__eyes-wink { display: block; }
+.xl-bridge__title {
+  flex: 1;
+  margin: 0;
+  font-size: 14.5px;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--text);
+  letter-spacing: var(--tracking-tight);
+}
+.xl-bridge__close {
+  width: 34px; height: 34px; flex: none;
+  border: 0; border-radius: 9px;
+  background: transparent;
+  color: var(--text-3);
+  display: grid; place-items: center;
+  cursor: pointer;
+  position: relative;
+}
+.xl-bridge__close::after { content: ""; position: absolute; inset: -6px; }
+.xl-bridge__close svg { width: 16px; height: 16px; }
+.xl-bridge__close:hover { background: var(--surface-2); color: var(--text); }
+
+.xl-bridge__detect {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--text-2);
+}
+.xl-bridge__detect b {
+  display: block;
+  font-size: 13px;
+  color: var(--text);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.xl-bridge__detect em {
+  font-style: normal;
+  color: var(--violet-text);
+  font-weight: 600;
+}
+
+/* mini preview de la ruta en 3 fases */
+.xl-bridge__phases {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 11px;
+  border-radius: 12px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+}
+.xl-phase {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 12.5px;
+  color: var(--text-2);
+}
+.xl-phase__mark {
+  width: 20px; height: 20px; flex: none; border-radius: 50%;
+  display: grid; place-items: center;
+  font-size: 11px;
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  color: var(--text-3);
+}
+.xl-phase__mark svg { width: 12px; height: 12px; }
+.xl-phase--done .xl-phase__mark { background: var(--mint-soft); border-color: var(--mint-line); color: var(--mint-text); }
+.xl-phase--now .xl-phase__mark { background: var(--violet-soft); border-color: var(--violet-line); color: var(--violet-text); }
+.xl-phase--now { color: var(--text); font-weight: 600; }
+.xl-phase--lock .xl-phase__mark { background: var(--surface-3); border-color: var(--line-strong); color: var(--text-3); }
+.xl-phase__tag {
+  margin-left: auto;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.xl-phase--now .xl-phase__tag { color: var(--violet-text); }
+.xl-phase--done .xl-phase__tag { color: var(--mint-text); }
+
+.xl-bridge__cta {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.xl-bridge__cta .btn { width: 100%; justify-content: center; min-height: 46px; }
+.xl-bridge__alt {
+  align-self: center;
+  background: none;
+  border: 0;
+  padding: 8px 10px;
+  min-height: 40px;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--violet-text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+.xl-bridge__alt:hover { color: var(--violet-600, #5A3BE0); }
+
+/* =========================================================================
+   4) Componente B — InsightLens (panel lateral 320px)
+   ======================================================================= */
+.xl-panel {
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: 320px;
+  z-index: 7;
+  border-radius: 0;
+  border-top: 0; border-right: 0; border-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  transition: transform 320ms var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1));
+}
+.xl-panel.is-collapsed { transform: translateX(288px); }
+.xl-panel.is-collapsed .xl-panel__body,
+.xl-panel.is-collapsed .xl-panel__foot { visibility: hidden; }
+
+.xl-panel__head {
+  flex: none;
+  padding: 14px 14px 12px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.xl-panel__brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+}
+.xl-panel__mark {
+  width: 30px; height: 30px; flex: none; border-radius: 9px;
+  background: linear-gradient(140deg, #14172A, #2B3047);
+  color: #7FE0C4;
+  display: grid; place-items: center;
+}
+.xl-panel__mark svg { width: 16px; height: 16px; }
+.xl-panel__name {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  line-height: 1.2;
+}
+.xl-panel__sub {
+  margin: 0;
+  font-size: 11px;
+  color: var(--text-3);
+  white-space: nowrap;
+}
+.xl-panel__tools { margin-left: auto; display: flex; align-items: center; gap: 6px; }
+
+/* toggle "Activo" */
+.xl-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 9px 5px 6px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--text-2);
+  font: inherit;
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  min-height: 34px;
+  position: relative;
+}
+.xl-toggle::after { content: ""; position: absolute; inset: -5px; }
+.xl-toggle__track {
+  width: 26px; height: 15px; flex: none; border-radius: 999px;
+  background: var(--line-strong);
+  position: relative;
+  transition: background 200ms var(--ease-out, ease);
+}
+.xl-toggle__track::after {
+  content: ""; position: absolute; top: 2px; left: 2px;
+  width: 11px; height: 11px; border-radius: 50%;
+  background: #fff; box-shadow: var(--shadow-sm);
+  transition: transform 200ms var(--ease-spring, cubic-bezier(0.22, 1.2, 0.3, 1));
+}
+.xl-toggle[aria-pressed="true"] { color: var(--mint-text); border-color: var(--mint-line); background: var(--mint-soft); }
+.xl-toggle[aria-pressed="true"] .xl-toggle__track { background: var(--mint-500); }
+.xl-toggle[aria-pressed="true"] .xl-toggle__track::after { transform: translateX(11px); }
+
+.xl-collapse {
+  width: 34px; height: 34px; flex: none;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--surface);
+  color: var(--text-2);
+  display: grid; place-items: center;
+  cursor: pointer;
+  position: relative;
+}
+.xl-collapse::after { content: ""; position: absolute; inset: -5px; }
+.xl-collapse svg { width: 15px; height: 15px; transition: transform 300ms var(--ease-out, ease); }
+.xl-panel.is-collapsed .xl-collapse svg { transform: rotate(180deg); }
+
+.xl-panel__body {
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 12px 12px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.xl-panel__body::-webkit-scrollbar { width: 8px; }
+.xl-panel__body::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 8px; }
+
+.xl-block {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.55);
+  padding: 11px 11px 12px;
+}
+.xl-block__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 9px;
+}
+.xl-block__n {
+  width: 20px; height: 20px; flex: none; border-radius: 6px;
+  display: grid; place-items: center;
+  background: var(--violet-soft);
+  color: var(--violet-text);
+  font-size: 11px; font-weight: 800;
+}
+.xl-block__title {
+  margin: 0;
+  font-size: 12.5px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+.xl-block__hint { margin: 0; font-size: 11px; color: var(--text-3); }
+
+/* --- semáforo de fiabilidad --- */
+.xl-cites { display: flex; flex-direction: column; gap: 8px; list-style: none; margin: 0; padding: 0; }
+
+.xl-cite-card {
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--line-strong);
+  border-radius: 11px;
+  background: var(--surface);
+  padding: 9px 10px;
+  position: relative;
+}
+.xl-cite-card[data-sev="ok"]   { border-left-color: var(--mint-500); background: var(--mint-soft); }
+.xl-cite-card[data-sev="warn"] { border-left-color: var(--amber-500); background: var(--amber-soft); }
+.xl-cite-card[data-sev="bad"]  { border-left-color: var(--coral-500); background: var(--coral-soft); }
+
+.xl-cite-card__row { display: flex; align-items: center; gap: 7px; }
+.xl-sema {
+  width: 12px; height: 12px; flex: none; border-radius: 50%;
+  background: var(--line-strong);
+  position: relative;
+}
+.xl-sema::after {
+  content: ""; position: absolute; inset: -5px; border-radius: 50%;
+  border: 2px solid currentColor; opacity: 0;
+}
+[data-sev="ok"] .xl-sema   { background: var(--mint-500); color: var(--mint-500); }
+[data-sev="warn"] .xl-sema { background: var(--amber-500); color: var(--amber-500); }
+[data-sev="bad"] .xl-sema  { background: var(--coral-500); color: var(--coral-500); }
+[data-sev="ok"] .xl-sema::after,
+[data-sev="warn"] .xl-sema::after,
+[data-sev="bad"] .xl-sema::after { animation: xl-pulse 2.1s ease-out infinite; }
+@keyframes xl-pulse {
+  0%   { opacity: 0.55; transform: scale(0.6); }
+  70%  { opacity: 0;    transform: scale(1.5); }
+  100% { opacity: 0;    transform: scale(1.5); }
+}
+
+.xl-sev-label {
+  font-size: 10px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase;
+}
+[data-sev="ok"] .xl-sev-label   { color: var(--mint-text); }
+[data-sev="warn"] .xl-sev-label { color: var(--amber-text); }
+[data-sev="bad"] .xl-sev-label  { color: var(--coral-text); }
+
+.xl-cite-card__badge { margin-left: auto; }
+
+.xl-cite-card__title {
+  margin: 6px 0 0;
+  font-size: 12.5px;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--text);
+}
+.xl-cite-card__meta {
+  margin: 3px 0 0;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--text-3);
+  word-break: break-word;
+}
+.xl-cite-card__note {
+  margin: 6px 0 0;
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: var(--text-2);
+}
+.xl-cite-card__actions { display: flex; align-items: center; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+
+.xl-linkbtn {
+  display: inline-flex; align-items: center; gap: 5px;
+  min-height: 32px; padding: 5px 9px;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--violet-text);
+  font: inherit; font-size: 11.5px; font-weight: 700;
+  cursor: pointer;
+  position: relative;
+}
+.xl-linkbtn::after { content: ""; position: absolute; inset: -6px -4px; }
+.xl-linkbtn svg { width: 13px; height: 13px; }
+.xl-linkbtn:hover { border-color: var(--violet-line); background: var(--violet-soft); }
+.xl-linkbtn--danger { color: var(--coral-text); border-color: var(--coral-line); }
+.xl-linkbtn--danger:hover { background: var(--coral-soft); border-color: var(--coral-500); }
+
+.xl-cite-card[data-sev="bad"].is-alert {
+  animation: xl-alert 1.9s ease-in-out infinite;
+}
+@keyframes xl-alert {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 84, 112, 0); }
+  50%      { box-shadow: 0 0 0 4px rgba(255, 84, 112, 0.22); }
+}
+
+/* contador + mini barra */
+.xl-tally { margin-top: 10px; }
+.xl-tally__text {
+  font-size: 11.5px; font-weight: 700; color: var(--text-2);
+  display: flex; align-items: center; gap: 6px;
+}
+.xl-tally__text b { color: var(--text); }
+.xl-bar {
+  margin-top: 6px;
+  display: flex;
+  gap: 3px;
+  height: 7px;
+}
+.xl-bar__seg {
+  flex: 1;
+  border-radius: 999px;
+  background: var(--line);
+  transition: background 300ms var(--ease-out, ease);
+}
+.xl-bar__seg[data-sev="ok"]   { background: var(--mint-500); }
+.xl-bar__seg[data-sev="warn"] { background: var(--amber-500); }
+.xl-bar__seg[data-sev="bad"]  { background: var(--coral-500); }
+
+/* --- desglose de código + tooltip --- */
+.xl-code-mini {
+  position: relative;
+  background: #14172A;
+  border-radius: 10px;
+  padding: 10px 11px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.7;
+  color: #C9C9D1;
+  overflow: visible;
+}
+.xl-code-mini .c { color: #7E8496; }
+.xl-code-mini .k { color: #C792EA; }
+.xl-code-mini .t { color: #82AAFF; }
+.xl-code-mini .n { color: #F5C86B; }
+
+.xl-fn {
+  border: 0;
+  padding: 1px 4px;
+  margin: 0 1px;
+  border-radius: 5px;
+  background: rgba(127, 224, 196, 0.16);
+  color: #7FE0C4;
+  font: inherit;
+  font-weight: 700;
+  cursor: help;
+  text-decoration: underline dotted;
+  text-underline-offset: 3px;
+}
+.xl-fn:hover, .xl-fn:focus-visible { background: rgba(127, 224, 196, 0.3); }
+
+.xl-tip {
+  margin-top: 9px;
+  border: 1px solid var(--violet-line);
+  border-radius: 11px;
+  background: #FFFFFF;
+  padding: 10px 11px;
+  box-shadow: var(--shadow-md);
+  transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+}
+.xl-tip.is-active,
+.xl-tip.is-pinned {
+  border-color: var(--violet-500);
+  box-shadow: 0 10px 26px -10px rgba(108, 76, 241, 0.55);
+  transform: translateY(-1px);
+}
+.xl-tip__title {
+  margin: 0 0 6px;
+  font-size: 11px; font-weight: 800; letter-spacing: 0.04em;
+  text-transform: uppercase; color: var(--violet-text);
+}
+.xl-tip__list { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; }
+.xl-tip__list li { font-size: 12px; color: var(--text-2); display: flex; gap: 7px; }
+.xl-tip__list b { color: var(--text); font-weight: 700; }
+.xl-tip__code {
+  font-family: var(--font-mono); font-size: 11px;
+  background: var(--surface-inset); border: 1px solid var(--line);
+  border-radius: 6px; padding: 1px 5px; color: var(--text);
+}
+.xl-tip .btn { margin-top: 9px; width: 100%; justify-content: center; min-height: 40px; }
+
+/* --- chips socráticos --- */
+.xl-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.xl-chip {
+  border: 1px solid var(--violet-line);
+  background: var(--violet-soft);
+  color: var(--violet-text);
+  border-radius: 999px;
+  padding: 8px 11px;
+  min-height: 34px;
+  font: inherit;
+  font-size: 11.5px;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+  position: relative;
+  transition: transform 160ms var(--ease-spring, ease), background 160ms ease;
+}
+.xl-chip::after { content: ""; position: absolute; inset: -5px -3px; }
+.xl-chip:hover { background: #E6DFFF; transform: translateY(-1px); }
+.xl-chip:active { transform: translateY(0) scale(0.98); }
+.xl-chip.is-copied { background: var(--mint-soft); border-color: var(--mint-line); color: var(--mint-text); }
+
+/* --- checklist --- */
+.xl-check { display: flex; flex-direction: column; gap: 4px; }
+.xl-check__row {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 7px 8px;
+  border-radius: 9px;
+  cursor: pointer;
+  min-height: 40px;
+  box-sizing: border-box;
+  font-size: 12px;
+  color: var(--text-2);
+  border: 1px solid transparent;
+}
+.xl-check__row:hover { background: var(--surface-2); }
+.xl-check__row:has(input:checked) { color: var(--text); }
+.xl-check__box {
+  width: 18px; height: 18px; flex: none; margin-top: 1px;
+  border: 1.5px solid var(--line-strong);
+  border-radius: 5px;
+  background: var(--surface);
+  display: grid; place-items: center;
+  color: transparent;
+  transition: all 160ms ease;
+}
+.xl-check__box svg { width: 12px; height: 12px; }
+.xl-check__row input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.xl-check__row input:checked + .xl-check__box {
+  background: var(--mint-500); border-color: var(--mint-500); color: #fff;
+}
+.xl-check__row input:focus-visible + .xl-check__box { box-shadow: 0 0 0 3px var(--focus-halo); }
+.xl-check__label { flex: 1; }
+.xl-check__label em { font-style: normal; color: var(--text-3); font-size: 11px; display: block; }
+.xl-check__progress {
+  margin-top: 8px;
+  font-size: 11px; font-weight: 700; color: var(--text-3);
+  display: flex; align-items: center; justify-content: space-between;
+}
+
+/* --- aviso de estado (todo verificado / alucinación crítica) --- */
+.xl-alert {
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  border-radius: 11px;
+  padding: 10px 11px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.45;
+}
+.xl-alert svg { width: 16px; height: 16px; flex: none; margin-top: 1px; }
+.xl-alert--ok { background: var(--mint-soft); border: 1px solid var(--mint-line); color: var(--mint-text); }
+.xl-alert--bad { background: var(--coral-soft); border: 1px solid var(--coral-500); color: var(--coral-text); }
+
+/* --- footer --- */
+.xl-panel__foot {
+  flex: none;
+  padding: 11px 12px 13px;
+  border-top: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.6);
+}
+.xl-panel__foot .btn { width: 100%; justify-content: center; min-height: 46px; }
+.xl-panel__foot small {
+  display: block; margin-top: 7px; text-align: center;
+  font-size: 10.5px; color: var(--text-3);
+}
+
+/* =========================================================================
+   5) Toasts + confeti (dentro de la pantalla)
+   ======================================================================= */
+.xl-toasts {
+  position: absolute;
+  right: 336px;
+  bottom: 322px;
+  z-index: 9;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-end;
+  pointer-events: none;
+}
+.xl-toast {
+  pointer-events: auto;
+  display: flex; align-items: flex-start; gap: 9px;
+  min-width: 250px; max-width: 320px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-lg);
+  color: var(--text);
+  font-size: 12px;
+  animation: xl-toast-in 260ms var(--ease-spring, ease) both;
+}
+@keyframes xl-toast-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to   { opacity: 1; transform: none; }
+}
+.xl-toast.is-out { animation: xl-toast-out 220ms ease both; }
+@keyframes xl-toast-out { to { opacity: 0; transform: translateY(-6px); } }
+.xl-toast__icon {
+  width: 24px; height: 24px; flex: none; border-radius: 7px;
+  display: grid; place-items: center;
+}
+.xl-toast__icon svg { width: 14px; height: 14px; }
+.xl-toast--success .xl-toast__icon { background: var(--mint-soft); color: var(--mint-text); }
+.xl-toast--info .xl-toast__icon { background: var(--violet-soft); color: var(--violet-text); }
+.xl-toast--warn .xl-toast__icon { background: var(--amber-soft); color: var(--amber-text); }
+.xl-toast--error .xl-toast__icon { background: var(--coral-soft); color: var(--coral-text); }
+.xl-toast__title { font-weight: 800; display: block; margin-bottom: 1px; }
+.xl-toast__msg { color: var(--text-2); }
+
+.xl-confetti { position: absolute; inset: 0; z-index: 8; pointer-events: none; overflow: hidden; }
+.xl-confetti__bit {
+  position: absolute;
+  width: 8px; height: 12px;
+  border-radius: 2px;
+  opacity: 0;
+  animation: xl-confetti-fall var(--xl-cf-dur, 1600ms) cubic-bezier(0.35, 0.6, 0.4, 1) forwards;
+}
+@keyframes xl-confetti-fall {
+  0%   { opacity: 1; transform: translate3d(0, -30px, 0) rotate(0deg); }
+  100% { opacity: 0; transform: translate3d(var(--xl-cf-x, 0px), 900px, 0) rotate(540deg); }
+}
+
+/* =========================================================================
+   6) Accesibilidad / reduced motion / responsivo
+   ======================================================================= */
+/* El sprite de símbolos no debe pintarse (en las pantallas 01–02 lo oculta
+   app.css, que esta pantalla no carga). */
+.sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+.sprite symbol { overflow: visible; }
+
+/* Iconos de línea: replican el trazo de `.icon` de system.css */
+.xl-bridge__logo svg, .xl-bridge__close svg, .xl-panel__mark svg, .xl-collapse svg,
+.xl-linkbtn svg, .xl-alert svg, .xl-toast__icon svg, .xl-check__box svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .xl-bridge { animation: none; }
+  .xl-sema::after { animation: none; opacity: 0; }
+  .xl-cite-card[data-sev="bad"].is-alert { animation: none; box-shadow: 0 0 0 3px rgba(255, 84, 112, 0.25); }
+  .xl-confetti__bit { animation: none; opacity: 0; }
+  .xl-toast { animation: none; }
+  .xl-chip { transition: none; }
+  .xl-panel { transition: none; }
+}
+
+/* Nota: la pantalla está fijada a tema claro (data-theme="light"), así que NO se
+   redefine el cristal en modo oscuro del sistema: hacerlo invertía el contraste
+   del texto oscuro sobre el panel. */

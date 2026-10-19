@@ -1,0 +1,202 @@
+/* ============================================================
+   MakerLearn Studio — React shell
+   Minimal chrome around the two pixel-perfect original screens.
+   All design tokens and component CSS live in public/css.
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  background: #0F1117;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+}
+
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+/* ---------- switcher bar ---------- */
+.app-switcher {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 52px;
+  padding: 0 16px;
+  background: #1A1D2A;
+  border-bottom: 1px solid #262B3D;
+  box-shadow: 0 1px 0 0 rgba(179, 161, 255, 0.08);
+  z-index: 10;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.app-switcher::-webkit-scrollbar { display: none; }
+
+.app-switcher__link {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 0 14px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  color: #B6BACB;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 150ms, border-color 150ms, color 150ms;
+  cursor: pointer;
+}
+
+.app-switcher__link:hover {
+  background: #222638;
+  color: #F4F5FA;
+}
+
+.app-switcher__link.is-active {
+  background: rgba(108, 76, 241, 0.16);
+  border-color: rgba(139, 92, 246, 0.42);
+  color: #F4F5FA;
+}
+
+.app-switcher__num {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 10px;
+  color: #9196AC;
+  min-width: 16px;
+}
+
+.app-switcher__link.is-active .app-switcher__num { color: #B3A1FF; }
+
+.app-switcher__label { line-height: 1; }
+
+/* ---------- variante «Test fallido» (sólo pantalla 02) ---------- */
+.app-variant {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid #2A2F42;
+  border-radius: 999px;
+  background: #151823;
+  color: #A9AEC2;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 11.5px;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 150ms, border-color 150ms, color 150ms;
+}
+
+.app-variant:hover { border-color: #3B4159; color: #F4F5FA; }
+
+.app-variant.is-on {
+  border-color: rgba(255, 128, 149, 0.45);
+  background: rgba(255, 128, 149, 0.13);
+  color: #FFD9E0;
+}
+
+.app-variant__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #7FE7C4;
+}
+
+.app-variant.is-on .app-variant__dot { background: #FF8095; }
+
+.app-variant__state {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 10px;
+  color: #7C8199;
+}
+
+.app-variant.is-on .app-variant__state { color: #FFB3C1; }
+
+/* ---------- frames del prototipo móvil (sólo pantalla 03) ---------- */
+.app-frames {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid #2A2F42;
+  border-radius: 999px;
+  background: #151823;
+}
+
+.app-frames__btn {
+  min-height: 28px;
+  padding: 0 11px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #9BA0B5;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 150ms, color 150ms, box-shadow 150ms;
+}
+
+.app-frames__btn:hover { background: #222638; color: #F4F5FA; }
+
+.app-frames__btn.is-on {
+  background: rgba(108, 76, 241, 0.16);
+  color: #F4F5FA;
+  box-shadow: inset 0 0 0 1px rgba(139, 92, 246, 0.42);
+}
+
+.app-frames__btn:focus-visible { outline: 2px solid #B3A1FF; outline-offset: 1px; }
+
+.app-frame-caption {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 7px 16px;
+  border-bottom: 1px solid #202435;
+  background: #12141D;
+  color: #9196AC;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.app-frame-caption__dot {
+  width: 6px;
+  height: 6px;
+  flex: none;
+  border-radius: 50%;
+  background: #8B5CF6;
+}
+
+/* ---------- iframe ---------- */
+.app-frame {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+}
+
+.app-iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #0F1117;
+}
+
+.app-iframe.is-light { background: #F9FAFC; }

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Inicio · MakerLearn Studio (móvil)</title>
+  <meta name="description" content="Prototipo de alta fidelidad de la app móvil de MakerLearn: pantalla de Inicio donde el estudiante escribe el tema que quiere estudiar y la app le arma un itinerario de 3 fases.">
+  <meta name="theme-color" content="#FFFFFF">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/system.css">
+  <link rel="stylesheet" href="css/mobile.css">
+  <link rel="stylesheet" href="css/journey.css">
+  <script src="js/journey.js" defer></script>
+</head>
+<body class="ml-body">
+  <a class="sr-only" href="#jr-main">Saltar al contenido</a>
+
+  <div class="ml-stage">
+    <p class="ml-caption">
+      <span>MakerLearn · Inicio · iPhone 15 · 390 × 844 · tema claro</span>
+      <span class="ml-caption__sep" aria-hidden="true">|</span>
+      <span>Estado: <b id="jr-caption-state">Inicio</b></span>
+    </p>
+
+    <div class="device" id="jr-device" role="region" aria-label="Pantalla de Inicio de la app móvil de MakerLearn, 390 por 844 píxeles">
+      <div class="phone" id="jr-phone">
+
+        <!-- ================= Barra de estado ================================= -->
+        <div class="ml-status" aria-hidden="true">
+          <span class="ml-status__time">9:41</span>
+          <span class="ml-status__icons">
+            <svg width="18" height="12" viewBox="0 0 18 12" fill="none" aria-hidden="true">
+              <rect x="0" y="8" width="3" height="4" rx="1" fill="currentColor"/>
+              <rect x="5" y="5.5" width="3" height="6.5" rx="1" fill="currentColor"/>
+              <rect x="10" y="3" width="3" height="9" rx="1" fill="currentColor"/>
+              <rect x="15" y="0" width="3" height="12" rx="1" fill="currentColor"/>
+            </svg>
+            <svg width="16" height="12" viewBox="0 0 16 12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+              <path d="M1.2 4.3a10 10 0 0 1 13.6 0"/>
+              <path d="M3.7 7a6.4 6.4 0 0 1 8.6 0"/>
+              <path d="M6.2 9.6a2.8 2.8 0 0 1 3.6 0"/>
+            </svg>
+            <svg width="25" height="12" viewBox="0 0 25 12" aria-hidden="true" fill="none">
+              <rect x="0.6" y="0.6" width="21" height="10.8" rx="3" stroke="currentColor" stroke-opacity=".45"/>
+              <rect x="2.2" y="2.2" width="15" height="7.6" rx="1.8" fill="currentColor"/>
+              <path d="M23.2 4.2v3.6a2 2 0 0 0 0-3.6Z" fill="currentColor" fill-opacity=".45"/>
+            </svg>
+          </span>
+        </div>
+
+        <!-- Topbar: marca · racha · XP · avatar -->
+        <header class="ml-top">
+          <span class="ml-brand">
+            <span class="ml-brand__mark" aria-hidden="true">
+              <svg viewBox="0 0 160 160"><use href="#maki-mini"></use></svg>
+            </span>
+            <span class="ml-brand__name">MakerLearn</span>
+          </span>
+
+          <div class="ml-top__stats">
+            <span class="ml-streak" id="jr-streak" title="Racha de 5 días">
+              <svg class="od-icon icon i-14" aria-hidden="true"><use href="#i-flame"></use></svg>
+              <span>5</span>
+            </span>
+            <span class="ml-xp" id="jr-xp">
+              <svg class="od-icon icon i-14" aria-hidden="true"><use href="#i-bolt"></use></svg>
+              <b id="jr-xp-b" data-xp="1420">1,420</b>
+            </span>
+            <button class="ml-avatar" type="button" id="jr-avatar" aria-label="Perfil de Ana Ríos, nivel 7">AR</button>
+          </div>
+        </header>
+
+        <!-- Contenido desplazable -->
+        <main class="ml-main" id="jr-main" tabindex="-1">
+
+          <!-- ============ Saludo ============================================= -->
+          <section class="jr-hello" aria-labelledby="jr-hello-title">
+            <p class="jr-hello__hi">Miércoles · 12 min disponibles</p>
+            <h1 class="jr-hello__title" id="jr-hello-title">¿Qué quieres aprender hoy?</h1>
+          </section>
+
+          <!-- ============ Compositor de tema ================================= -->
+          <section class="jr-composer" aria-labelledby="jr-composer-title">
+            <h2 class="sr-only" id="jr-composer-title">Escribe el tema que quieres estudiar</h2>
+
+            <form class="jr-form" id="jr-form" novalidate>
+              <label class="sr-only" for="jr-topic">Tema que quieres estudiar</label>
+              <div class="jr-field">
+                <svg class="od-icon icon i-18 jr-field__icon" aria-hidden="true"><use href="#i-search"></use></svg>
+                <input class="jr-input" id="jr-topic" name="topic" type="text"
+                       autocomplete="off" autocapitalize="sentences" enterkeyhint="go"
+                       placeholder="Ej. «Dijkstra en grafos»">
+                <button class="jr-field__go" type="submit" id="jr-go" aria-label="Generar itinerario de 3 fases">
+                  <svg class="od-icon icon i-18" aria-hidden="true"><use href="#i-sparkles"></use></svg>
+                </button>
+              </div>
+
+              <p class="jr-note" id="jr-note">
+                <svg class="od-icon icon i-16" aria-hidden="true"><use href="#i-bulb"></use></svg>
+                <span>Con tus palabras basta: lo organizamos en <b>3 fases</b> y te acompañamos en cada una.</span>
+              </p>
+            </form>
+
+            <div class="jr-chips" id="jr-chips" role="group" aria-label="Temas sugeridos">
+              <button class="jr-chip" type="button" data-topic="Dijkstra en grafos"><span aria-hidden="true">🛣️</span> Dijkstra en grafos</button>
+              <button class="jr-chip" type="button" data-topic="Recursión"><span aria-hidden="true">🪆</span> Recursión</button>
+              <button class="jr-chip" type="button" data-topic="Complejidad Big-O"><span aria-hidden="true">⏱️</span> Complejidad Big-O</button>
+              <button class="jr-chip" type="button" data-topic="Montículos (heaps)"><span aria-hidden="true">⛰️</span> Montículos (heaps)</button>
+              <button class="jr-chip" type="button" data-topic="Grafos y caminos mínimos"><span aria-hidden="true">🕸️</span> Grafos y caminos mínimos</button>
+            </div>
+          </section>
+
+          <!-- ============ Estado «generando itinerario» ====================== -->
+          <section class="jr-skel" id="jr-skel" hidden aria-live="polite">
+            <p class="jr-skel__status">
+              <span class="jr-spin" aria-hidden="true"></span>
+              <span id="jr-skel-msg">Armando tu itinerario de 3 fases…</span>
+            </p>
+            <div class="jr-skel__row">
+              <span class="jr-skel__mark" aria-hidden="true"></span>
+              <span class="jr-skel__lines">
+                <span class="jr-skel__line jr-skel__line--mid"></span>
+                <span class="jr-skel__line jr-skel__line--short"></span>
+              </span>
+            </div>
+            <div class="jr-skel__row">
+              <span class="jr-skel__mark" aria-hidden="true"></span>
+              <span class="jr-skel__lines">
+                <span class="jr-skel__line"></span>
+                <span class="jr-skel__line jr-skel__line--short"></span>
+              </span>
+            </div>
+            <div class="jr-skel__row">
+              <span class="jr-skel__mark" aria-hidden="true"></span>
+              <span class="jr-skel__lines">
+                <span class="jr-skel__line jr-skel__line--mid"></span>
+              </span>
+            </div>
+          </section>
+
+          <!-- ============ Itinerario generado ================================ -->
+          <section class="jr-section" id="jr-result" hidden>
+            <div class="jr-itinerary">
+              <div class="jr-itinerary__head">
+                <h2 class="jr-itinerary__title">Tu itinerario</h2>
+                <span class="jr-itinerary__ctx" id="jr-result-ctx">3 fases · <b>≈ 38 min</b></span>
+              </div>
+              <p class="jr-block__text" id="jr-result-topic">Vas a estudiar <b>Dijkstra en grafos</b>. Empieza por la Fase 1: nadie nace sabiendo esto.</p>
+
+              <div class="jr-phases" id="jr-phases"></div>
+
+              <div class="jr-alert jr-alert--violet">
+                <svg class="od-icon icon i-16" aria-hidden="true"><use href="#i-info"></use></svg>
+                <span>Las fases se abren al terminarlas. Si alguna se te atraganta, Maki te da una <b>pista gratis</b>. Sin prisa.</span>
+              </div>
+
+              <button class="btn btn--primary" type="button" id="jr-start">
+                Empezar Fase 1
+                <svg class="od-icon icon i-16" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+              </button>
+            </div>
+          </section>
+
+          <!-- ============ Continuar donde lo dejaste ========================= -->
+          <section class="jr-section" id="jr-continue-wrap">
+            <div class="jr-section__head">
+              <h2 class="jr-section__title">Continuar donde lo dejaste</h2>
+            </div>
+
+            <div class="jr-continue">
+              <div class="jr-continue__row">
+                <span class="jr-continue__thumb" aria-hidden="true">
+                  <svg class="od-icon icon i-20"><use href="#i-route"></use></svg>
+                </span>
+                <span class="jr-continue__meta">
+                  <span class="jr-continue__kicker">Fase 1 · en curso</span>
+                  <span class="jr-continue__t">Dijkstra en Grafos</span>
+                </span>
+                <span class="jr-continue__pct" id="jr-continue-pct">80%</span>
+              </div>
+
+              <div class="ml-seg" role="progressbar" aria-label="Progreso de la Fase 1: 3 de 4 tarjetas" aria-valuemin="0" aria-valuemax="4" aria-valuenow="3">
+                <span class="ml-seg__i is-full"></span>
+                <span class="ml-seg__i is-full"></span>
+                <span class="ml-seg__i is-full"></span>
+                <span class="ml-seg__i"></span>
+              </div>
+
+              <button class="btn btn--primary" type="button" id="jr-resume">
+                Seguir con la tarjeta 4 de 4
+                <svg class="od-icon icon i-16" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+              </button>
+            </div>
+          </section>
+
+          <!-- ============ Esta semana ======================================== -->
+          <section class="jr-section">
+            <div class="jr-section__head">
+              <h2 class="jr-section__title">Esta semana</h2>
+            </div>
+            <div class="jr-stats">
+              <div class="jr-stat jr-stat--amber">
+                <span class="jr-stat__v">5</span>
+                <span class="jr-stat__l">días de racha</span>
+              </div>
+              <div class="jr-stat jr-stat--violet">
+                <span class="jr-stat__v" id="jr-xp-stat">1,420</span>
+                <span class="jr-stat__l">XP total</span>
+              </div>
+              <div class="jr-stat jr-stat--mint">
+                <span class="jr-stat__v">1/3</span>
+                <span class="jr-stat__l">medallas</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- ============ Maki · acompañamiento ============================== -->
+          <section class="jr-maki" aria-labelledby="jr-maki-who">
+            <svg class="maki maki-avatar jr-maki__ava" data-maki data-state="idle" viewBox="0 0 160 160" role="img" aria-label="Maki, tu acompañante de MakerLearn">
+              <ellipse cx="80" cy="146" rx="36" ry="6" fill="rgba(0,0,0,.14)"/>
+              <path d="M34 50 28 22 58 32Z" fill="#5A3BE0" stroke="#5A3BE0" stroke-width="7" stroke-linejoin="round"/>
+              <path d="M126 50 132 22 102 32Z" fill="#5A3BE0" stroke="#5A3BE0" stroke-width="7" stroke-linejoin="round"/>
+              <rect x="26" y="30" width="108" height="46" rx="18" fill="#8B5CF6"/>
+              <rect x="20" y="62" width="120" height="70" rx="18" fill="#6C4CF1"/>
+              <path d="M46 66h68" stroke="#9A7BFF" stroke-width="2" stroke-linecap="round" opacity=".55"/>
+              <g class="maki__blink maki__eyes-open">
+                <circle cx="58" cy="90" r="17" fill="#F4F5FA"/>
+                <circle cx="102" cy="90" r="17" fill="#F4F5FA"/>
+                <circle cx="61" cy="92" r="6.5" fill="#1A1D2A"/>
+                <circle cx="99" cy="92" r="6.5" fill="#1A1D2A"/>
+                <circle cx="63.5" cy="89" r="2.2" fill="#F4F5FA"/>
+                <circle cx="101.5" cy="89" r="2.2" fill="#F4F5FA"/>
+              </g>
+              <g class="maki__eyes-think">
+                <circle cx="58" cy="90" r="15" fill="#F4F5FA"/>
+                <circle cx="102" cy="90" r="15" fill="#F4F5FA"/>
+                <circle cx="58" cy="90" r="5.5" fill="#1A1D2A"/>
+                <circle cx="104" cy="86" r="6.5" fill="#1A1D2A"/>
+                <circle cx="60" cy="88" r="2" fill="#F4F5FA"/>
+                <circle cx="106" cy="84" r="2.2" fill="#F4F5FA"/>
+              </g>
+              <g class="maki__eyes-happy">
+                <path d="M46 92c4-7 10-7 12 0" fill="none" stroke="#1A1D2A" stroke-width="4.5" stroke-linecap="round"/>
+                <path d="M90 92c6-6 12-4 14-1" fill="none" stroke="#1A1D2A" stroke-width="4.5" stroke-linecap="round"/>
+              </g>
+              <path d="M80 100 88 110 80 120 72 110Z" fill="#FFB020"/>
+              <path d="M80 124v8M80 132h-15M80 132h15" fill="none" stroke="#00D4A0" stroke-width="3" stroke-linecap="round"/>
+              <circle cx="64" cy="132" r="3.2" fill="#00D4A0"/>
+              <circle cx="96" cy="132" r="3.2" fill="#00D4A0"/>
+              <g class="maki__thought" fill="#B3A1FF">
+                <circle cx="128" cy="30" r="4.5"/>
+                <circle cx="138" cy="21" r="3.2"/>
+                <circle cx="146" cy="13" r="2.2"/>
+              </g>
+              <g class="maki__sparkles">
+                <path d="m24 38 2.4 6.8L33 47l-6.6 2.2L24 56l-2.4-6.8L15 47l6.6-2.2L24 38Z" fill="#B3A1FF"/>
+                <path d="m138 66 1.9 5.3 5.1 1.7-5.1 1.7-1.9 5.3-1.9-5.3-5.1-1.7 5.1-1.7 1.9-5.3Z" fill="#00D4A0"/>
+                <path d="m132 112 1.6 4.4 4.4 1.6-4.4 1.6-1.6 4.4-1.6-4.4-4.4-1.6 4.4-1.6 1.6-4.4Z" fill="#FFB020"/>
+              </g>
+            </svg>
+
+            <div class="jr-maki__body">
+              <span class="jr-maki__who" id="jr-maki-who">Maki · tu acompañante</span>
+              <p class="jr-maki__q" id="jr-maki-q">¿No sabes por dónde empezar? Elige una idea y te la divido en fases. Y si te atascas, te doy una pista gratis: aquí nadie se queda atrás.</p>
+              <div class="jr-maki__actions">
+                <button class="jr-maki__btn" type="button" id="jr-maki-idea">
+                  <svg class="od-icon icon i-14" aria-hidden="true"><use href="#i-sparkles"></use></svg> Sorpréndeme
+                </button>
+                <button class="jr-maki__btn" type="button" id="jr-maki-help">
+                  <svg class="od-icon icon i-14" aria-hidden="true"><use href="#i-info"></use></svg> ¿Cómo funciona?
+                </button>
+              </div>
+            </div>
+          </section>
+
+        </main>
+
+        <!-- ==================== Tab bar ==================== -->
+        <nav class="ml-tabbar" id="jr-tabs" aria-label="Navegación principal">
+          <a class="ml-tab is-active" href="home.html" data-tab="inicio" aria-current="page">
+            <svg class="od-icon icon i-22" aria-hidden="true"><use href="#i-home"></use></svg>
+            <span>Inicio</span>
+          </a>
+          <a class="ml-tab" href="mobile.html?state=acierto" data-tab="ruta">
+            <svg class="od-icon icon i-22" aria-hidden="true"><use href="#i-route"></use></svg>
+            <span>Ruta</span>
+          </a>
+          <a class="ml-tab" href="mobile.html?state=racha" data-tab="repaso">
+            <svg class="od-icon icon i-22" aria-hidden="true"><use href="#i-refresh"></use></svg>
+            <span>Repaso</span>
+          </a>
+          <a class="ml-tab" href="#jr-main" data-tab="perfil">
+            <svg class="od-icon icon i-22" aria-hidden="true"><use href="#i-user"></use></svg>
+            <span>Perfil</span>
+          </a>
+        </nav>
+
+        <!-- Confeti + toasts viven dentro del teléfono -->
+        <div class="ml-confetti" id="jr-confetti" aria-hidden="true"></div>
+        <div class="ml-toasts is-home" id="jr-toasts" aria-live="polite" aria-atomic="false"></div>
+
+      </div>
+    </div>
+  </div>
+
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <symbol id="maki-mini" viewBox="0 0 160 160">
+      <path d="M34 50 28 22 58 32Z" fill="#5A3BE0" stroke="#5A3BE0" stroke-width="7" stroke-linejoin="round"/>
+      <path d="M126 50 132 22 102 32Z" fill="#5A3BE0" stroke="#5A3BE0" stroke-width="7" stroke-linejoin="round"/>
+      <rect x="26" y="30" width="108" height="46" rx="18" fill="#8B5CF6"/>
+      <rect x="20" y="62" width="120" height="70" rx="18" fill="#6C4CF1"/>
+      <circle cx="58" cy="90" r="17" fill="#F4F5FA"/>
+      <circle cx="102" cy="90" r="17" fill="#F4F5FA"/>
+      <circle cx="61" cy="92" r="6.5" fill="#1A1D2A"/>
+      <circle cx="99" cy="92" r="6.5" fill="#1A1D2A"/>
+      <circle cx="63.5" cy="89" r="2.2" fill="#F4F5FA"/>
+      <circle cx="101.5" cy="89" r="2.2" fill="#F4F5FA"/>
+      <path d="M80 100 88 110 80 120 72 110Z" fill="#FFB020"/>
+      <path d="M80 124v8M80 132h-15M80 132h15" fill="none" stroke="#00D4A0" stroke-width="3" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 10.6 12 4l8 6.6V20a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-9.4Z"/><path d="M9.6 21v-6.2h4.8V21"/></symbol>
+    <symbol id="i-route" viewBox="0 0 24 24"><circle cx="6" cy="18" r="2.2"/><circle cx="18" cy="6" r="2.2"/><path d="M8.2 18H13a4 4 0 0 0 0-8H9a4 4 0 0 1 0-8h6.8"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.7-6"/><path d="M20 4v5h-5"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/></symbol>
+    <symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 3c2.4 2.9 4.8 4.9 4.8 8.4a4.8 4.8 0 0 1-9.6 0c0-1.6.6-2.9 1.7-4.1.3 1.3 1.1 2 2.1 2 .2-2.4-.2-4.2 1-6.3Z"/><path d="M12 12.4c1.1 1.3 1.9 2.2 1.9 3.4a1.9 1.9 0 0 1-3.8 0c0-1.2.8-2.1 1.9-3.4Z"/></symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2 4.5 13.5H10l-1 8.5 8.5-11.5H12L13 2Z"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m4.5 12.5 4.6 4.6L19.5 6.5"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 11.5V16M12 8h.01"/></symbol>
+    <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.4 10.9c.6.5.9 1.2.9 2.1h5c0-.9.3-1.6.9-2.1A6 6 0 0 0 12 3Z"/></symbol>
+    <symbol id="i-medal" viewBox="0 0 24 24"><circle cx="12" cy="14.5" r="5"/><path d="m8.5 10.5-2-7h11l-2 7M12 12.5l.8 1.6 1.8.3-1.3 1.3.3 1.8-1.6-.8-1.6.8.3-1.8-1.3-1.3 1.8-.3.8-1.6Z"/></symbol>
+    <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z"/><path d="m19 16 .7 2.3L22 19l-2.3.7L19 22l-.7-2.3L16 19l2.3-.7L19 16Z"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M8.5 5.5 19 12 8.5 18.5v-13Z"/></symbol>
+    <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M4 12h14M12 6l6 6-6 6"/></symbol>
+    <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9.5 6 6 6-6 6"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M12 6.5A3.5 3.5 0 0 0 8.5 3H4v14h4.5A3.5 3.5 0 0 1 12 20.5V6.5Z"/><path d="M12 6.5A3.5 3.5 0 0 1 15.5 3H20v14h-4.5A3.5 3.5 0 0 0 12 20.5V6.5Z"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/></symbol>
+    <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24"><path d="M21 3 3 10.5l7 3 3 7L21 3Z"/><path d="m10 13.5 4.5-4.5"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3.5 5.5 6v5.5c0 4 2.7 7.2 6.5 9 3.8-1.8 6.5-5 6.5-9V6L12 3.5Z"/><path d="m9.5 12 1.8 1.8 3.4-3.6"/></symbol>
+    <symbol id="i-code" viewBox="0 0 24 24"><path d="m9 8-4 4 4 4"/><path d="m15 8 4 4-4 4"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 4 3 19.5h18L12 4Z"/><path d="M12 10v4M12 16.6h.01"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 3 8 4.5-8 4.5-8-4.5L12 3Z"/><path d="m4 12 8 4.5 8-4.5"/></symbol>
+    <symbol id="i-graduation" viewBox="0 0 24 24"><path d="M12 4 2.5 8.5 12 13l9.5-4.5L12 4Z"/><path d="M6.5 10.7v4.6c0 1.6 2.5 2.7 5.5 2.7s5.5-1.1 5.5-2.7v-4.6"/></symbol>
+  </svg>
+</body>
+</html>

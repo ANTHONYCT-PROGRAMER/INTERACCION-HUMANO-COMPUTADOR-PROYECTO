@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ruta Activa · MakerLearn Studio</title>
+  <meta name="description" content="Pantalla principal de MakerLearn Studio: el estudiante resuelve la Fase 2, Práctica Guiada, con editor, terminal y tutor socrático.">
+  <meta name="theme-color" content="#0F1117" id="theme-color">
+  <script>
+    try {
+      var savedTheme = localStorage.getItem("ml-theme");
+      if (savedTheme === "light") { document.documentElement.dataset.theme = "light"; }
+    } catch (e) { /* almacenamiento no disponible */ }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/screen.css">
+  <script src="js/screen.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#practice">Saltar al área de práctica</a>
+
+  <div class="app" id="app">
+    <header class="topbar">
+      <div class="topbar__inner">
+        <div class="topbar__brandnav">
+          <a class="brand" href="#" data-demo-nav="Inicio" aria-label="MakerLearn Studio, inicio">
+            <span class="brand__mark" aria-hidden="true">
+              <svg viewBox="0 0 160 160"><use href="#maki-mini"></use></svg>
+            </span>
+            <span class="brand__text">
+              <span class="brand__name">MakerLearn</span>
+              <span class="brand__sub">Studio</span>
+            </span>
+          </a>
+          <span class="topbar__divider" aria-hidden="true"></span>
+          <nav class="topnav" aria-label="Navegación principal">
+            <a class="topnav__link" href="#" data-demo-nav="Mis Proyectos">Mis Proyectos</a>
+            <a class="topnav__link" href="#" data-demo-nav="Explorar">Explorar</a>
+            <a class="topnav__link is-active" href="#practice" aria-current="page">Ruta Activa</a>
+          </nav>
+        </div>
+
+        <div class="topbar__stats" aria-label="Tu progreso">
+          <div class="stat-streak" aria-label="Racha de 5 días">
+            <svg class="flame" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12.8 2.2c.3 3-1.2 4.4-2.5 5.8-1.3 1.4-2.4 2.9-1.7 5.3.6-1.3 1.6-2.1 2.8-2.7-.3 2.4 1 3.4 2.1 4.4 1 .9 1.7 1.8 1.4 3.5 1.2-.7 2-1.9 2.4-3.3 1.2-4.2-1.3-8.5-5-10.6.2 1.5-.1 2.5-.8 3.3.1-2.7-1-4.7-2.7-6.2Z" fill="currentColor"/>
+              <path d="M12.3 12.8c-1.4 1-2.1 2.2-2.1 3.7 0 1.8.9 3.1 2.5 3.8-2 .1-3.4-.8-4-2.6-.7-2.2.8-4.2 3.6-4.9Z" fill="#FF5470"/>
+            </svg>
+            <span class="stat-streak__value">5</span>
+            <span class="stat-streak__unit">días</span>
+          </div>
+          <span class="stat-divider" aria-hidden="true"></span>
+          <button class="stat-xp" type="button" id="xp-button" aria-label="Nivel 7. 1,420 de 2,000 XP para el nivel 8. Ver progreso" data-tip="Nivel 7 · 1,420 / 2,000 XP">
+            <span class="xp-ring" aria-hidden="true">
+              <svg viewBox="0 0 36 36">
+                <circle cx="18" cy="18" r="15.5" fill="none" stroke="var(--line-strong)" stroke-width="3"/>
+                <circle class="xp-ring__value" id="xp-ring-value" cx="18" cy="18" r="15.5" fill="none" stroke="var(--violet-400)" stroke-width="3" stroke-linecap="round" stroke-dasharray="97.39" stroke-dashoffset="28.24" transform="rotate(-90 18 18)"/>
+              </svg>
+              <span class="xp-ring__level">7</span>
+            </span>
+            <span class="xp-counter" id="xp-counter">1,420 XP</span>
+          </button>
+        </div>
+
+        <div class="topbar__actions">
+          <button class="icon-btn drawer-btn drawer-btn--route" type="button" data-open-drawer="itinerary" aria-controls="itinerary" aria-expanded="false" aria-label="Abrir itinerario" data-tip="Itinerario">
+            <svg class="od-icon icon i-20" aria-hidden="true"><use href="#i-route"></use></svg>
+          </button>
+          <button class="icon-btn drawer-btn drawer-btn--tutor" type="button" data-open-drawer="tutor" aria-controls="tutor" aria-expanded="false" aria-label="Abrir tutor Maki" data-tip="Tutor Maki">
+            <svg class="od-icon icon i-20" aria-hidden="true"><use href="#i-sparkles"></use></svg>
+          </button>
+
+          <div class="notif-wrap">
+            <button class="icon-btn topbar__icon tip-left" type="button" id="notif-btn" aria-label="Notificaciones, 2 sin leer" aria-expanded="false" aria-controls="notif-panel" data-tip="Notificaciones">
+              <svg class="od-icon icon i-20" aria-hidden="true"><use href="#i-bell"></use></svg>
+              <span class="notif-dot" id="notif-dot">2</span>
+            </button>
+            <div class="notif-panel" id="notif-panel" role="region" aria-labelledby="notif-title" hidden>
+              <div class="notif-panel__head">
+                <h2 class="notif-panel__title" id="notif-title">Notificaciones</h2>
+                <button class="link-btn" type="button" id="mark-all">Marcar todas</button>
+              </div>
+              <ul class="notif-list" id="notif-list">
+                <li>
+                  <button class="notif-item is-unread" type="button" data-notif="maki">
+                    <span class="notif-item__icon notif-item__icon--violet" aria-hidden="true">
+                      <svg class="od-icon icon i-16"><use href="#i-sparkles"></use></svg>
+                    </span>
+                    <span class="notif-item__body">
+                      <span class="notif-item__title">Maki revisó tu intento</span>
+                      <span class="notif-item__desc">Hay una entrada que se repite en la cola.</span>
+                      <span class="notif-item__time">hace 2 min</span>
+                    </span>
+                    <span class="notif-item__dot" aria-hidden="true"></span>
+                  </button>
+                </li>
+                <li>
+                  <button class="notif-item is-unread" type="button" data-notif="test">
+                    <span class="notif-item__icon notif-item__icon--coral" aria-hidden="true">
+                      <svg class="od-icon icon i-16"><use href="#i-x"></use></svg>
+                    </span>
+                    <span class="notif-item__body">
+                      <span class="notif-item__title">El test 04 agotó el tiempo</span>
+                      <span class="notif-item__desc">Grafo denso · 2.01 s de 2.00 s.</span>
+                      <span class="notif-item__time">hace 4 min</span>
+                    </span>
+                    <span class="notif-item__dot" aria-hidden="true"></span>
+                  </button>
+                </li>
+                <li>
+                  <button class="notif-item" type="button" data-notif="streak">
+                    <span class="notif-item__icon notif-item__icon--amber" aria-hidden="true">
+                      <svg class="flame flame--small" viewBox="0 0 24 24"><use href="#flame-shape"></use></svg>
+                    </span>
+                    <span class="notif-item__body">
+                      <span class="notif-item__title">Racha de 5 días</span>
+                      <span class="notif-item__desc">Hoy ya sumaste 24 min de práctica.</span>
+                      <span class="notif-item__time">hace 1 h</span>
+                    </span>
+                    <span class="notif-item__dot" aria-hidden="true"></span>
+                  </button>
+                </li>
+              </ul>
+              <p class="notif-empty" id="notif-empty" hidden>Estás al día. Maki te avisará si algo cambia.</p>
+            </div>
+          </div>
+
+          <button class="icon-btn topbar__icon tip-left" type="button" id="theme-toggle" aria-label="Cambiar a tema claro" aria-pressed="false" data-tip="Tema claro / oscuro">
+            <svg class="od-icon icon i-20 icon-moon" aria-hidden="true"><use href="#i-moon"></use></svg>
+            <svg class="od-icon icon i-20 icon-sun" aria-hidden="true"><use href="#i-sun"></use></svg>
+          </button>
+          <button class="avatar-btn tip-left" type="button" aria-label="Perfil de Ana Ríos" data-profile data-tip="Ana Ríos · Nivel 7">
+            <span class="avatar" aria-hidden="true">AR</span>
+            <span class="avatar__status" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="workspace" id="practice">
+      <aside class="itinerary rail" id="itinerary" aria-label="Itinerario de la ruta">
+        <div class="rail__drawerhead">
+          <span class="rail__drawerlabel">Itinerario</span>
+          <button class="icon-btn" type="button" data-close-drawer aria-label="Cerrar itinerario">
+            <svg class="od-icon icon i-20" aria-hidden="true"><use href="#i-x"></use></svg>
+          </button>
+        </div>
+
+        <div class="itinerary__head">
+          <nav class="breadcrumb" aria-label="Migas de pan">
+            <a href="#" data-demo-nav="Ruta Activa">Ruta Activa</a>
+            <span aria-hidden="true">/</span>
+            <a href="#" data-demo-nav="Estructuras de datos">Estructuras de datos</a>
+            <span aria-hidden="true">/</span>
+            <span aria-current="page">Fase 2</span>
+          </nav>
+          <h2 class="itinerary__title">Algoritmo de Dijkstra y Grafos en C++</h2>
+          <p class="itinerary__meta"><span>Ruta de 3 fases</span><span class="meta-dot" aria-hidden="true"></span><span>Fase 2 de 3</span></p>
+        </div>
+
+        <div class="itinerary__sectionhead">
+          <span>Itinerario</span>
+          <span class="itinerary__pct">38% de la ruta</span>
+        </div>
+
+        <ol class="stepper">
+          <li class="step step--done">
+            <div class="step__rail" aria-hidden="true">
+              <span class="step__node"><svg class="od-icon icon i-16"><use href="#i-check"></use></svg></span>
+              <span class="step__line"></span>
+            </div>
+            <div class="step__body">
+              <div class="step__top">
+                <span class="step__kicker">Fase 1</span>
+                <span class="badge badge--mint">Completada</span>
+              </div>
+              <h3 class="step__title">Fundamentos</h3>
+              <p class="step__meta">4 de 4 lecciones · 45 min</p>
+              <button class="text-btn" type="button" data-demo-nav="Repaso de Fundamentos">Repasar</button>
+            </div>
+          </li>
+
+          <li class="step step--active" aria-current="step">
+            <div class="step__rail" aria-hidden="true">
+              <span class="step__node"><svg class="od-icon icon i-16"><use href="#i-target"></use></svg></span>
+              <span class="step__line"></span>
+            </div>
+            <div class="step__body step__card">
+              <div class="step__top">
+                <span class="step__kicker">Fase 2</span>
+                <span class="badge badge--violet">Activa</span>
+              </div>
+              <h3 class="step__title">Práctica Guiada</h3>
+              <div class="step__progressline">
+                <span>Reto <b id="step-challenge">2</b> de 4</span>
+                <span id="step-progress-pct">50%</span>
+              </div>
+              <div class="progress" id="step-progress" role="progressbar" aria-label="Progreso de la Fase 2: Reto 2 de 4" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+                <span class="progress__fill" id="step-progress-fill" style="width:50%"></span>
+              </div>
+              <p class="step__meta"><svg class="od-icon icon i-14" aria-hidden="true"><use href="#i-clock"></use></svg> 18 min restantes</p>
+            </div>
+          </li>
+
+          <li class="step step--locked">
+            <div class="step__rail" aria-hidden="true">
+              <span class="step__node"><svg class="od-icon icon i-16"><use href="#i-lock"></use></svg></span>
+            </div>
+            <div class="step__body">
+              <div class="step__top">
+                <span class="step__kicker">Fase 3</span>
+                <span class="badge badge--muted">Bloqueada</span>
+              </div>
+              <h3 class="step__title">Mini-App</h3>
+              <p class="step__meta">Se desbloquea al completar la Fase 2</p>
+            </div>
+            <button class="step__hit" type="button" data-locked-phase aria-label="Fase 3, Mini-App, bloqueada" aria-describedby="locked-tip"></button>
+            <span class="step__tooltip" id="locked-tip" role="tooltip">Completa la Fase 2 para desbloquear</span>
+          </li>
+        </ol>
+
+        <div class="itinerary__foot">
+          <div class="route-card">
+            <div class="route-card__head">
+              <span>Progreso de la ruta</span>
+              <span class="route-card__pct">38%</span>
+            </div>
+            <div class="progress progress--thin" role="progressbar" aria-label="Progreso total de la ruta" aria-valuemin="0" aria-valuemax="100" aria-valuenow="38">
+              <span class="progress__fill" style="width:38%"></span>
+            </div>
+            <p class="route-card__meta">Fase 2 de 3 · 7 h estimadas</p>
+          </div>
+        </div>
+      </aside>
+
+      <section class="practice" aria-labelledby="challenge-title">
+        <header class="challenge">
+          <div class="challenge__top">
+            <div class="challenge__eyebrow">
+              <span class="challenge__phase">Fase 2 · Práctica Guiada</span>
+              <span class="challenge__sep" aria-hidden="true"></span>
+              <span class="challenge__status" id="challenge-status"><span class="status-dot"></span>En curso</span>
+            </div>
+            <div class="challenge__topright">
+              <button class="timer" type="button" id="timer" aria-label="Temporizador: 12 minutos 34 segundos. Pausar.">
+                <svg class="od-icon icon i-16" aria-hidden="true"><use href="#i-clock"></use></svg>
+                <span class="timer__value" id="timer-value">12:34</span>
+              </button>
+              <button class="btn btn--quiet btn--sm statement-btn" type="button" data-open-statement>
+                <svg class="od-icon icon i-16" aria-hidden="true"><use href="#i-book"></use></svg>
+                <span class="statement-btn__long">Ver enunciado completo</span>
+                <span class="statement-btn__short">Enunciado</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="challenge__main">
+            <h1 class="challenge__title" id="challenge-title">
+              <span class="challenge__num">Desafío 2/4</span>
+              Implementar cola de prioridad (<code>priority_queue</code>) con pares (distancia, vértice) para optimizar la relajación.
+            </h1>
+            <div class="challenge__actions">
+              <button class="icon-btn icon-btn--outline tip-left" type="button" id="save-btn" aria-label="Guardar código" aria-keyshortcuts="Control+S" data-tip="Guardar · Ctrl+S">
+                <svg class="od-icon icon i-18" aria-hidden="true"><use href="#i-save"></use></svg>
+              </button>
+            </div>
+          </div>
+        </header>
+
+        <div class="workbench" aria-label="Editor de código y terminal">
+          <div class="workbench__tabs">
+            <div class="file-tab is-active">
+              <svg class="od-icon icon i-16" aria-hidden="true"><use href="#i-code"></use></svg>
+              <span>dijkstra.cpp</span>
+              <span class="file-tab__dot" id="file-dot" aria-hidden="true"></span>
+            </div>
+            <div class="workbench__tabactions">
+              <span class="lang-chip">C++17</span>
+              <button class="icon-btn workbench__icon" type="button" id="snippet-btn" aria-label="Abrir sugerencias de código" aria-expanded="false" aria-controls="snippet-pop" aria-keyshortcuts="Control+Space" data-tip="Snippets · Ctrl+Espacio">
+                <svg class="od-icon icon i-18" aria-hidden="true"><use href="#i-sparkles"></use></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="editor" id="code-region" role="region" aria-label="Editor dijkstra.cpp">
+            <div class="editor__scroll" id="editor-scroll">
+              <div class="editor__inner">
+                <div class="editor__gutter" aria-hidden="true">
+                  <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span><span>13</span><span>14</span><span class="is-current">15</span><span class="is-todo" id="gutter-todo">16</span><span>17</span><span>18</span><span>19</span><span>20</span><span>21</span><span>22</span><span>23</span><span>24</span><span>25</span>
+                </div>
+                <pre class="code" tabindex="0" aria-label="Código C++ de dijkstra.cpp" aria-describedby="editor-help"><code><span class="cl" data-line="1"><span class="t-pre">#include</span> <span class="t-str">&lt;bits/stdc++.h&gt;</span></span><span class="cl" data-line="2"><span class="t-kw">using</span> <span class="t-kw">namespace</span> std;</span><span class="cl" data-line="3">&nbsp;</span><span class="cl" data-line="4"><span class="t-type">vector</span>&lt;<span class="t-type">int</span>&gt; <span class="t-fn">dijkstra</span>(<span class="t-type">int</span> <span class="t-var">n</span>,</span><span class="cl" data-line="5">    <span class="t-type">vector</span>&lt;<span class="t-type">vector</span>&lt;<span class="t-type">pair</span>&lt;<span class="t-type">int</span>,<span class="t-type">int</span>&gt;&gt;&gt;&amp; <span class="t-var">g</span>, <span class="t-type">int</span> <span class="t-var">src</span>) {</span><span class="cl" data-line="6">  <span class="t-kw">const</span> <span class="t-type">int</span> <span class="t-var">INF</span> = <span class="t-num">1e9</span>;</span><span class="cl" data-line="7">  <span class="t-type">vector</span>&lt;<span class="t-type">int</span>&gt; <span class="t-var">dist</span>(<span class="t-var">n</span>, <span class="t-var">INF</span>);</span><span class="cl" data-line="8">  <span class="t-type">priority_queue</span>&lt;<span class="t-type">pair</span>&lt;<span class="t-type">int</span>,<span class="t-type">int</span>&gt;, <span class="t-type">vector</span>&lt;<span class="t-type">pair</span>&lt;<span class="t-type">int</span>,<span class="t-type">int</span>&gt;&gt;,</span><span class="cl" data-line="9">                 <span class="t-type">greater</span>&lt;<span class="t-type">pair</span>&lt;<span class="t-type">int</span>,<span class="t-type">int</span>&gt;&gt;&gt; <span class="t-var">pq</span>;</span><span class="cl" data-line="10">&nbsp;</span><span class="cl" data-line="11">  <span class="t-var">dist</span>[<span class="t-var">src</span>] = <span class="t-num">0</span>;</span><span class="cl" data-line="12">  <span class="t-var">pq</span>.<span class="t-fn">push</span>({<span class="t-num">0</span>, <span class="t-var">src</span>});</span><span class="cl" data-line="13">&nbsp;</span><span class="cl" data-line="14">  <span class="t-kw">while</span> (!<span class="t-var">pq</span>.<span class="t-fn">empty</span>()) {</span><span class="cl is-current" data-line="15">    <span class="t-kw">auto</span> [<span class="t-var">d</span>, <span class="t-var">u</span>] = <span class="t-var">pq</span>.<span class="t-fn">top</span>(); <span class="t-var">pq</span>.<span class="t-fn">pop</span>();</span><span class="cl cl--todo" data-line="16" id="todo-line">    <span class="t-com">// TODO: descarta entradas obsoletas</span></span><span class="cl" data-line="17">    <span class="t-kw">for</span> (<span class="t-kw">auto</span> [<span class="t-var">v</span>, <span class="t-var">w</span>] : <span class="t-var">g</span>[<span class="t-var">u</span>]) {</span><span class="cl" data-line="18">      <span class="t-kw">if</span> (<span class="t-var">dist</span>[<span class="t-var">u</span>] + <span class="t-var">w</span> &lt; <span class="t-var">dist</span>[<span class="t-var">v</span>]) {</span><span class="cl" data-line="19">        <span class="t-var">dist</span>[<span class="t-var">v</span>] = <span class="t-var">dist</span>[<span class="t-var">u</span>] + <span class="t-var">w</span>;</span><span class="cl" data-line="20">        <span class="t-var">pq</span>.<span class="t-fn">push</span>({<span class="t-var">dist</span>[<span class="t-var">v</span>], <span class="t-var">v</span>});</span><span class="cl" data-line="21">      }</span><span class="cl" data-line="22">    }</span><span class="cl" data-line="23">  }</span><span class="cl" data-line="24">  <span class="t-kw">return</span> <span class="t-var">dist</span>;</span><span class="cl" data-line="25">}</span></code></pre>
+              </div>
+            </div>
+            <div class="minimap" aria-hidden="true">
+              <span style="width:64%;background:#C678DD"></span><span style="width:42%;background:#ABB2BF"></span><span style="width:24%;background:#ABB2BF"></span><span style="width:78%;background:#E5C07B"></span><span style="width:52%;background:#ABB2BF"></span><span style="width:34%;background:#ABB2BF"></span><span style="width:84%;background:#61AFEF"></span><span style="width:61%;background:#ABB2BF"></span><span style="width:28%;background:#ABB2BF"></span><span style="width:70%;background:#E5C07B"></span><span style="width:46%;background:#ABB2BF"></span><span style="width:58%;background:#E06C75"></span><span style="width:38%;background:#ABB2BF"></span><span style="width:72%;background:#98C379"></span><span style="width:50%;background:#ABB2BF"></span><span style="width:66%;background:#FFB020"></span><span style="width:44%;background:#ABB2BF"></span><span style="width:76%;background:#E5C07B"></span>
+            </div>
+
+            <div class="snippet-pop" id="snippet-pop" role="dialog" aria-label="Sugerencias de código" hidden>
+              <div class="snippet-pop__head"><span>Sugerencias · línea 16</span><kbd>Esc</kbd></div>
+              <button class="snippet-opt" type="button" data-snippet="stale">
+                <span class="snippet-opt__icon" aria-hidden="true"><svg class="od-icon icon i-16"><use href="#i-sparkles"></use></svg></span>
+                <span class="snippet-opt__body">
+                  <code>if (d != dist[u]) continue;</code>
+                  <span class="snippet-opt__desc">Descartar entradas obsoletas</span>
+                </span>
+                <span class="snippet-opt__badge">Recomendado</span>
+              </button>
+              <button class="snippet-opt" type="button" data-snippet="relax">
+                <span class="snippet-opt__icon" aria-hidden="true"><svg class="od-icon icon i-16"><use href="#i-code"></use></svg></span>
+                <span class="snippet-opt__body">
+                  <code>pq.push({dist[v], v});</code>
+                  <span class="snippet-opt__desc">Relajar la arista</span>
+                </span>
+              </button>
+              <button class="snippet-opt" type="button" data-snippet="greater">
+                <span class="snippet-opt__icon" aria-hidden="true"><svg class="od-icon icon i-16"><use href="#i-code"></use></svg></span>
+                <span class="snippet-opt__body">
+                  <code>greater&lt;pair&lt;int,int&gt;&gt;</code>
+                  <span class="snippet-opt__desc">Ordenar la cola por distancia</span>
+                </span>
+              </button>
+              <div class="snippet-pop__foot">Línea 16 · <span>dijkstra.cpp</span></div>
+            </div>
+          </div>
+
+          <p class="sr-only" id="editor-help">Editor de solo lectura de demostración. Pulsa Control más Espacio para abrir sugerencias de código. Control más Enter ejecuta las pruebas.</p>
+
+          <section class="panel" aria-label="Terminal y pruebas">
+            <div class="panel__head">
+              <div class="panel__tabs" role="tablist" aria-label="Panel inferior">
+                <button class="panel__tab" type="button" role="tab" aria-selected="false" aria-controls="tests-panel" id="tab-tests" tabindex="-1">
+                  <svg class="od-icon icon i-14" aria-hidden="true"><use href="#i-check"></use></svg>
+                  Tests <span class="panel__count" id="tests-count">3/4</span>
+                </button>
+                <button class="panel__tab is-active" type="button" role="tab" aria-selected="true" aria-controls="term-panel" id="tab-terminal" tabindex="0">
+                  <svg class="od-icon icon i-14" aria-hidden="true"><use href="#i-terminal"></use></svg>
+                  Terminal
+                </button>
+                <button class="panel__tab" type="button" role="tab" aria-selected="false" aria-controls="hints-panel" id="tab-hints" tabindex="-1">
+                  <svg class="od-icon icon i-14" aria-hidden="true"><use href="#i-sparkles"></use></svg>
+                  Pistas
+                </button>
+              </div>
+              <div class="panel__actions">
+                <span class="panel__meta">bash · zsh</span>
+                <button class="icon-btn workbench__icon" type="button" id="panel-toggle" aria-label="Contraer panel" aria-expanded="true">
+                  <svg class="od-icon icon i-16 panel__chev" aria-hidden="true"><use href="#i-chevron-down"></use></svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="panel__body" id="term-panel" role="tabpanel" aria-labelledby="tab-terminal">
+              <div class="terminal" id="terminal-output" role="log" aria-live="polite">
+                <div class="term-line"><span class="term-prompt">$</span> g++ -std=c++17 -O2 dijkstra.cpp -o dijkstra</div>
+                <div class="term-line term-ok"><svg class="od-icon icon i-14" aria-hidden="true"><use href="#i-check"></use></svg> Compilación exitosa <span class="term-dim">· 0.12 s</span></div>
+                <div class="term-line"><span class="term-prompt">$</span> ./dijkstra --test all</div>
+                <div class="term-line term-ok"><svg class="od-icon icon i-14" aria-hidden="true"><use href="#i-check"></use></svg> 01 · Camino simple <span class="term-dim">0.01 s</span></div>
+                <div class="term-line term-ok"><svg class="od-icon icon i-14" aria-hidden="true"><use href="#i-check"></use></svg> 02 · Grafo con ciclos <span class="term-dim">0.02 s</span></div>
+                <div class="term-line term-ok"><svg class="od-icon icon i-14" aria-hidden="true"><use href="#i-check"></use></svg> 03 · Nodo inalcanzable <span class="term-dim">0.01 s</span></div>
+                <div class="term-line term-fail"><svg class="od-icon icon i-14" aria-hidden="true"><use href="#i-x"></use></svg> 04 · Grafo denso (10⁵ nodos) <span class="term-dim">2.01 s</span> <span class="term-tag">TLE</span></div>
+                <div class="term-summary">3/4 pruebas superadas <span>· 1 fallo</span></div>
+                <div class="term-line"><span class="term-prompt">$</span><span class="term-caret" aria-hidden="true"></span></div>
+              </div>
+              <div class="terminal-skeleton" id="terminal-loading" hidden aria-hidden="true">
+                <span></span><span></span><span></span>
+              </div>
+            </div>
+
+            <div class="panel__body tests" id="tests-panel" role="tabpanel" aria-labelledby="tab-tests" hidden>
+              <ul class="test-list">
+                <li class="test is-pass" data-test="1" data-status="passed">
+                  <svg class="od-icon icon i-14" aria-hidden="true"><use href="#i-check"></use></svg>
+                  <span class="test__name">01 · Camino simple</span>
+                  <span class="test__status">✅ PASÓ</span>
+                  <span class="test__time">0.01 s</span>
+                </li>
+                <li class="test is-pass" data-test="2" data-status="passed">
+                  <svg class="od-icon icon i-14" aria-hidden="true"><use href="#i-check"></use></svg>
+                  <span class="test__name">02 · Grafo con ciclos</span>
+                  <span class="test__status">✅ PASÓ</span>
+                  <span class="test__time">0.02 s</span>
+                </li>
+                <li class="test is-pass" data-test="3" data-status="passed">
+                  <svg class="od-icon icon i-14" aria-hidden="true"><use href="#i-check"></use></svg>
+                  <span class="test__name">03 · Nodo inalcanzable</span>
+                  <span class="test__status">✅ PASÓ</span>
+                  <span class="test__time">0.01 s</span>
+                </li>
+                <li class="test is-fail" id="test-dense" data-test="4" data-status="failed">
+                  <svg class="od-icon icon i-14" aria-hidden="true"><use href="#i-x"></use></svg>
+                  <span class="test__name">04 · Grafo denso (10⁵ nodos)</span>
+                  <span class="test__status">❌ FALLÓ<span class="test__tag">TLE</span></span>
+                  <span class="test__time">2.01 s</span>
+                </li>
+                <li class="test" data-test="5" data-status="locked" aria-disabled="true" data-tip="Se desbloquea al completar el Reto 3">
+                  <svg class="od-icon icon i-14" aria-hidden="true"><use href="#i-lock"></use></svg>
+                  <span class="test__name">05 · Reto 3 · Grafo disperso</span>
+                  <span class="test__status">🔒 BLOQUEADO</span>
+                  <span class="test__time">—</span>
+                </li>
+              </ul>
+              <p class="test-note" id="test-note">El test 04 supera el límite de 2.00 s. La cola crece con entradas que ya no aportan: revisa el descarte de obsoletos.</p>
+            </div>
+
+            <div class="panel__body hints-tab" id="hints-panel" role="tabpanel" aria-labelledby="tab-hints" hidden>
+              <ul class="hints-tab__list">
+                <li class="hints-tab__item" data-hint-tab="1" data-state="open">
+                  <svg class="od-icon icon i-14" aria-hidden="true"><use href="#i-sparkles"></use></svg>
+                  <span>1 · Concepto — Qué guarda cada par</span>
+                  <span class="hints-tab__state">Abierta</span>
+                </li>
+                <li class="hints-tab__item" data-hint-tab="2" data-state="locked">
+                  <svg class="od-icon icon i-14" aria-hidden="true"><use href="#i-lock"></use></svg>
+                  <span>2 · Estructura — Descarta lo obsoleto</span>
+                  <span class="hints-tab__state">Tras 1 intento fallido</span>
+                </li>
+                <li class="hints-tab__item" data-hint-tab="3" data-state="locked">
+                  <svg class="od-icon icon i-14" aria-hidden="true"><use href="#i-lock"></use></svg>
+                  <span>3 · Sintaxis — Baja la complejidad</span>
+                  <span class="hints-tab__state">Tras 2 intentos fallidos</span>
+                </li>
+              </ul>
+              <p class="hints-tab__note">Las pistas se abren desde el panel de Maki. Cada intento fallido de tests desbloquea la siguiente; abrir una descuenta XP.</p>
+            </div>
+          </section>
+        </div>
+
+        <footer class="workbench-foot" aria-label="Acciones del reto">
+          <div class="workbench-foot__end">
+            <button class="btn btn--ghost" type="button" id="prev-btn">
+              <svg class="od-icon icon i-16 btn__icon icon-rot-left" aria-hidden="true"><use href="#i-chevron-down"></use></svg>
+              Anterior
+            </button>
+          </div>
+          <button class="btn btn--primary run-btn" type="button" id="run-btn" aria-keyshortcuts="Control+Enter" data-run>
+            <span class="spinner" aria-hidden="true"></span>
+            <svg class="od-icon icon i-16 btn__icon" aria-hidden="true"><use href="#i-play"></use></svg>
+            <span id="run-label">Ejecutar Tests</span>
+            <span class="btn__kbd" aria-hidden="true">Ctrl ↵</span>
+          </button>
+          <div class="workbench-foot__end workbench-foot__end--right">
+            <button class="btn btn--quiet" type="button" id="next-btn" disabled aria-describedby="next-hint" data-tip="Pasa las 4 pruebas para avanzar">
+              Siguiente Reto
+              <svg class="od-icon icon i-16 btn__icon icon-rot-right" aria-hidden="true"><use href="#i-chevron-down"></use></svg>
+            </button>
+            <span class="sr-only" id="next-hint">Se habilita cuando pasan las 4 pruebas.</span>
+          </div>
+        </footer>
+      </section>
+
+      <aside class="tutor rail" id="tutor" aria-label="Tutor Maki y pistas">
+        <div class="rail__drawerhead">
+          <span class="rail__drawerlabel">Tutor Maki</span>
+          <button class="icon-btn" type="button" data-close-drawer aria-label="Cerrar tutor Maki">
+            <svg class="od-icon icon i-20" aria-hidden="true"><use href="#i-x"></use></svg>
+          </button>
+        </div>
+
+        <section class="card maki-card" aria-labelledby="maki-title">
+          <div class="maki-card__head">
+            <div class="maki-avatar-wrap">
+              <svg class="maki" data-maki data-state="idle" viewBox="0 0 160 160" role="img" aria-label="Maki, tutor socrático de MakerLearn: un búho-cubo violeta">
+                <ellipse cx="80" cy="146" rx="36" ry="6" fill="rgba(0,0,0,.35)"/>
+                <path d="M34 50 28 22 58 32Z" fill="#5A3BE0" stroke="#5A3BE0" stroke-width="7" stroke-linejoin="round"/>
+                <path d="M126 50 132 22 102 32Z" fill="#5A3BE0" stroke="#5A3BE0" stroke-width="7" stroke-linejoin="round"/>
+                <rect x="26" y="30" width="108" height="46" rx="18" fill="#8B5CF6"/>
+                <rect x="20" y="62" width="120" height="70" rx="18" fill="#6C4CF1"/>
+                <path d="M46 66h68" stroke="#9A7BFF" stroke-width="2" stroke-linecap="round" opacity=".55"/>
+                <g class="maki__eyes-open">
+                  <circle cx="58" cy="90" r="17" fill="#F4F5FA"/>
+                  <circle cx="102" cy="90" r="17" fill="#F4F5FA"/>
+                  <circle cx="61" cy="92" r="6.5" fill="#1A1D2A"/>
+                  <circle cx="99" cy="92" r="6.5" fill="#1A1D2A"/>
+                  <circle cx="63.5" cy="89" r="2.2" fill="#F4F5FA"/>
+                  <circle cx="101.5" cy="89" r="2.2" fill="#F4F5FA"/>
+                </g>
+                <g class="maki__eyes-think">
+                  <circle cx="58" cy="90" r="15" fill="#F4F5FA"/>
+                  <circle cx="60" cy="92" r="6" fill="#1A1D2A"/>
+                  <circle cx="62" cy="89" r="2" fill="#F4F5FA"/>
+                  <path d="M92 92q9-7 18 0" fill="none" stroke="#F4F5FA" stroke-width="4.5" stroke-linecap="round"/>
+                </g>
+                <g class="maki__eyes-happy">
+                  <path d="M47 92q11-14 22 0" fill="none" stroke="#F4F5FA" stroke-width="5" stroke-linecap="round"/>
+                  <path d="M91 92q11-14 22 0" fill="none" stroke="#F4F5FA" stroke-width="5" stroke-linecap="round"/>
+                </g>
+                <circle cx="40" cy="108" r="5" fill="#B3A1FF" opacity=".35"/>
+                <circle cx="120" cy="108" r="5" fill="#B3A1FF" opacity=".35"/>
+                <path d="M80 100 88 110 80 120 72 110Z" fill="#FFB020"/>
+                <path d="M80 124v8M80 132h-15M80 132h15" fill="none" stroke="#00D4A0" stroke-width="3" stroke-linecap="round"/>
+                <circle cx="64" cy="132" r="3.2" fill="#00D4A0"/>
+                <circle cx="96" cy="132" r="3.2" fill="#00D4A0"/>
+                <g class="maki__thought" fill="#B3A1FF">
+                  <circle cx="128" cy="30" r="4.5"/>
+                  <circle cx="138" cy="21" r="3.2"/>
+                  <circle cx="146" cy="13" r="2.2"/>
+                </g>
+                <g class="maki__sparkles">
+                  <path d="m24 38 2.4 6.8L33 47l-6.6 2.2L24 56l-2.4-6.8L15 47l6.6-2.2L24 38Z" fill="#B3A1FF"/>
+                  <path d="m138 66 1.9 5.3 5.1 1.7-5.1 1.7-1.9 5.3-1.9-5.3-5.1-1.7 5.1-1.7 1.9-5.3Z" fill="#00D4A0"/>
+                  <path d="m132 112 1.6 4.4 4.4 1.6-4.4 1.6-1.6 4.4-1.6-4.4-4.4-1.6 4.4-1.6 1.6-4.4Z" fill="#FFB020"/>
+                </g>
+              </svg>
+            </div>
+            <div class="maki-card__identity">
+              <h2 class="maki-card__name" id="maki-title">Maki, tu tutor socrático</h2>
+              <p class="maki-card__status"><span class="status-dot status-dot--mint" aria-hidden="true"></span>En línea</p>
+            </div>
+          </div>
+          <div class="maki-speech" id="maki-speech" aria-live="polite">
+            <p><b>Veo que intentas optimizar</b> la relajación de aristas. Antes de darte una pista, ¿qué estructura de datos mantiene el vértice con menor distancia siempre al frente?</p>
+          </div>
+          <div class="maki-thread" id="maki-thread" aria-live="polite" hidden></div>
+          <div class="maki-chips" role="group" aria-label="Preguntas rápidas a Maki">
+            <button class="chip" type="button" data-maki-prompt="test">¿Qué test falla?</button>
+            <button class="chip" type="button" data-maki-prompt="hint">Dame una pista</button>
+          </div>
+          <button class="btn btn--quiet btn--sm maki-analyze" type="button" id="maki-analyze">
+            <svg class="od-icon icon i-16 btn__icon" aria-hidden="true"><use href="#i-sparkles"></use></svg>
+            🤔 Solicitar análisis socrático
+          </button>
+          <form class="maki-chat" id="maki-chat" novalidate>
+            <label class="sr-only" for="maki-input">Pregúntame algo</label>
+            <input class="maki-chat__input" id="maki-input" type="text" placeholder="Pregúntame algo…" autocomplete="off">
+            <button class="btn btn--primary btn--sm maki-chat__send" type="submit">
+              <svg class="od-icon icon i-16 btn__icon" aria-hidden="true"><use href="#i-play"></use></svg>
+              Enviar
+            </button>
+          </form>
+        </section>
+
+        <section class="card hints" aria-labelledby="hints-title">
+          <div class="card__head">
+            <div>
+              <h2 class="card__title" id="hints-title">Pistas</h2>
+              <p class="card__sub">Se desbloquean con intentos fallidos</p>
+            </div>
+            <span class="card__count" id="hints-count">1 de 3</span>
+          </div>
+          <div class="hint-list">
+            <div class="hint is-open" data-hint="1" data-cost="10" data-revealed="true">
+              <h3 class="hint__h">
+                <button class="hint__toggle" type="button" id="hint-btn-1" aria-expanded="true" aria-controls="hint-panel-1">
+                  <span class="hint__num">1</span>
+                  <span class="hint__title"><span class="hint__kind">Concepto</span>Qué guarda cada par</span>
+                  <span class="hint__meta">
+                    <span class="hint__cost">−10 XP</span>
+                    <span class="hint__openlabel">Abierta</span>
+                    <svg class="od-icon icon i-16 hint__lock" aria-hidden="true"><use href="#i-lock"></use></svg>
+                    <svg class="od-icon icon i-16 hint__chev" aria-hidden="true"><use href="#i-chevron-down"></use></svg>
+                  </span>
+                </button>
+              </h3>
+              <div class="hint__panel" id="hint-panel-1" role="region" aria-labelledby="hint-btn-1">
+                <p>El primer campo del par es la distancia tentativa; el segundo, el vértice. La cola siempre entrega el menor. Pregúntate qué ocurre si un vértice se inserta más de una vez.</p>
+              </div>
+            </div>
+
+            <div class="hint" data-hint="2" data-cost="20" data-locked="true">
+              <h3 class="hint__h">
+                <button class="hint__toggle tip-left" type="button" id="hint-btn-2" aria-expanded="false" aria-controls="hint-panel-2" aria-disabled="true" data-tip="Se desbloquea tras 1 intento fallido">
+                  <span class="hint__num">2</span>
+                  <span class="hint__title"><span class="hint__kind">Estructura</span>Descarta lo obsoleto</span>
+                  <span class="hint__meta">
+                    <span class="hint__cost">−20 XP</span>
+                    <span class="hint__lockmsg">Tras 1 intento fallido</span>
+                    <span class="hint__openlabel">Abierta</span>
+                    <svg class="od-icon icon i-16 hint__lock" aria-hidden="true"><use href="#i-lock"></use></svg>
+                    <svg class="od-icon icon i-16 hint__chev" aria-hidden="true"><use href="#i-chevron-down"></use></svg>
+                  </span>
+                </button>
+              </h3>
+              <div class="hint__panel" id="hint-panel-2" role="region" aria-labelledby="hint-btn-2" hidden>
+                <p>Si la distancia que sacaste de la cola (<code>d</code>) ya no coincide con <code>dist[u]</code>, esa entrada quedó vieja. Descártala antes de recorrer las aristas.</p>
+              </div>
+            </div>
+
+            <div class="hint" data-hint="3" data-cost="30" data-locked="true">
+              <h3 class="hint__h">
+                <button class="hint__toggle tip-left" type="button" id="hint-btn-3" aria-expanded="false" aria-controls="hint-panel-3" aria-disabled="true" data-tip="Se desbloquea tras 2 intentos fallidos">
+                  <span class="hint__num">3</span>
+                  <span class="hint__title"><span class="hint__kind">Sintaxis</span>Baja la complejidad</span>
+                  <span class="hint__meta">
+                    <span class="hint__cost">−30 XP</span>
+                    <span class="hint__lockmsg">Tras 2 intentos fallidos</span>
+                    <span class="hint__openlabel">Abierta</span>
+                    <svg class="od-icon icon i-16 hint__lock" aria-hidden="true"><use href="#i-lock"></use></svg>
+                    <svg class="od-icon icon i-16 hint__chev" aria-hidden="true"><use href="#i-chevron-down"></use></svg>
+                  </span>
+                </button>
+              </h3>
+              <div class="hint__panel" id="hint-panel-3" role="region" aria-labelledby="hint-btn-3" hidden>
+                <p>Con el descarte, cada arista se relaja como máximo una vez y la cola no conserva trabajo muerto. El test denso debería bajar del límite de 2 s.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card criteria" aria-labelledby="criteria-title">
+          <div class="card__head">
+            <h2 class="card__title" id="criteria-title">Criterios de éxito</h2>
+            <span class="card__count" id="criteria-count">1 de 3</span>
+          </div>
+          <ul class="criteria-list">
+            <li class="is-done" data-criteria="pq">
+              <span class="criteria__icon" aria-hidden="true"><svg class="od-icon icon i-12"><use href="#i-check"></use></svg></span>
+              <span class="criteria__body"><b>Usa priority_queue</b><span>Pares (distancia, vértice)</span></span>
+            </li>
+            <li data-criteria="stale">
+              <span class="criteria__icon" aria-hidden="true"></span>
+              <span class="criteria__body"><b>Descarta entradas obsoletas</b><span>Evita procesar vértices ya resueltos</span></span>
+            </li>
+            <li data-criteria="tests">
+              <span class="criteria__icon" aria-hidden="true"></span>
+              <span class="criteria__body"><b>Pasa las 4 pruebas</b><span id="criteria-tests">3 de 4 superadas</span></span>
+            </li>
+          </ul>
+        </section>
+
+        <section class="card comprehension" aria-labelledby="comprehension-title">
+          <div class="comprehension__ring" aria-hidden="true">
+            <svg viewBox="0 0 44 44">
+              <circle class="comprehension__track" cx="22" cy="22" r="18"></circle>
+              <circle class="comprehension__value" id="comprehension-ring" cx="22" cy="22" r="18"></circle>
+            </svg>
+            <span class="comprehension__pct" id="comprehension-pct">68%</span>
+          </div>
+          <div class="comprehension__body">
+            <h2 class="card__title" id="comprehension-title">🧠 Tu comprensión</h2>
+            <p class="card__sub" id="comprehension-note">Maki la estima con tus intentos y tus preguntas.</p>
+          </div>
+        </section>
+      </aside>
+    </main>
+
+    <nav class="bottom-nav" aria-label="Navegación móvil">
+      <button class="bottom-nav__item" type="button" data-open-drawer="itinerary" data-mobile-tab="route" aria-controls="itinerary" aria-expanded="false">
+        <svg class="od-icon icon i-20" aria-hidden="true"><use href="#i-route"></use></svg>
+        <span>Ruta</span>
+      </button>
+      <button class="bottom-nav__item is-active" type="button" data-mobile-tab="editor" aria-controls="practice">
+        <svg class="od-icon icon i-20" aria-hidden="true"><use href="#i-code"></use></svg>
+        <span>Editor</span>
+      </button>
+      <button class="bottom-nav__item" type="button" data-open-drawer="tutor" data-mobile-tab="maki" aria-controls="tutor" aria-expanded="false">
+        <svg class="bottom-nav__maki" viewBox="0 0 160 160" aria-hidden="true"><use href="#maki-mini"></use></svg>
+        <span>Maki</span>
+      </button>
+    </nav>
+
+    <div class="drawer-scrim" id="drawer-scrim" hidden></div>
+  </div>
+
+  <div class="modal-root" id="statement-modal" hidden>
+    <div class="modal-backdrop" data-close-statement></div>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="statement-title">
+      <header class="modal__head">
+        <div>
+          <p class="modal__eyebrow">Fase 2 · Desafío 2/4</p>
+          <h2 class="modal__title" id="statement-title">Cola de prioridad para Dijkstra</h2>
+        </div>
+        <button class="icon-btn" type="button" data-close-statement aria-label="Cerrar enunciado">
+          <svg class="od-icon icon i-20" aria-hidden="true"><use href="#i-x"></use></svg>
+        </button>
+      </header>
+      <div class="modal__body">
+        <p>Sustituye la cola FIFO por una cola de prioridad que entregue siempre el vértice con la menor distancia tentativa. Así la relajación deja de recorrer nodos innecesarios y el grafo denso entra en el límite de tiempo.</p>
+
+        <h3>Lo que debes hacer</h3>
+        <ol class="modal__list">
+          <li>Declara <code>priority_queue&lt;pair&lt;int,int&gt;, vector&lt;pair&lt;int,int&gt;&gt;, greater&lt;pair&lt;int,int&gt;&gt;&gt;</code>.</li>
+          <li>Inserta el par <code>(0, src)</code> y procesa siempre el menor.</li>
+          <li>Antes de relajar, descarta entradas obsoletas comparando <code>d</code> con <code>dist[u]</code>.</li>
+        </ol>
+
+        <h3>Restricciones</h3>
+        <div class="modal__facts">
+          <span><b>Lenguaje</b>C++17</span>
+          <span><b>Tiempo</b>2.0 s</span>
+          <span><b>Memoria</b>256 MB</span>
+          <span><b>Firma</b>No cambiar</span>
+        </div>
+
+        <h3>Firma esperada</h3>
+        <pre class="modal__code"><code>vector&lt;int&gt; dijkstra(
+  int n,
+  vector&lt;vector&lt;pair&lt;int,int&gt;&gt;&gt;&amp; g,
+  int src
+);</code></pre>
+
+        <p class="modal__note"><b>Pista de Maki:</b> el test 04 no falla por la lógica, falla por el trabajo que la cola acumula. Piensa antes de tocar el código.</p>
+      </div>
+      <footer class="modal__foot">
+        <span class="modal__hint">Puedes volver a abrir este enunciado cuando quieras.</span>
+        <button class="btn btn--primary" type="button" data-close-statement>Entendido</button>
+      </footer>
+    </div>
+  </div>
+
+  <div class="toast-region" id="toasts" aria-live="polite" aria-atomic="false"></div>
+
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <symbol id="maki-mini" viewBox="0 0 160 160">
+      <path d="M34 50 28 22 58 32Z" fill="#5A3BE0" stroke="#5A3BE0" stroke-width="7" stroke-linejoin="round"/>
+      <path d="M126 50 132 22 102 32Z" fill="#5A3BE0" stroke="#5A3BE0" stroke-width="7" stroke-linejoin="round"/>
+      <rect x="26" y="30" width="108" height="46" rx="18" fill="#8B5CF6"/>
+      <rect x="20" y="62" width="120" height="70" rx="18" fill="#6C4CF1"/>
+      <circle cx="58" cy="90" r="17" fill="#F4F5FA"/>
+      <circle cx="102" cy="90" r="17" fill="#F4F5FA"/>
+      <circle cx="61" cy="92" r="6.5" fill="#1A1D2A"/>
+      <circle cx="99" cy="92" r="6.5" fill="#1A1D2A"/>
+      <circle cx="63.5" cy="89" r="2.2" fill="#F4F5FA"/>
+      <circle cx="101.5" cy="89" r="2.2" fill="#F4F5FA"/>
+      <path d="M80 100 88 110 80 120 72 110Z" fill="#FFB020"/>
+      <path d="M80 124v8M80 132h-15M80 132h15" fill="none" stroke="#00D4A0" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="64" cy="132" r="3.2" fill="#00D4A0"/>
+      <circle cx="96" cy="132" r="3.2" fill="#00D4A0"/>
+    </symbol>
+    <symbol id="flame-shape" viewBox="0 0 24 24">
+      <path d="M12.8 2.2c.3 3-1.2 4.4-2.5 5.8-1.3 1.4-2.4 2.9-1.7 5.3.6-1.3 1.6-2.1 2.8-2.7-.3 2.4 1 3.4 2.1 4.4 1 .9 1.7 1.8 1.4 3.5 1.2-.7 2-1.9 2.4-3.3 1.2-4.2-1.3-8.5-5-10.6.2 1.5-.1 2.5-.8 3.3.1-2.7-1-4.7-2.7-6.2Z" fill="currentColor"/>
+      <path d="M12.3 12.8c-1.4 1-2.1 2.2-2.1 3.7 0 1.8.9 3.1 2.5 3.8-2 .1-3.4-.8-4-2.6-.7-2.2.8-4.2 3.6-4.9Z" fill="#FF5470"/>
+    </symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9Z"/><path d="M10 21a2.2 2.2 0 0 0 4 0"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.5 14.2A8.2 8.2 0 0 1 9.8 3.5 8.5 8.5 0 1 0 20.5 14.2Z"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+    <symbol id="i-route" viewBox="0 0 24 24"><circle cx="6" cy="18" r="2.2"/><circle cx="18" cy="6" r="2.2"/><path d="M8.2 18H13a4 4 0 0 0 0-8H9a4 4 0 0 1 0-8h6.8"/></symbol>
+    <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="m12 3 1.6 4.4L18 9l-4.4 1.6L12 15l-1.6-4.4L6 9l4.4-1.6L12 3Z"/><path d="m19 15 .9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9L19 15Z"/><path d="m5 14 .8 1.7 1.7.8-1.7.8L5 19l-.8-1.7-1.7-.8 1.7-.8L5 14Z"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5-11-6.5Z"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M12 6.5A3.5 3.5 0 0 0 8.5 3H4v14h4.5A3.5 3.5 0 0 1 12 20.5V6.5Z"/><path d="M12 6.5A3.5 3.5 0 0 1 15.5 3H20v14h-4.5A3.5 3.5 0 0 0 12 20.5V6.5Z"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5.2l3.5 2"/></symbol>
+    <symbol id="i-save" viewBox="0 0 24 24"><path d="M5 4h11l3 3v13H5V4Z"/><path d="M8 4v6h8V4M8 20v-6h8v6"/></symbol>
+    <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="i-code" viewBox="0 0 24 24"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16"/></symbol>
+    <symbol id="i-terminal" viewBox="0 0 24 24"><path d="m4 6 5 6-5 6M11 18h9"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></symbol>
+    <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5M12 8h.01"/></symbol>
+  </svg>
+</body>
+</html>

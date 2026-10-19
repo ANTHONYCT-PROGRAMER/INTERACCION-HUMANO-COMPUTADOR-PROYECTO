@@ -1,0 +1,900 @@
+/* ---------------------------------------------------------------------------
+   MakerLearn Studio · Pantalla 03 «Aprender» (móvil · micro-learning)
+   iPhone 15 · 390 × 844 · tema claro
+
+   Se apoya en el sistema de diseño existente: carga tokens.css + system.css y
+   reutiliza .btn, .chip, .badge, .xp, .streak, .quiz, .quiz-opt, .medal,
+   .maki-avatar y .toast. Este archivo sólo añade el andamiaje de móvil
+   (dispositivo, header de progreso, carrusel de tarjetas, barra de acciones,
+   tab bar) y los ajustes de densidad para 390 px.
+
+   Rejilla: base 4px, ritmo 8px. Todo alto táctil ≥ 44px.
+   --------------------------------------------------------------------------- */
+
+/* 0. Utilidades base (app.css no está cargado aquí) */
+[hidden] { display: none !important; }
+
+.ml-body {
+  margin: 0;
+  min-height: 100dvh;
+  overflow: hidden;
+  background:
+    radial-gradient(1100px 520px at 50% -12%, rgba(108, 76, 241, 0.10), transparent 62%),
+    var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------------------------------------------------------------------------
+   1. Escenario del dispositivo (la «frame»)
+   --------------------------------------------------------------------------- */
+
+.ml-stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  height: 100vh;
+  height: 100dvh;
+  padding: 56px 16px 24px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.ml-caption {
+  position: fixed;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 6px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  background: var(--bg-blur);
+  color: var(--text-2);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.ml-caption b { color: var(--violet-text); font-weight: 700; }
+.ml-caption__sep { color: var(--line-strong); }
+
+.device {
+  position: relative;
+  width: 390px;
+  height: 844px;
+  flex: none;
+  padding: 11px;
+  box-sizing: border-box;
+  border-radius: 58px;
+  background: linear-gradient(160deg, #1B1F2E 0%, #0A0C14 55%, #171B28 100%);
+  box-shadow:
+    0 0 0 1.5px rgba(255, 255, 255, 0.06),
+    0 40px 90px -40px rgba(20, 23, 42, 0.55),
+    0 8px 24px -12px rgba(20, 23, 42, 0.35);
+  transform: scale(var(--ml-scale, 1));
+  transform-origin: center center;
+  transition: transform var(--dur-3) var(--ease-out);
+}
+
+/* isla dinámica */
+.device::before {
+  content: "";
+  position: absolute;
+  top: 24px;
+  left: 50%;
+  z-index: 4;
+  width: 108px;
+  height: 30px;
+  transform: translateX(-50%);
+  border-radius: var(--radius-pill);
+  background: #05060A;
+}
+
+.phone {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 47px;
+  background: var(--bg);
+  isolation: isolate;
+}
+
+/* ---------------------------------------------------------------------------
+   2. Barra de estado del sistema
+   --------------------------------------------------------------------------- */
+
+.ml-status {
+  flex: none;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 54px;
+  padding: 0 26px 6px;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.ml-status__icons { display: inline-flex; align-items: center; gap: 6px; }
+.ml-status__icons svg { display: block; }
+
+/* ---------------------------------------------------------------------------
+   3. Topbar de la app: marca · racha · XP · avatar
+   --------------------------------------------------------------------------- */
+
+.ml-top {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 52px;
+  padding: 2px 16px 8px;
+}
+
+.ml-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.ml-brand__mark {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  flex: none;
+  border-radius: 10px;
+  background: var(--violet-soft);
+  border: 1px solid var(--violet-line);
+}
+.ml-brand__mark svg { width: 22px; height: 22px; display: block; overflow: visible; }
+.ml-brand__name {
+  font-size: 13.5px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--text);
+}
+
+.ml-top__stats { display: inline-flex; align-items: center; gap: 7px; flex: none; }
+
+/* racha compacta */
+.ml-streak {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 32px;
+  padding: 0 10px 0 8px;
+  border: 1px solid var(--amber-line);
+  border-radius: var(--radius-pill);
+  background: var(--amber-soft);
+  color: var(--amber-text);
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  font-weight: 700;
+}
+.ml-streak .od-icon { color: var(--amber-text); }
+
+/* XP compacto */
+.ml-xp {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 32px;
+  padding: 0 11px;
+  border: 1px solid var(--violet-line);
+  border-radius: var(--radius-pill);
+  background: var(--violet-soft);
+  color: var(--violet-text);
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  font-weight: 700;
+}
+.ml-xp .od-icon { color: var(--violet-text); }
+.ml-xp.is-bumped { animation: ml-bump var(--dur-4) var(--ease-spring); }
+@keyframes ml-bump {
+  0% { transform: scale(1); }
+  35% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+.ml-avatar {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  flex: none;
+  padding: 0;
+  border: 1px solid var(--violet-line);
+  border-radius: 50%;
+  background: var(--violet-soft);
+  color: var(--violet-text);
+  font-family: var(--font-body);
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  cursor: pointer;
+  transition: box-shadow var(--dur-1) var(--ease-out);
+}
+/* el brief pide áreas táctiles ≥44 px: el círculo se ve de 36, el área es de 44 */
+.ml-avatar::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+}
+.ml-avatar:hover { box-shadow: var(--shadow-glow); }
+.ml-avatar:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+
+/* ---------------------------------------------------------------------------
+   4. Header de progreso: tema · fase · barra segmentada
+   --------------------------------------------------------------------------- */
+
+.ml-head {
+  flex: none;
+  padding: 0 16px 14px;
+  border-bottom: 1px solid var(--line-soft);
+  background: var(--bg);
+}
+
+.ml-head__title {
+  margin: 0 0 6px;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.2;
+  color: var(--text);
+}
+
+.ml-head__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 9px;
+}
+.ml-head__phase { font-size: 11.5px; color: var(--text-2); }
+.ml-head__phase b { color: var(--violet-text); font-weight: 700; }
+.ml-head__count {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text-2);
+  white-space: nowrap;
+}
+
+/* barra segmentada: 4 segmentos */
+.ml-seg { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
+.ml-seg__i {
+  height: 7px;
+  border-radius: var(--radius-pill);
+  background: var(--surface-3);
+  transition: background var(--dur-3) var(--ease-out), opacity var(--dur-3) var(--ease-out);
+}
+.ml-seg__i.is-full { background: var(--grad-brand); }
+.ml-seg__i:not(.is-full) { opacity: 0.7; }
+
+/* ---------------------------------------------------------------------------
+   4b. El scroll interno de la app
+   --------------------------------------------------------------------------- */
+
+.ml-main {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  padding: 14px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  -webkit-overflow-scrolling: touch;
+}
+.ml-main::-webkit-scrollbar { width: 4px; }
+.ml-main::-webkit-scrollbar-thumb { border-radius: var(--radius-pill); background: var(--line-strong); }
+
+/* ---------------------------------------------------------------------------
+   5. Tarjeta conceptual (carrusel con swipe)
+   --------------------------------------------------------------------------- */
+
+.ml-cards { position: relative; }
+
+/* ventana que recorta el carrusel; el relleno deja respirar la sombra */
+.ml-viewport {
+  position: relative;
+  overflow: hidden;
+  margin: -3px 0 -14px;
+  padding: 3px 0 14px;
+  touch-action: pan-y;
+  cursor: grab;
+}
+.ml-viewport.is-dragging { cursor: grabbing; }
+
+.ml-track {
+  display: flex;
+  align-items: stretch;
+  transition: transform var(--dur-4) var(--ease-out);
+  transform: translate3d(calc(var(--i, 0) * -100% + var(--drag, 0px)), 0, 0);
+  will-change: transform;
+}
+.ml-viewport.is-dragging .ml-track { transition: none; }
+.ml-viewport.is-dragging .ml-card { user-select: none; }
+
+.ml-card {
+  flex: 0 0 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: var(--surface);
+  box-shadow: var(--shadow-md);
+}
+
+/* 5a. Ilustración vectorial animada */
+.ml-illo {
+  position: relative;
+  border-radius: 16px;
+  border: 1px solid var(--violet-line);
+  background:
+    radial-gradient(120% 100% at 18% 0%, rgba(108, 76, 241, 0.14), transparent 62%),
+    linear-gradient(180deg, var(--violet-soft), var(--surface-2));
+  overflow: hidden;
+}
+.ml-illo svg { display: block; width: 100%; height: auto; }
+
+.ml-edge {
+  fill: none;
+  stroke: var(--line-strong);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+.ml-edge--dim { stroke: var(--line); stroke-dasharray: 3 5; }
+.ml-edge--bad { stroke: var(--coral-500); stroke-dasharray: 5 5; }
+.ml-edge--path {
+  fill: none;
+  stroke: var(--violet-400);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 7 6;
+  animation: ml-march 1.5s linear infinite;
+}
+@keyframes ml-march { to { stroke-dashoffset: -26; } }
+
+.ml-weight {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  fill: var(--text-3);
+}
+.ml-weight--dim { fill: var(--text-3); opacity: 0.55; }
+.ml-weight--path { fill: var(--violet-text); }
+.ml-weight--bad { fill: var(--coral-text); }
+.ml-strike { stroke: var(--coral-text); stroke-width: 1.6; stroke-linecap: round; }
+
+.ml-node circle.ml-node__disc {
+  fill: var(--surface);
+  stroke: var(--line-strong);
+  stroke-width: 2;
+}
+.ml-node text {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  fill: var(--text-2);
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+.ml-node--start circle.ml-node__disc { stroke: var(--mint-line); }
+.ml-node--start text { fill: var(--mint-text); }
+
+.ml-node--key circle.ml-node__disc {
+  fill: var(--violet-500);
+  stroke: var(--violet-500);
+}
+.ml-node--key text { fill: #fff; }
+
+.ml-halo {
+  fill: none;
+  stroke: var(--violet-400);
+  stroke-width: 2;
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: ml-halo 2.4s var(--ease-out) infinite;
+}
+.ml-halo--b { animation-delay: 1.2s; }
+@keyframes ml-halo {
+  0% { transform: scale(0.72); opacity: 0.85; }
+  70% { transform: scale(1.5); opacity: 0; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+.ml-node {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: ml-node-in 0.5s var(--ease-spring) backwards;
+}
+.ml-node:nth-of-type(2) { animation-delay: 0.05s; }
+.ml-node:nth-of-type(3) { animation-delay: 0.1s; }
+.ml-node:nth-of-type(4) { animation-delay: 0.15s; }
+.ml-node:nth-of-type(5) { animation-delay: 0.2s; }
+@keyframes ml-node-in {
+  from { transform: scale(0.4); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* 5b. Contenido de la tarjeta */
+.ml-card__top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.ml-card__title {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 1.28;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  text-wrap: balance;
+}
+.ml-card__text { margin: 0; font-size: 12.5px; line-height: 1.55; color: var(--text-2); }
+
+.ml-analogy {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  padding: 9px 11px;
+  border: 1px solid var(--amber-line);
+  border-radius: 12px;
+  background: var(--amber-soft);
+  color: var(--amber-text);
+  font-size: 11.5px;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.ml-card__foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.ml-pill-note {
+  font-size: 10.5px;
+  line-height: 1.35;
+  color: var(--text-3);
+}
+.ml-example { flex: none; }
+.ml-strike { stroke: var(--coral-text); stroke-width: 1.6; stroke-linecap: round; }
+.ml-flip { transform: scaleX(-1); }
+
+.ml-sheet__kicker {
+  justify-self: center;
+  align-self: center;
+  margin: 0 auto;
+}
+
+/* 5c. Indicador de dots (área táctil de 28 px, punto visual de 7 px) */
+.ml-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-top: 8px;
+}
+.ml-dots__b {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.ml-dots__b::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--line-strong);
+  transition: width var(--dur-2) var(--ease-out), border-radius var(--dur-2) var(--ease-out),
+    background var(--dur-2) var(--ease-out);
+}
+.ml-dots__b[aria-current="true"]::before {
+  width: 20px;
+  border-radius: var(--radius-pill);
+  background: var(--grad-brand);
+}
+.ml-dots__b:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: -2px; }
+
+/* ---------------------------------------------------------------------------
+   6. Micro-quiz (card blanca con sombra)
+   --------------------------------------------------------------------------- */
+
+.ml-quiz {
+  padding: 15px;
+  border-radius: 22px;
+  box-shadow: var(--shadow-md);
+}
+.ml-quiz h2,
+.ml-quiz h3 {
+  margin: 0 0 14px;
+  font-size: 15.5px;
+  font-weight: 800;
+  line-height: 1.3;
+  letter-spacing: -0.025em;
+  color: var(--text);
+}
+.ml-quiz .quiz__top { margin-bottom: 12px; }
+.ml-quiz .quiz__options { gap: 8px; }
+.ml-quiz .quiz-opt { min-height: 50px; border-radius: 14px; background: var(--surface-2); }
+.ml-quiz .quiz-opt__text { font-size: 13.5px; }
+.ml-quiz .quiz-opt__key { width: 26px; height: 26px; font-size: 11.5px; }
+.ml-quiz .quiz__actions { margin-top: 13px; gap: 8px; }
+.ml-quiz .quiz__feedback { margin-top: 13px; padding: 11px 12px; border-radius: 14px; }
+.ml-quiz .quiz__feedback strong { font-size: 12.5px; }
+.ml-quiz .quiz__feedback p { font-size: 11.5px; line-height: 1.5; }
+
+/* check + etiqueta en la opción acertada (el brief pide «verde con check») */
+.ml-quiz .quiz-opt.is-correct .quiz-opt__state::before { content: "✓ Correcta"; }
+.ml-quiz .quiz-opt.is-wrong .quiz-opt__state::before { content: "✕ Incorrecta"; }
+.ml-quiz .quiz-opt__state { white-space: nowrap; }
+
+.ml-quiz.is-locked .quiz-opt { cursor: default; }
+.ml-quiz.is-locked .quiz-opt:hover { border-color: var(--line); background: var(--surface-2); }
+
+.ml-hintbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 10px 11px;
+  border: 1px dashed var(--violet-line);
+  border-radius: 14px;
+  background: var(--violet-soft);
+  color: var(--violet-text);
+  font-size: 11.5px;
+  font-weight: 600;
+  line-height: 1.5;
+  animation: ml-fade-up var(--dur-3) var(--ease-out);
+}
+@keyframes ml-fade-up {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------------------------------------------------------------------------
+   7. Barra inferior de acciones
+   --------------------------------------------------------------------------- */
+
+.ml-actions {
+  flex: none;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-top: 1px solid var(--line);
+  background: var(--bg-blur);
+  backdrop-filter: blur(12px);
+}
+.ml-actions .btn { min-height: 46px; }
+.ml-actions__mid { min-width: 0; }
+.ml-actions__mid .btn { width: 100%; }
+
+.ml-save.is-saved {
+  border-color: var(--mint-line);
+  background: var(--mint-soft);
+  color: var(--mint-text);
+}
+
+/* ---------------------------------------------------------------------------
+   8. Tab bar
+   --------------------------------------------------------------------------- */
+
+.ml-tabbar {
+  flex: none;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  align-items: stretch;
+  padding: 6px 8px 22px;
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+}
+.ml-tab {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 3px;
+  min-height: 48px;
+  padding: 4px 0;
+  border-radius: 14px;
+  color: var(--text-3);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  transition: color var(--dur-1) var(--ease-out), background var(--dur-1) var(--ease-out);
+}
+.ml-tab .od-icon { color: currentColor; }
+.ml-tab:hover { color: var(--text-2); background: var(--surface-2); }
+.ml-tab:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: -2px; }
+.ml-tab.is-active { color: var(--violet-text); }
+.ml-tab.is-active::before {
+  content: "";
+  position: absolute;
+  top: -7px;
+  width: 22px;
+  height: 3px;
+  border-radius: var(--radius-pill);
+  background: var(--grad-brand);
+}
+
+/* ---------------------------------------------------------------------------
+   9. Hojas modales (estados «Racha perdida» y «Logro»)
+   --------------------------------------------------------------------------- */
+
+.ml-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  background: rgba(20, 23, 42, 0.42);
+  backdrop-filter: blur(2px);
+  animation: ml-fade var(--dur-2) var(--ease-out);
+}
+@keyframes ml-fade { from { opacity: 0; } to { opacity: 1; } }
+
+.ml-sheet {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 88%;
+  padding: 10px 18px 24px;
+  border-radius: 26px 26px 0 0;
+  background: var(--surface);
+  box-shadow: 0 -20px 50px -24px rgba(20, 23, 42, 0.45);
+  animation: ml-sheet-in var(--dur-3) var(--ease-out);
+}
+@keyframes ml-sheet-in {
+  from { transform: translateY(102%); }
+  to { transform: translateY(0); }
+}
+.ml-sheet__grab {
+  width: 42px;
+  height: 4px;
+  margin: 2px auto 4px;
+  border-radius: var(--radius-pill);
+  background: var(--line-strong);
+}
+.ml-sheet__close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--text-2);
+  cursor: pointer;
+}
+/* área táctil de 44 px aunque el círculo se vea de 34 */
+.ml-sheet__close::after {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+}
+.ml-sheet__close:hover { background: var(--surface-2); color: var(--text); }
+
+.ml-sheet__maki { display: grid; place-items: center; }
+.ml-sheet__maki .maki-avatar { width: 104px; height: 104px; animation: none; }
+
+.ml-sheet h2 {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.03em;
+  text-align: center;
+  color: var(--text);
+  text-wrap: balance;
+}
+.ml-sheet p { margin: 0; font-size: 12.5px; line-height: 1.55; color: var(--text-2); text-align: center; }
+.ml-sheet__actions { display: grid; gap: 8px; margin-top: 2px; }
+.ml-sheet__actions .btn { width: 100%; }
+.ml-sheet__note {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.03em;
+  color: var(--text-3);
+  text-align: center;
+}
+
+/* racha: barra de progreso del repaso */
+.ml-repass { display: grid; gap: 6px; }
+.ml-repass__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-3);
+}
+
+/* logro: medalla grande */
+.ml-medal { display: grid; justify-items: center; gap: 10px; text-align: center; }
+.ml-medal__stage { position: relative; display: grid; place-items: center; }
+.ml-medal__stage .medal__disc {
+  width: 84px;
+  height: 84px;
+  animation: ml-medal-in 0.6s var(--ease-spring) backwards;
+}
+.ml-medal__stage .medal__disc .od-icon { --od-icon-size: 40px; }
+.ml-medal__name { margin: 0; font-size: 15px; font-weight: 800; letter-spacing: -0.02em; color: var(--text); }
+.ml-medal__status {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--mint-text);
+}
+@keyframes ml-medal-in {
+  from { transform: scale(0.5) rotate(-12deg); opacity: 0; }
+  to { transform: scale(1) rotate(0); opacity: 1; }
+}
+.ml-medal__glow {
+  position: absolute;
+  inset: -14px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 212, 160, 0.28), transparent 68%);
+  animation: ml-halo 2.6s var(--ease-out) infinite;
+  pointer-events: none;
+}
+
+/* ---------------------------------------------------------------------------
+   10. Confeti sutil + toasts dentro del teléfono
+   --------------------------------------------------------------------------- */
+
+.ml-confetti {
+  position: absolute;
+  inset: 0;
+  z-index: 12;
+  overflow: hidden;
+  pointer-events: none;
+}
+.ml-confetti__bit {
+  position: absolute;
+  width: 6px;
+  height: 9px;
+  border-radius: 2px;
+  animation: ml-fall var(--bit-dur, 1.4s) cubic-bezier(0.3, 0.6, 0.4, 1) forwards;
+}
+@keyframes ml-fall {
+  from { transform: translate3d(0, -12%, 0) rotate(0); opacity: 1; }
+  to { transform: translate3d(var(--bit-dx, 0), 620px, 0) rotate(var(--bit-rot, 420deg)); opacity: 0; }
+}
+
+.ml-toasts {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 148px;
+  z-index: 14;
+  display: grid;
+  gap: 8px;
+  pointer-events: none;
+}
+.ml-toast {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 10px 11px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: var(--shadow-lg);
+  animation: ml-toast-in var(--dur-3) var(--ease-out);
+  pointer-events: auto;
+}
+@keyframes ml-toast-in {
+  from { opacity: 0; transform: translateY(10px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.ml-toast.is-leaving { animation: ml-toast-out var(--dur-2) var(--ease-out) forwards; }
+@keyframes ml-toast-out { to { opacity: 0; transform: translateY(8px); } }
+.ml-toast__icon { display: grid; place-items: center; flex: none; }
+.ml-toast--success .ml-toast__icon { color: var(--mint-text); }
+.ml-toast--error .ml-toast__icon { color: var(--coral-text); }
+.ml-toast--info .ml-toast__icon { color: var(--violet-text); }
+.ml-toast__body { display: grid; gap: 1px; min-width: 0; }
+.ml-toast__body strong { font-size: 12px; font-weight: 700; color: var(--text); }
+.ml-toast__body span { font-size: 11px; line-height: 1.45; color: var(--text-2); }
+.ml-toast__close {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  flex: none;
+  margin: -2px -4px 0 auto;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text-3);
+  cursor: pointer;
+}
+.ml-toast__close:hover { background: var(--surface-2); color: var(--text); }
+
+/* ---------------------------------------------------------------------------
+   11. Motion reducido
+   --------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .ml-track { transition: none; }
+  .ml-edge--path { animation: none; }
+  .ml-halo,
+  .ml-medal__glow { animation: none; }
+  .ml-halo { opacity: 0.35; }
+  .ml-node,
+  .ml-medal__stage .medal__disc { animation: none; }
+  .ml-confetti { display: none; }
+  .ml-sheet { animation: none; }
+  .ml-scrim { animation: none; }
+  .ml-xp.is-bumped { animation: none; }
+}
+
+/* ---------------------------------------------------------------------------
+   11b. Forzar tema claro: la pantalla se diseñó en claro y el artefacto
+        original arranca en oscuro (ml-theme en localStorage).
+   --------------------------------------------------------------------------- */
+.ml-body,
+.phone { color-scheme: light; }
+
+/* ---------------------------------------------------------------------------
+   12. En un teléfono real: pantalla completa, sin marco
+   --------------------------------------------------------------------------- */
+
+@media (max-width: 430px) {
+  .ml-stage { padding: 0; }
+  .ml-caption { display: none; }
+  .device {
+    width: 100%;
+    height: 100dvh;
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
+    transform: none;
+  }
+  .device::before { display: none; }
+  .phone { border-radius: 0; }
+  .ml-status { height: 44px; padding-bottom: 2px; }
+}
+
+/* Paisaje: mantener el dispositivo usable */
+@media (max-height: 620px) and (min-width: 431px) {
+  .ml-caption { display: none; }
+}

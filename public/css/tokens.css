@@ -1,0 +1,263 @@
+/* OD-LAYOUT-PRIMITIVES v1 — structure only: display, flex/grid, overflow, wrapping, ratio, geometry.
+   Put this @layer first; product CSS outside the layer always wins. */
+@layer od-layout {
+  :where(.od-stack,.od-row,.od-row-top,.od-cluster,.od-grid,.od-field,.od-stat,.od-cell,.od-tile) > :where(*) { min-width: 0; }
+
+  /* containers */
+  .od-stack   { display: flex; flex-direction: column; gap: var(--od-gap, 8px); }
+  .od-row     { display: flex; align-items: center; gap: var(--od-gap, 8px); }
+  .od-row-top { display: flex; align-items: flex-start; gap: var(--od-gap, 8px); }
+  .od-cluster { display: flex; flex-wrap: wrap; align-items: center; gap: var(--od-gap, 8px); }
+  .od-fill    { flex: 1 1 0; min-width: 0; }
+  .od-fixed   { flex: none; }
+  .od-grid    { display: grid; gap: var(--od-gap, 12px); grid-template-columns: repeat(var(--od-cols, 3), minmax(0, 1fr)); }
+
+  /* stacked information: each piece is its own line — never sibling inline spans */
+  .od-stat, .od-field, .od-cell { display: grid; gap: var(--od-gap, 2px); }
+  :where(.od-stat,.od-field,.od-cell) > :where(*) { display: block; }
+  .od-tile { display: grid; grid-template-rows: auto 1fr; }
+  :where(.od-tile) > :where(*) { display: block; }
+
+  /* media keeps its intrinsic ratio by default; never a distorted or cropped
+     cover by accident. height:auto lets the ratio win over an <img height="…">
+     attribute. Cropping to a uniform box is an explicit opt-in: set --od-ratio
+     AND add .od-media-cover together (per the core rule, only where a crop is
+     deliberate — tile thumbs, decorative fills — never on full-frame content). */
+  .od-media { display: block; width: 100%; height: auto; aspect-ratio: var(--od-ratio, auto); }
+  .od-media-cover { object-fit: cover; }
+
+  /* functional inline SVG icons opt into bounded geometry; content SVGs keep their own */
+  .od-icon { display: inline-block; inline-size: var(--od-icon-size, 1em); block-size: var(--od-icon-size, 1em); flex: none; }
+
+  /* data text only — authored copy is rewritten to its budget instead */
+  .od-truncate { display: block; max-width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  .od-clamp-2, .od-clamp-3 { display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
+  .od-clamp-2 { -webkit-line-clamp: 2; }
+  .od-clamp-3 { -webkit-line-clamp: 3; }
+  .od-lines-2 { min-height: calc(2 * 1.4em); }   /* block-level reservation for a shared baseline */
+  .od-nowrap  { white-space: nowrap; }           /* 数字+单位 · 价格+起 · 日期+星期 */
+  .od-keep    { word-break: keep-all; overflow-wrap: anywhere; } /* CJK labels break at spaces / <wbr> first */
+
+  /* screen skeleton (optional): bars take their own space, the middle scrolls — no padding guessed for chrome */
+  .od-screen { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; height: 100%; }
+  .od-scroll { overflow-y: auto; overscroll-behavior: contain; min-height: 0; }
+
+  /* horizontal rail: the next item peeks at the edge; trailing room survives overflow */
+  .od-rail { display: flex; gap: var(--od-gap, 8px); overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: none;
+             padding-inline: var(--od-rail-pad, 16px); scroll-padding-inline: var(--od-rail-pad, 16px); }
+  .od-rail::-webkit-scrollbar { display: none; }
+  :where(.od-rail) > :where(*) { flex: none; scroll-snap-align: start; }
+  :where(.od-rail) > :where(:last-child) { margin-inline-end: var(--od-rail-pad, 16px); }
+
+  .od-spacer { flex: none; visibility: hidden; pointer-events: none; }
+  .od-touch  { min-width: 44px; min-height: 44px; }
+}
+/* /OD-LAYOUT-PRIMITIVES v1 */
+
+/* =====================================================================
+   MakerLearn Studio — Design tokens
+   Dark theme is the default (web). Light theme mirrors it for mobile.
+   ===================================================================== */
+
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* type */
+  --font-display: "Plus Jakarta Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-body: "Plus Jakarta Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-md: 1.0625rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.5rem;
+  --text-2xl: 1.875rem;
+  --text-3xl: 2.375rem;
+  --text-4xl: 3rem;
+  --text-5xl: 3.75rem;
+
+  --leading-tight: 1.08;
+  --leading-snug: 1.35;
+  --leading-normal: 1.65;
+
+  --tracking-tight: -0.03em;
+  --tracking-tighter: -0.045em;
+
+  /* surfaces */
+  --bg: #0F1117;
+  --bg-blur: rgba(15, 17, 23, 0.86);
+  --surface: #1A1D2A;
+  --surface-2: #222638;
+  --surface-3: #2B3047;
+  --surface-inset: #12141D;
+  --input-bg: #131622;
+
+  --line: #262B3D;
+  --line-soft: #202435;
+  --line-strong: #363C54;
+  --grid-line: rgba(139, 92, 246, 0.055);
+
+  /* text */
+  --text: #F4F5FA;
+  --text-2: #B6BACB;
+  --text-3: #9196AC;
+  --text-invert: #0F1117;
+
+  /* brand */
+  --violet-300: #B3A1FF;
+  --violet-400: #9A7BFF;
+  --violet-500: #6C4CF1;
+  --violet-600: #5A3BE0;
+  --violet-700: #4527C4;
+  --violet-text: #B3A1FF;
+  --violet-soft: rgba(108, 76, 241, 0.16);
+  --violet-line: rgba(139, 92, 246, 0.42);
+  --grad-brand: linear-gradient(115deg, #6C4CF1 0%, #8B5CF6 100%);
+  --grad-action: linear-gradient(115deg, #6C4CF1 0%, #7F57F5 100%);
+
+  /* semantic accents */
+  --mint-500: #00D4A0;
+  --mint-text: #3FE3B8;
+  --mint-soft: rgba(0, 212, 160, 0.12);
+  --mint-line: rgba(0, 212, 160, 0.38);
+
+  --amber-500: #FFB020;
+  --amber-text: #FFC24D;
+  --amber-soft: rgba(255, 176, 32, 0.12);
+  --amber-line: rgba(255, 176, 32, 0.38);
+
+  --coral-500: #FF5470;
+  --coral-text: #FF8095;
+  --coral-soft: rgba(255, 84, 112, 0.12);
+  --coral-line: rgba(255, 84, 112, 0.40);
+
+  /* interaction */
+  --focus-ring: #B3A1FF;
+  --focus-halo: rgba(179, 161, 255, 0.28);
+  --coral-halo: rgba(255, 84, 112, 0.22);
+  --selection: rgba(108, 76, 241, 0.40);
+  --shimmer: rgba(255, 255, 255, 0.07);
+
+  /* elevation */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.30);
+  --shadow-md: 0 12px 30px -16px rgba(0, 0, 0, 0.60);
+  --shadow-lg: 0 32px 70px -32px rgba(0, 0, 0, 0.75);
+  --shadow-glow: 0 6px 20px -8px rgba(108, 76, 241, 0.65);
+  --shadow-glow-hover: 0 10px 30px -8px rgba(108, 76, 241, 0.80);
+  --glow-card: 0 0 0 1px var(--violet-line), 0 16px 40px -26px rgba(108, 76, 241, 0.90);
+
+  /* code */
+  --code-bg: #0B0E16;
+  --code-bar: #141828;
+  --code-line: #252B3E;
+  --code-text: #DDE1F0;
+  --code-dim: #8B93AD;
+  --code-mint: #7FE7C4;
+  --code-amber: #FFC86B;
+  --code-violet: #B3A1FF;
+
+  /* tooltip */
+  --tooltip-bg: #0B0E16;
+  --tooltip-text: #F4F5FA;
+  --tooltip-line: #363C54;
+
+  /* shape */
+  --radius-xs: 6px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-button: 20px;
+  --radius-pill: 999px;
+
+  /* spacing — 4px base */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+
+  /* motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dur-1: 150ms;
+  --dur-2: 200ms;
+  --dur-3: 300ms;
+  --dur-4: 400ms;
+
+  /* layout */
+  --sidebar-w: 268px;
+  --container: 1180px;
+  --tap: 44px;
+
+  --z-topbar: 40;
+  --z-drawer: 60;
+  --z-toast: 80;
+  --z-tooltip: 90;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+
+  --bg: #F7F8FC;
+  --bg-blur: rgba(247, 248, 252, 0.90);
+  --surface: #FFFFFF;
+  --surface-2: #EEF0F8;
+  --surface-3: #E2E6F3;
+  --surface-inset: #F2F4FB;
+  --input-bg: #FFFFFF;
+
+  --line: #E0E4F0;
+  --line-soft: #EBEEF7;
+  --line-strong: #C9CFE2;
+  --grid-line: rgba(90, 59, 224, 0.055);
+
+  --text: #14172A;
+  --text-2: #4A4F66;
+  --text-3: #5F657C;
+  --text-invert: #FFFFFF;
+
+  --violet-text: #5A3BE0;
+  --violet-soft: #EFEBFF;
+  --violet-line: #D5C9FB;
+
+  --mint-text: #007A5E;
+  --mint-soft: #E2FBF2;
+  --mint-line: #A5EBD6;
+
+  --amber-text: #8A5B00;
+  --amber-soft: #FFF5DF;
+  --amber-line: #F2D18E;
+
+  --coral-text: #C42B47;
+  --coral-soft: #FFE8EC;
+  --coral-line: #F5B9C5;
+
+  --focus-ring: #5A3BE0;
+  --focus-halo: rgba(90, 59, 224, 0.20);
+  --coral-halo: rgba(196, 43, 71, 0.16);
+  --selection: rgba(108, 76, 241, 0.22);
+  --shimmer: rgba(20, 23, 42, 0.06);
+
+  --shadow-sm: 0 1px 2px rgba(20, 23, 42, 0.06);
+  --shadow-md: 0 12px 30px -18px rgba(20, 23, 42, 0.24);
+  --shadow-lg: 0 30px 60px -30px rgba(20, 23, 42, 0.28);
+  --shadow-glow: 0 6px 18px -8px rgba(90, 59, 224, 0.35);
+  --shadow-glow-hover: 0 10px 26px -8px rgba(90, 59, 224, 0.45);
+  --glow-card: 0 0 0 1px var(--violet-line), 0 18px 40px -28px rgba(90, 59, 224, 0.45);
+
+  --tooltip-bg: #14172A;
+  --tooltip-text: #FFFFFF;
+  --tooltip-line: #2B3047;
+}

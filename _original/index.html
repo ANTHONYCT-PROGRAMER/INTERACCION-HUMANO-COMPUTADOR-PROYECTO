@@ -1,0 +1,1611 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MakerLearn Studio — Sistema de diseño</title>
+  <meta name="description" content="Sistema de diseño de MakerLearn Studio: tokens, componentes, gamificación, accesibilidad y temas para una plataforma de aprendizaje activo con IA.">
+  <meta name="theme-color" content="#0F1117">
+  <script>
+    try {
+      var saved = localStorage.getItem("ml-theme");
+      document.documentElement.dataset.theme = saved === "light" ? "light" : "dark";
+    } catch (e) {
+      document.documentElement.dataset.theme = "dark";
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/system.css">
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Saltar al contenido</a>
+
+  <div class="app">
+    <aside class="sidebar" id="sidebar" aria-label="Navegación del sistema de diseño">
+      <div class="sidebar__head">
+        <a class="brand" href="#top">
+          <span class="brand__mark" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round">
+              <path d="M12 2.5 20.5 7v10L12 21.5 3.5 17V7L12 2.5Z"/>
+              <path d="m3.5 7 8.5 5 8.5-5M12 12v9.5"/>
+            </svg>
+          </span>
+          <span>
+            <span class="brand__name">MakerLearn</span>
+            <span class="brand__sub">Studio · DS 1.0</span>
+          </span>
+        </a>
+        <button class="icon-btn sidebar__close" type="button" data-drawer-close aria-label="Cerrar menú">
+          <svg class="od-icon icon i-20" aria-hidden="true"><use href="#i-x"></use></svg>
+        </button>
+      </div>
+
+      <div class="sidebar__meta"><span>Design system</span><b>v1.0</b></div>
+
+      <nav class="nav" id="nav" aria-label="Secciones">
+        <p class="nav__label">Fundamentos</p>
+        <a class="nav__link is-active" href="#principios" aria-current="location"><span class="nav__num">00</span>Principios</a>
+        <a class="nav__link" href="#color"><span class="nav__num">01</span>Color</a>
+        <a class="nav__link" href="#tipografia"><span class="nav__num">02</span>Tipografía</a>
+        <a class="nav__link" href="#espaciado"><span class="nav__num">03</span>Espaciado y forma</a>
+        <a class="nav__link" href="#iconografia"><span class="nav__num">04</span>Iconografía</a>
+
+        <p class="nav__label">Componentes</p>
+        <a class="nav__link" href="#botones"><span class="nav__num">05</span>Botones</a>
+        <a class="nav__link" href="#formularios"><span class="nav__num">06</span>Formularios</a>
+        <a class="nav__link" href="#proyectos"><span class="nav__num">07</span>Proyectos y fases</a>
+        <a class="nav__link" href="#gamificacion"><span class="nav__num">08</span>Gamificación</a>
+        <a class="nav__link" href="#quiz"><span class="nav__num">09</span>Quiz</a>
+        <a class="nav__link" href="#maki"><span class="nav__num">10</span>Tutor Maki</a>
+        <a class="nav__link" href="#pistas"><span class="nav__num">11</span>Pistas</a>
+        <a class="nav__link" href="#terminal"><span class="nav__num">12</span>Terminal</a>
+        <a class="nav__link" href="#feedback"><span class="nav__num">13</span>Feedback</a>
+
+        <p class="nav__label">Sistema</p>
+        <a class="nav__link" href="#temas"><span class="nav__num">14</span>Temas</a>
+        <a class="nav__link" href="#accesibilidad"><span class="nav__num">15</span>Accesibilidad</a>
+        <a class="nav__link" href="#contexto"><span class="nav__num">16</span>En contexto</a>
+      </nav>
+
+      <div class="sidebar__foot">
+        <div class="theme-switch" role="group" aria-label="Tema de la interfaz">
+          <button class="theme-switch__btn" type="button" data-set-theme="dark" aria-pressed="true">
+            <svg class="od-icon icon i-14" aria-hidden="true"><use href="#i-moon"></use></svg>Oscuro
+          </button>
+          <button class="theme-switch__btn" type="button" data-set-theme="light" aria-pressed="false">
+            <svg class="od-icon icon i-14" aria-hidden="true"><use href="#i-sun"></use></svg>Claro
+          </button>
+        </div>
+        <p>Hecho para aprender construyendo.<br>WCAG 2.1 AA · v1.0</p>
+      </div>
+    </aside>
+
+    <div class="sidebar-scrim" data-drawer-close hidden></div>
+
+    <div class="main-wrap">
+      <header class="topbar">
+        <button class="icon-btn" type="button" data-drawer-open aria-label="Abrir menú" aria-controls="sidebar" aria-expanded="false">
+          <svg class="od-icon icon i-20" aria-hidden="true"><use href="#i-menu"></use></svg>
+        </button>
+        <a class="brand" href="#top">
+          <span class="brand__mark" aria-hidden="true">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round">
+              <path d="M12 2.5 20.5 7v10L12 21.5 3.5 17V7L12 2.5Z"/>
+              <path d="m3.5 7 8.5 5 8.5-5M12 12v9.5"/>
+            </svg>
+          </span>
+          <span><span class="brand__name">MakerLearn</span></span>
+        </a>
+        <span class="topbar__spacer"></span>
+        <button class="icon-btn" type="button" data-theme-toggle aria-label="Cambiar a modo claro">
+          <svg class="od-icon icon i-20" aria-hidden="true"><use data-theme-icon href="#i-sun"></use></svg>
+        </button>
+      </header>
+
+      <main class="page" id="main">
+        <!-- ============================================================
+             HERO
+             ============================================================ -->
+        <section class="hero" id="top" aria-labelledby="hero-title">
+          <div class="hero__copy">
+            <p class="hero__eyebrow"><span class="dot"></span>MakerLearn Studio · DS 1.0</p>
+            <h1 id="hero-title">Aprender construyendo, <span class="accent">con un sistema propio.</span></h1>
+            <p class="hero__lead">Un lenguaje visual para estudiantes de ingeniería que aprenden resolviendo. Energía de juego, precisión de editor: componentes que hacen visible el progreso y mantienen el foco en el reto.</p>
+            <div class="hero__actions">
+              <a class="btn btn--primary" href="#botones">
+                Explorar componentes
+                <svg class="od-icon icon i-18" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+              </a>
+              <a class="btn btn--secondary" href="#accesibilidad">Ver accesibilidad</a>
+            </div>
+            <ul class="hero__facts">
+              <li>WCAG 2.1 AA</li>
+              <li>Dark + light</li>
+              <li>Targets 44px</li>
+              <li>Plus Jakarta + JetBrains Mono</li>
+            </ul>
+          </div>
+
+          <div class="hero__specimen">
+            <div class="specimen" aria-hidden="true">
+              <div class="specimen__bar">
+                <span class="dots"><i></i><i></i><i></i></span>
+                <span class="mono">tokens.css</span>
+                <span class="mono">v1.0</span>
+              </div>
+              <pre class="specimen__code"><code><span class="t-com">/* makerlearn.tokens */</span>
+--violet-500: <span class="t-str">#6C4CF1</span>;
+--mint-500:   <span class="t-str">#00D4A0</span>;
+--radius-btn: <span class="t-num">20px</span>;
+--font-mono:  <span class="t-str">"JetBrains Mono"</span>;
+
+<span class="t-key">.btn-primary</span> {
+  background: <span class="t-key">var</span>(--grad-action);
+  box-shadow: <span class="t-num">0 6px 20px</span>
+              <span class="t-str">rgba(108,76,241,.65)</span>;
+}</code></pre>
+              <div class="specimen__swatches">
+                <span style="background:#6C4CF1"></span>
+                <span style="background:#8B5CF6"></span>
+                <span style="background:#00D4A0"></span>
+                <span style="background:#FFB020"></span>
+                <span style="background:#FF5470"></span>
+              </div>
+              <div class="specimen__foot">
+                <span class="btn btn--primary btn--sm">Continuar reto</span>
+                <span class="xp"><svg class="od-icon icon i-14" aria-hidden="true"><use href="#i-bolt"></use></svg><b>2.480</b><span>XP</span></span>
+                <span class="mono">racha 12 d</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================================
+             00 PRINCIPIOS
+             ============================================================ -->
+        <section class="section" id="principios" aria-labelledby="principios-title">
+          <div class="section__head">
+            <p class="section__eyebrow">00 · Fundamentos</p>
+            <h2 class="section__title" id="principios-title">Tres reglas antes de dibujar una pantalla</h2>
+            <p class="section__lead">El sistema sirve al aprendizaje activo. Cada decisión visual debe empujar una acción concreta, mostrar avance o reducir fricción técnica.</p>
+          </div>
+          <div class="principle-grid">
+            <article class="principle">
+              <span class="principle__icon" aria-hidden="true"><svg class="od-icon icon i-20"><use href="#i-target"></use></svg></span>
+              <h3>Aprender haciendo</h3>
+              <p>Los componentes giran alrededor de una acción: resolver, comprobar, pedir una pista, continuar. Nada existe solo para decorar.</p>
+              <span class="principle__tag">ACCIÓN &gt; DECORACIÓN</span>
+            </article>
+            <article class="principle">
+              <span class="principle__icon" aria-hidden="true"><svg class="od-icon icon i-20"><use href="#i-trophy"></use></svg></span>
+              <h3>Progreso visible</h3>
+              <p>Racha, XP y fases hacen tangible el avance sin tapar el contenido. La gamificación celebra trabajo real, no clics.</p>
+              <span class="principle__tag">MOTIVACIÓN CON SENTIDO</span>
+            </article>
+            <article class="principle">
+              <span class="principle__icon" aria-hidden="true"><svg class="od-icon icon i-20"><use href="#i-code"></use></svg></span>
+              <h3>Precisión sin fricción</h3>
+              <p>Base técnica de editor y lenguaje de juego: la herramienta desaparece y queda el reto. Monospace donde importa, aire donde hace falta.</p>
+              <span class="principle__tag">DUOLINGO × VS CODE</span>
+            </article>
+          </div>
+        </section>
+
+        <!-- ============================================================
+             01 COLOR
+             ============================================================ -->
+        <section class="section" id="color" aria-labelledby="color-title">
+          <div class="section__head">
+            <p class="section__eyebrow">01 · Fundamentos</p>
+            <h2 class="section__title" id="color-title">Color con jerarquía, no con ruido</h2>
+            <p class="section__lead">Violeta para la acción, menta para el acierto, ámbar para la atención y coral para el error. Las superficies hacen el resto: el glow se reserva para estados activos y nunca baña la interfaz completa.</p>
+          </div>
+
+          <div class="token-toolbar">
+            <label class="sr-only" for="token-search">Filtrar tokens de color</label>
+            <div class="search">
+              <svg class="od-icon icon i-18" aria-hidden="true"><use href="#i-search"></use></svg>
+              <input class="input" id="token-search" type="search" placeholder="Filtrar por nombre o hex…" data-token-search autocomplete="off">
+            </div>
+            <span class="token-count" data-token-count>16 tokens</span>
+            <span class="token-count">· toca para copiar</span>
+          </div>
+
+          <div class="swatch-grid">
+            <button class="swatch" type="button" data-copy="var(--violet-300)" data-token="violet 300 b3a1ff marca texto en oscuro">
+              <span class="swatch__chip" style="background:#B3A1FF"></span>
+              <span><span class="swatch__name">--violet-300</span><span class="swatch__role">#B3A1FF · Texto violeta en oscuro</span></span>
+            </button>
+            <button class="swatch" type="button" data-copy="var(--violet-400)" data-token="violet 400 8b5cf6 marca gradiente">
+              <span class="swatch__chip" style="background:#8B5CF6"></span>
+              <span><span class="swatch__name">--violet-400</span><span class="swatch__role">#8B5CF6 · Final del gradiente</span></span>
+            </button>
+            <button class="swatch" type="button" data-copy="var(--violet-500)" data-token="violet 500 6c4cf1 marca accion primaria">
+              <span class="swatch__chip" style="background:#6C4CF1"></span>
+              <span><span class="swatch__name">--violet-500</span><span class="swatch__role">#6C4CF1 · Acción primaria</span></span>
+            </button>
+            <button class="swatch" type="button" data-copy="var(--violet-600)" data-token="violet 600 5a3be0 marca presionado texto claro">
+              <span class="swatch__chip" style="background:#5A3BE0"></span>
+              <span><span class="swatch__name">--violet-600</span><span class="swatch__role">#5A3BE0 · Violeta de texto en claro</span></span>
+            </button>
+            <button class="swatch" type="button" data-copy="var(--mint-500)" data-token="mint 500 00d4a0 exito acierto">
+              <span class="swatch__chip" style="background:#00D4A0"></span>
+              <span><span class="swatch__name">--mint-500</span><span class="swatch__role">#00D4A0 · Éxito y confirmación</span></span>
+            </button>
+            <button class="swatch" type="button" data-copy="var(--amber-500)" data-token="amber 500 ffb020 alerta racha">
+              <span class="swatch__chip" style="background:#FFB020"></span>
+              <span><span class="swatch__name">--amber-500</span><span class="swatch__role">#FFB020 · Alerta, pistas y racha</span></span>
+            </button>
+            <button class="swatch" type="button" data-copy="var(--coral-500)" data-token="coral 500 ff5470 error peligro">
+              <span class="swatch__chip" style="background:#FF5470"></span>
+              <span><span class="swatch__name">--coral-500</span><span class="swatch__role">#FF5470 · Error y destrucción</span></span>
+            </button>
+
+            <button class="swatch" type="button" data-copy="var(--surface)" data-token="surface 1a1d2a superficie tarjeta oscuro">
+              <span class="swatch__chip" style="background:var(--surface)"></span>
+              <span><span class="swatch__name">--surface</span><span class="swatch__role">Tarjetas y paneles · ambos temas</span></span>
+            </button>
+            <button class="swatch" type="button" data-copy="var(--surface-2)" data-token="surface 2 222638 superficie secundaria">
+              <span class="swatch__chip" style="background:var(--surface-2)"></span>
+              <span><span class="swatch__name">--surface-2</span><span class="swatch__role">Cabeceras, chips y campos</span></span>
+            </button>
+            <button class="swatch" type="button" data-copy="var(--bg)" data-token="bg fondo 0f1117 f7f8fc lienzo">
+              <span class="swatch__chip" style="background:var(--bg)"></span>
+              <span><span class="swatch__name">--bg</span><span class="swatch__role">Lienzo: #0F1117 / #F7F8FC</span></span>
+            </button>
+            <button class="swatch" type="button" data-copy="var(--line)" data-token="line borde 262b3d e0e4f0 divisor">
+              <span class="swatch__chip" style="background:var(--line)"></span>
+              <span><span class="swatch__name">--line</span><span class="swatch__role">Bordes de 1px y divisores</span></span>
+            </button>
+            <button class="swatch" type="button" data-copy="var(--code-bg)" data-token="code bg 0b0e16 terminal editor">
+              <span class="swatch__chip" style="background:var(--code-bg)"></span>
+              <span><span class="swatch__name">--code-bg</span><span class="swatch__role">Terminal, siempre oscura</span></span>
+            </button>
+
+            <button class="swatch" type="button" data-copy="var(--text)" data-token="text f4f5fa 14172a texto principal">
+              <span class="swatch__chip" style="background:var(--text)"></span>
+              <span><span class="swatch__name">--text</span><span class="swatch__role">Texto principal · 17.3:1 / 16.7:1</span></span>
+            </button>
+            <button class="swatch" type="button" data-copy="var(--text-2)" data-token="text 2 b6bacb 4a4f66 secundario">
+              <span class="swatch__chip" style="background:var(--text-2)"></span>
+              <span><span class="swatch__name">--text-2</span><span class="swatch__role">Texto secundario y descripciones</span></span>
+            </button>
+            <button class="swatch" type="button" data-copy="var(--text-3)" data-token="text 3 9196ac 5f657c terciario metadatos">
+              <span class="swatch__chip" style="background:var(--text-3)"></span>
+              <span><span class="swatch__name">--text-3</span><span class="swatch__role">Metadatos y etiquetas mono</span></span>
+            </button>
+            <button class="swatch" type="button" data-copy="var(--focus-ring)" data-token="focus ring b3a1ff 5a3be0 anillo foco">
+              <span class="swatch__chip" style="background:var(--focus-ring)"></span>
+              <span><span class="swatch__name">--focus-ring</span><span class="swatch__role">Anillo de foco visible, 2px</span></span>
+            </button>
+          </div>
+
+          <div class="token-empty" data-token-empty hidden>No hay tokens que coincidan. Prueba con “violet”, “surface” o un hex.</div>
+
+          <div class="grid-2" style="margin-top:20px">
+            <div class="panel">
+              <div class="panel__head">
+                <span class="panel__title">Gradientes</span>
+                <span class="mono small dim">brand / action</span>
+              </div>
+              <div class="panel__body">
+                <div class="gradient-card">
+                  <div class="gradient-bar" style="background:var(--grad-brand)"></div>
+                  <div class="gradient-meta"><span>--grad-brand · #6C4CF1 → #8B5CF6</span><span>Glows y gráficos</span></div>
+                  <div class="gradient-bar" style="background:var(--grad-action)"></div>
+                  <div class="gradient-meta"><span>--grad-action · #6C4CF1 → #7F57F5</span><span>Relleno de botones</span></div>
+                </div>
+                <p class="small muted" style="margin-top:14px">El final del gradiente de acción se cierra a <span class="mono">#7F57F5</span> para que el texto blanco mantenga 4.58:1 en todo el recorrido. El tono claro de marca queda solo en superficies decorativas.</p>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel__head">
+                <span class="panel__title">Tokens semánticos</span>
+                <span class="mono small dim">oscuro / claro</span>
+              </div>
+              <div class="panel__body" style="padding-top:6px;padding-bottom:6px">
+                <table class="token-table">
+                  <caption class="sr-only">Valores de los tokens semánticos en tema oscuro y claro</caption>
+                  <thead>
+                    <tr><th scope="col">Token</th><th scope="col">Oscuro</th><th scope="col">Claro</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td class="mono">--bg</td><td class="mono">#0F1117</td><td class="mono">#F7F8FC</td></tr>
+                    <tr><td class="mono">--surface</td><td class="mono">#1A1D2A</td><td class="mono">#FFFFFF</td></tr>
+                    <tr><td class="mono">--text</td><td class="mono">#F4F5FA</td><td class="mono">#14172A</td></tr>
+                    <tr><td class="mono">--violet-text</td><td class="mono">#B3A1FF</td><td class="mono">#5A3BE0</td></tr>
+                    <tr><td class="mono">--mint-text</td><td class="mono">#3FE3B8</td><td class="mono">#007A5E</td></tr>
+                    <tr><td class="mono">--focus-ring</td><td class="mono">#B3A1FF</td><td class="mono">#5A3BE0</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================================
+             02 TIPOGRAFÍA
+             ============================================================ -->
+        <section class="section" id="tipografia" aria-labelledby="tipografia-title">
+          <div class="section__head">
+            <p class="section__eyebrow">02 · Fundamentos</p>
+            <h2 class="section__title" id="tipografia-title">Dos familias, dos trabajos</h2>
+            <p class="section__lead">Plus Jakarta Sans sostiene titulares y lectura; JetBrains Mono marca el territorio técnico: código, XP, etiquetas y metadatos. El cuerpo nunca baja de 16px en pantalla.</p>
+          </div>
+
+          <div class="grid-2" style="margin-bottom:20px">
+            <div class="panel">
+              <div class="panel__head"><span class="panel__title">Plus Jakarta Sans</span><span class="mono small dim">400 → 800</span></div>
+              <div class="panel__body">
+                <div style="display:flex;align-items:center;gap:18px;flex-wrap:wrap">
+                  <span style="font-family:var(--font-display);font-size:58px;font-weight:800;line-height:1;letter-spacing:-.05em;color:var(--violet-text)">Aa</span>
+                  <div>
+                    <p style="font-weight:700;font-size:14px">Titulares y UI</p>
+                    <p class="small muted" style="margin-top:4px">Display 700/800 · Cuerpo 400/500<br>Letter-spacing −0.03em en titulares</p>
+                  </div>
+                </div>
+                <div class="cluster" style="margin-top:16px">
+                  <span class="chip">400</span><span class="chip">500</span><span class="chip">600</span><span class="chip">700</span><span class="chip chip--violet">800</span>
+                </div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel__head"><span class="panel__title">JetBrains Mono</span><span class="mono small dim">400 → 700</span></div>
+              <div class="panel__body">
+                <div style="display:flex;align-items:center;gap:18px;flex-wrap:wrap">
+                  <span class="mono" style="font-size:50px;font-weight:700;line-height:1;color:var(--mint-text)">{ }</span>
+                  <div>
+                    <p style="font-weight:700;font-size:14px">Código y datos</p>
+                    <p class="small muted" style="margin-top:4px">Terminal, XP, fases y etiquetas<br>Tracking 0.08em en versalitas</p>
+                  </div>
+                </div>
+                <div class="cluster" style="margin-top:16px">
+                  <span class="chip">400</span><span class="chip">500</span><span class="chip chip--violet">700</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel__head"><span class="panel__title">Escala tipográfica</span><span class="mono small dim">clamp() para 375 → 1440</span></div>
+            <div class="panel__body">
+              <div class="type-row">
+                <div class="type-meta"><b>Display · 800</b>--text-5xl<br>1.03 · −0.045em</div>
+                <p class="type-display">Construye para aprender</p>
+              </div>
+              <div class="type-row">
+                <div class="type-meta"><b>Título · 700</b>--text-3xl<br>1.08 · −0.03em</div>
+                <p class="type-h2">Tu progreso, en foco</p>
+              </div>
+              <div class="type-row">
+                <div class="type-meta"><b>Subtítulo · 600</b>--text-xl<br>1.25 · −0.02em</div>
+                <p class="type-h3">Rover de riego autónomo</p>
+              </div>
+              <div class="type-row">
+                <div class="type-meta"><b>Cuerpo · 400</b>--text-base<br>1.65 · 68ch</div>
+                <p class="type-body">Cada reto combina una explicación breve con una práctica verificable. El texto acompaña, no compite con el editor.</p>
+              </div>
+              <div class="type-row">
+                <div class="type-meta"><b>Etiqueta mono · 500</b>--text-xs<br>0.08em · uppercase</div>
+                <p class="type-mono">phase_02 = "construir"</p>
+              </div>
+            </div>
+            <div class="panel__foot"><strong>Regla:</strong> cuerpo ≥16px, interlineado 1.5–1.75, longitud de línea 65–75 caracteres en escritorio.</div>
+          </div>
+        </section>
+
+        <!-- ============================================================
+             03 ESPACIADO Y FORMA
+             ============================================================ -->
+        <section class="section" id="espaciado" aria-labelledby="espaciado-title">
+          <div class="section__head">
+            <p class="section__eyebrow">03 · Fundamentos</p>
+            <h2 class="section__title" id="espaciado-title">Ritmo de 4, esquinas con intención</h2>
+            <p class="section__lead">Todo el espaciado nace de una base de 4px. Los radios distinguen contenedores, controles y píldoras; el glow violeta solo aparece en estados activos.</p>
+          </div>
+
+          <div class="grid-2">
+            <div class="panel">
+              <div class="panel__head"><span class="panel__title">Espaciado · base 4</span><span class="mono small dim">4 → 96</span></div>
+              <div class="panel__body">
+                <div class="space-list">
+                  <div class="space-row"><span class="mono">space-1</span><span class="space-bar" style="width:4px"></span><span class="mono">4px</span></div>
+                  <div class="space-row"><span class="mono">space-2</span><span class="space-bar" style="width:8px"></span><span class="mono">8px</span></div>
+                  <div class="space-row"><span class="mono">space-3</span><span class="space-bar" style="width:12px"></span><span class="mono">12px</span></div>
+                  <div class="space-row"><span class="mono">space-4</span><span class="space-bar" style="width:16px"></span><span class="mono">16px</span></div>
+                  <div class="space-row"><span class="mono">space-6</span><span class="space-bar" style="width:24px"></span><span class="mono">24px</span></div>
+                  <div class="space-row"><span class="mono">space-8</span><span class="space-bar" style="width:32px"></span><span class="mono">32px</span></div>
+                  <div class="space-row"><span class="mono">space-12</span><span class="space-bar" style="width:48px"></span><span class="mono">48px</span></div>
+                  <div class="space-row"><span class="mono">space-16</span><span class="space-bar" style="width:64px"></span><span class="mono">64px</span></div>
+                  <div class="space-row"><span class="mono">space-24</span><span class="space-bar" style="width:96px"></span><span class="mono">96px</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="stack-16">
+              <div class="panel">
+                <div class="panel__head"><span class="panel__title">Radios</span><span class="mono small dim">8 / 12 / 16 / 20 / pill</span></div>
+                <div class="panel__body">
+                  <div class="radius-grid">
+                    <div class="radius-tile" style="--r:8px">8 · input</div>
+                    <div class="radius-tile" style="--r:12px">12 · card</div>
+                    <div class="radius-tile" style="--r:16px">16 · panel</div>
+                    <div class="radius-tile" style="--r:20px">20 · botón</div>
+                    <div class="radius-tile" style="--r:999px">pill</div>
+                  </div>
+                </div>
+              </div>
+              <div class="panel">
+                <div class="panel__head"><span class="panel__title">Elevación</span><span class="mono small dim">sombra + glow</span></div>
+                <div class="panel__body">
+                  <div class="shadow-grid">
+                    <div class="shadow-tile" style="--sh:var(--shadow-sm)">sm</div>
+                    <div class="shadow-tile" style="--sh:var(--shadow-md)">md</div>
+                    <div class="shadow-tile" style="--sh:var(--shadow-lg)">lg</div>
+                    <div class="shadow-tile" style="--sh:var(--shadow-glow)">glow</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel" style="margin-top:16px">
+            <div class="panel__head">
+              <span class="panel__title">Movimiento</span>
+              <span class="mono small dim">150–400ms · ease-out al entrar</span>
+            </div>
+            <div class="panel__body" style="padding-top:8px;padding-bottom:8px">
+              <table class="motion-table">
+                <caption class="sr-only">Tokens de movimiento</caption>
+                <thead><tr><th scope="col">Uso</th><th scope="col">Duración</th><th scope="col">Curva</th></tr></thead>
+                <tbody>
+                  <tr><td>Feedback de control</td><td class="mono">150ms</td><td class="mono">ease-out</td></tr>
+                  <tr><td>Entrada de tarjeta o toast</td><td class="mono">200ms</td><td class="mono">ease-out</td></tr>
+                  <tr><td>Cambio de vista</td><td class="mono">300ms</td><td class="mono">ease-out</td></tr>
+                  <tr><td>Salida y cierre</td><td class="mono">200ms</td><td class="mono">ease-in</td></tr>
+                  <tr><td>Elementos en lista</td><td class="mono">40ms stagger</td><td class="mono">ease-out</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="panel__foot"><strong>prefers-reduced-motion:</strong> se desactivan flotación, shimmer, parpadeo y desplazamientos; el estado se comunica con texto y color.</div>
+          </div>
+        </section>
+
+        <!-- ============================================================
+             04 ICONOGRAFÍA
+             ============================================================ -->
+        <section class="section" id="iconografia" aria-labelledby="iconografia-title">
+          <div class="section__head">
+            <p class="section__eyebrow">04 · Fundamentos</p>
+            <h2 class="section__title" id="iconografia-title">Una familia lineal, sin excepciones</h2>
+            <p class="section__lead">Trazo de 1.75, remates redondeados y viewBox de 24. Los iconos funcionales heredan tamaño de <span class="mono">--od-icon-size</span>; los SVG de contenido —gráficos y Maki— conservan su geometría propia.</p>
+          </div>
+
+          <div class="panel">
+            <div class="panel__head">
+              <span class="panel__title">Set funcional</span>
+              <span class="mono small dim">31 iconos · stroke 1.75</span>
+            </div>
+            <div class="panel__body">
+              <div class="icon-grid">
+                <div class="icon-cell"><svg class="od-icon icon i-24" aria-hidden="true"><use href="#i-flame"></use></svg><span>flame</span></div>
+                <div class="icon-cell"><svg class="od-icon icon i-24" aria-hidden="true"><use href="#i-bolt"></use></svg><span>bolt</span></div>
+                <div class="icon-cell"><svg class="od-icon icon i-24" aria-hidden="true"><use href="#i-check"></use></svg><span>check</span></div>
+                <div class="icon-cell"><svg class="od-icon icon i-24" aria-hidden="true"><use href="#i-x"></use></svg><span>x</span></div>
+                <div class="icon-cell"><svg class="od-icon icon i-24" aria-hidden="true"><use href="#i-arrow-right"></use></svg><span>arrow-right</span></div>
+                <div class="icon-cell"><svg class="od-icon icon i-24" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg><span>arrow-up-right</span></div>
+                <div class="icon-cell"><svg class="od-icon icon i-24" aria-hidden="true"><use href="#i-chevron-down"></use></svg><span>chevron-down</span></div>
+                <div class="icon-cell"><svg class="od-icon icon i-24" aria-hidden="true"><use href="#i-chevron-right"></use></svg><span>chevron-right</span></div>
+                <div class="icon-cell"><svg class="od-icon icon i-24" aria-hidden="true"><use href="#i-sun"></use></svg><span>sun</span></div>
+                <div class="icon-cell"><svg class="od-icon icon i-24" aria-hidden="true"><use href="#i-moon"></use></svg><span>moon</span></div>
+                <div class="icon-cell"><svg class="od-icon icon i-24" aria-hidden="true"><use href="#i-copy"></use></svg><span>copy</span></div>
+                <div class="icon-cell"><svg class="od-icon icon i-24" aria-hidden="true"><use href="#i-menu"></use></svg><span>menu</span></div>
+                <div class="icon-cell"><svg class="od-icon icon i-24" aria-hidden="true"><use href="#i-terminal"></use></svg><span>terminal</span></div>
+                <div class="icon-cell"><svg class="od-icon icon i-24" aria-hidden="true"><use href="#i-bulb"></use></svg><span>bulb</span></div>
+                <div class="icon-cell"><svg class="od-icon icon i-24" aria-hidden="true"><use href="#i-lock"></use></svg><span>lock</span></div>
+                <div class="icon-cell"><svg class="od-icon icon i-24" aria-hidden="true"><use href="#i-trophy"></use></svg><span>trophy</span></div>
+                <div class="icon-cell"><svg class="od-icon icon i-24" aria-hidden="true"><use href="#i-medal"></use></svg><span>medal</span></div>
+                <div class="icon-cell"><svg class="od-icon icon i-24" aria-hidden="true"><use href="#i-sparkles"></use></svg><span>sparkles</span></div>
+                <div class="icon-cell"><svg class="od-icon icon i-24" aria-hidden="true"><use href="#i-book"></use></svg><span>book</span></div>
+                <div class="icon-cell"><svg class="od-icon icon i-24" aria-hidden="true"><use href="#i-code"></use></svg><span>code</span></div>
+                <div class="icon-cell"><svg class="od-icon icon i-24" aria-hidden="true"><use href="#i-user"></use></svg><span>user</span></div>
+                <div class="icon-cell"><svg class="od-icon icon i-24" aria-hidden="true"><use href="#i-clock"></use></svg><span>clock</span></div>
+                <div class="icon-cell"><svg class="od-icon icon i-24" aria-hidden="true"><use href="#i-target"></use></svg><span>target</span></div>
+                <div class="icon-cell"><svg class="od-icon icon i-24" aria-hidden="true"><use href="#i-layers"></use></svg><span>layers</span></div>
+                <div class="icon-cell"><svg class="od-icon icon i-24" aria-hidden="true"><use href="#i-search"></use></svg><span>search</span></div>
+                <div class="icon-cell"><svg class="od-icon icon i-24" aria-hidden="true"><use href="#i-info"></use></svg><span>info</span></div>
+                <div class="icon-cell"><svg class="od-icon icon i-24" aria-hidden="true"><use href="#i-play"></use></svg><span>play</span></div>
+                <div class="icon-cell"><svg class="od-icon icon i-24" aria-hidden="true"><use href="#i-refresh"></use></svg><span>refresh</span></div>
+                <div class="icon-cell"><svg class="od-icon icon i-24" aria-hidden="true"><use href="#i-graduation"></use></svg><span>graduation</span></div>
+                <div class="icon-cell"><svg class="od-icon icon i-24" aria-hidden="true"><use href="#i-link"></use></svg><span>link</span></div>
+                <div class="icon-cell"><svg class="od-icon icon i-24" aria-hidden="true"><use href="#i-grid"></use></svg><span>grid</span></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================================
+             05 BOTONES
+             ============================================================ -->
+        <section class="section" id="botones" aria-labelledby="botones-title">
+          <div class="section__head">
+            <p class="section__eyebrow">05 · Componentes</p>
+            <h2 class="section__title" id="botones-title">Una acción principal por vista</h2>
+            <p class="section__lead">Primario con gradiente y glow, secundario outline, ghost para acciones terciarias. Todos los tamaños superan los 44px de alto y mantienen foco visible.</p>
+          </div>
+
+          <div class="grid-2">
+            <div class="panel">
+              <div class="panel__head"><span class="panel__title">Jerarquía</span><span class="mono small dim">primary / secondary / ghost</span></div>
+              <div class="panel__body stack-24">
+                <div class="demo-row">
+                  <button class="btn btn--primary" type="button" data-demo-loading data-demo-label="Guardar avance">
+                    <span data-demo-text>Guardar avance</span>
+                  </button>
+                  <button class="btn btn--secondary" type="button">Ver temario</button>
+                  <button class="btn btn--ghost" type="button">Saltar por ahora</button>
+                </div>
+                <div class="demo-row">
+                  <button class="btn btn--primary btn--sm" type="button">Continuar</button>
+                  <button class="btn btn--primary" type="button">Continuar reto</button>
+                  <button class="btn btn--primary btn--lg" type="button">Empezar proyecto</button>
+                </div>
+                <div class="demo-row">
+                  <button class="btn btn--primary btn--icon" type="button" aria-label="Reproducir introducción">
+                    <svg class="od-icon icon i-18" aria-hidden="true"><use href="#i-play"></use></svg>
+                  </button>
+                  <button class="btn btn--secondary btn--icon" type="button" aria-label="Copiar enlace del reto">
+                    <svg class="od-icon icon i-18" aria-hidden="true"><use href="#i-link"></use></svg>
+                  </button>
+                  <button class="btn btn--primary" type="button" disabled>Bloqueado</button>
+                  <button class="btn btn--secondary" type="button" disabled>Sin cupo</button>
+                </div>
+              </div>
+              <div class="panel__foot">El botón con estado de carga conserva su etiqueta y anuncia <span class="mono">aria-busy</span>; nunca se sustituye por un spinner solo.</div>
+            </div>
+
+            <div class="panel">
+              <div class="panel__head"><span class="panel__title">Reglas de uso</span><span class="mono small dim">do / don't</span></div>
+              <div class="panel__body">
+                <ul class="spec-list">
+                  <li><svg class="od-icon icon i-16" aria-hidden="true"><use href="#i-check"></use></svg><span>Un solo primario por bloque de decisión. Si hay dos, compiten y ninguna gana.</span></li>
+                  <li><svg class="od-icon icon i-16" aria-hidden="true"><use href="#i-check"></use></svg><span>Etiquetas con verbo concreto: “Continuar reto”, no “Siguiente”.</span></li>
+                  <li><svg class="od-icon icon i-16" aria-hidden="true"><use href="#i-check"></use></svg><span>El glow comunica disponibilidad; se apaga en disabled y en reposo secundario.</span></li>
+                  <li><svg class="od-icon icon i-16 is-warn" aria-hidden="true"><use href="#i-x"></use></svg><span>No uses iconos como única etiqueta: todo botón-icono lleva <span class="mono">aria-label</span>.</span></li>
+                  <li><svg class="od-icon icon i-16 is-warn" aria-hidden="true"><use href="#i-x"></use></svg><span>No apliques el gradiente a botones secundarios ni a enlaces de texto.</span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================================
+             06 FORMULARIOS
+             ============================================================ -->
+        <section class="section" id="formularios" aria-labelledby="formularios-title">
+          <div class="section__head">
+            <p class="section__eyebrow">06 · Componentes</p>
+            <h2 class="section__title" id="formularios-title">Etiquetas siempre visibles</h2>
+            <p class="section__lead">Nada de placeholders como etiqueta. El error aparece junto al campo, explica la causa y propone la solución. La validación ocurre al salir del campo, no en cada tecla.</p>
+          </div>
+
+          <div class="grid-2">
+            <div class="panel">
+              <div class="panel__head"><span class="panel__title">Perfil de estudiante</span><span class="mono small dim">demo interactiva</span></div>
+              <div class="panel__body">
+                <div class="form-grid">
+                  <div class="field">
+                    <label class="field__label" for="fullname">Nombre completo</label>
+                    <input class="input" id="fullname" name="fullname" value="Ana Rivera" autocomplete="name">
+                  </div>
+                  <div class="field">
+                    <label class="field__label" for="email">Correo institucional <span class="field__req">Requerido</span></label>
+                    <input class="input" id="email" name="email" type="email" inputmode="email" placeholder="ana@uni.edu" autocomplete="email" aria-describedby="email-help email-error" data-email required>
+                    <p class="field__help" id="email-help">Solo lo usamos para guardar tu progreso.</p>
+                    <p class="field__error" id="email-error" data-email-error>Escribe un correo completo, por ejemplo ana@uni.edu.</p>
+                  </div>
+                  <div class="field">
+                    <label class="field__label" for="phase">Fase actual</label>
+                    <div class="select-wrap">
+                      <select class="input" id="phase" name="phase">
+                        <option>Fase 1 · Fundamentos</option>
+                        <option selected>Fase 2 · Construcción</option>
+                        <option>Fase 3 · Despliegue</option>
+                      </select>
+                      <svg class="od-icon icon i-18" aria-hidden="true"><use href="#i-chevron-down"></use></svg>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label class="field__label" for="goal">Meta de la semana</label>
+                    <input class="input" id="goal" name="goal" value="Cerrar el reto de sensores">
+                  </div>
+                  <div class="field field--full">
+                    <label class="field__label" for="project">¿Qué quieres construir?</label>
+                    <textarea class="input" id="project" name="project" rows="3" placeholder="Describe tu proyecto en una frase…"></textarea>
+                    <p class="field__help">Máximo 140 caracteres. Puedes cambiarlo después.</p>
+                  </div>
+                </div>
+                <div class="demo-row" style="margin-top:18px">
+                  <button class="btn btn--primary" type="button" data-toast="success" data-toast-title="Perfil guardado" data-toast-msg="Tus preferencias se aplicaron a la sesión de estudio.">Guardar perfil</button>
+                  <button class="btn btn--ghost" type="button">Cancelar</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel__head"><span class="panel__title">Estados del campo</span><span class="mono small dim">focus · error · help</span></div>
+              <div class="panel__body stack-16">
+                <div class="field">
+                  <label class="field__label" for="sample-focus">Campo con foco</label>
+                  <input class="input is-demo-focus" id="sample-focus" value="Escribe tu respuesta…">
+                  <p class="field__help">Anillo violeta de 3px; el borde no cambia de grosor.</p>
+                </div>
+                <div class="field is-invalid">
+                  <label class="field__label" for="sample-error">Campo con error <span class="field__req">Requerido</span></label>
+                  <input class="input" id="sample-error" type="email" value="ana@uni" aria-invalid="true" aria-describedby="sample-error-msg">
+                  <p class="field__error" id="sample-error-msg">
+                    <svg class="od-icon icon i-14" aria-hidden="true"><use href="#i-info"></use></svg>
+                    Escribe un correo completo, por ejemplo ana@uni.edu.
+                  </p>
+                </div>
+                <ul class="spec-list">
+                  <li><svg class="od-icon icon i-16" aria-hidden="true"><use href="#i-check"></use></svg><span>El mensaje de error dice qué pasó y cómo arreglarlo.</span></li>
+                  <li><svg class="od-icon icon i-16" aria-hidden="true"><use href="#i-check"></use></svg><span>El foco regresa al primer campo con error al enviar.</span></li>
+                  <li><svg class="od-icon icon i-16" aria-hidden="true"><use href="#i-check"></use></svg><span>Opciones avanzadas se revelan de forma progresiva.</span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================================
+             07 PROYECTOS Y FASES
+             ============================================================ -->
+        <section class="section" id="proyectos" aria-labelledby="proyectos-title">
+          <div class="section__head">
+            <p class="section__eyebrow">07 · Componentes</p>
+            <h2 class="section__title" id="proyectos-title">El proyecto como unidad de avance</h2>
+            <p class="section__lead">Cada tarjeta cuenta una historia corta: qué se construye, en qué fase está y cuánto falta. La portada es geométrica y propia; los datos largos truncan y se abren en la vista de detalle.</p>
+          </div>
+
+          <div class="grid-2">
+            <div class="panel">
+              <div class="panel__head"><span class="panel__title">Card de proyecto</span><span class="mono small dim">PROY-204</span></div>
+              <div class="panel__body">
+                <article class="project-card" aria-labelledby="project-title">
+                  <div class="project-cover" aria-hidden="true">
+                    <svg viewBox="0 0 190 300" preserveAspectRatio="xMidYMid slice">
+                      <rect width="190" height="300" fill="#171A27"/>
+                      <g stroke="#2A3046" stroke-width="1" opacity=".9">
+                        <path d="M0 40h190M0 80h190M0 120h190M0 160h190M0 200h190M0 240h190"/>
+                        <path d="M40 0v300M80 0v300M120 0v300M160 0v300"/>
+                      </g>
+                      <circle cx="95" cy="140" r="62" fill="none" stroke="#6C4CF1" stroke-opacity=".38" stroke-dasharray="4 7"/>
+                      <circle cx="95" cy="140" r="38" fill="none" stroke="#6C4CF1" stroke-opacity=".55"/>
+                      <rect x="68" y="116" width="54" height="48" rx="12" fill="#6C4CF1"/>
+                      <rect x="78" y="126" width="34" height="20" rx="5" fill="#8B5CF6"/>
+                      <circle cx="84" cy="153" r="3" fill="#00D4A0"/>
+                      <circle cx="95" cy="153" r="3" fill="#00D4A0"/>
+                      <path d="M122 140h26M68 140H42M95 94V66M95 186v28" stroke="#00D4A0" stroke-width="1.5" stroke-dasharray="3 4"/>
+                      <circle cx="95" cy="62" r="4" fill="#FFB020"/>
+                      <circle cx="148" cy="140" r="4" fill="#00D4A0"/>
+                      <circle cx="42" cy="140" r="4" fill="#00D4A0"/>
+                      <text x="20" y="278" fill="#8B93AD" font-family="JetBrains Mono, monospace" font-size="8" letter-spacing="1.5">ML / ROVER 204</text>
+                    </svg>
+                  </div>
+                  <div class="project-body">
+                    <div class="project-top">
+                      <span class="badge badge--mint">En curso</span>
+                      <span class="mono">68%</span>
+                    </div>
+                    <h3 id="project-title">Rover de riego autónomo</h3>
+                    <p>Programa sensores y riego por umbral para un invernadero urbano.</p>
+                    <div class="project-tags">
+                      <span class="chip">Python</span>
+                      <span class="chip">Sensores</span>
+                      <span class="chip">IoT</span>
+                    </div>
+                    <div class="progress-row">
+                      <div class="progress" role="progressbar" aria-label="Progreso del proyecto" aria-valuemin="0" aria-valuemax="100" aria-valuenow="68"><span style="--value:68%"></span></div>
+                      <span class="mono od-nowrap">4/6 retos</span>
+                    </div>
+                    <div class="project-foot">
+                      <span class="mono">FASE 2 · CONSTRUCCIÓN</span>
+                      <button class="btn btn--primary btn--sm" type="button">Continuar</button>
+                    </div>
+                  </div>
+                </article>
+              </div>
+              <div class="panel__foot">La portada es decorativa (<span class="mono">aria-hidden</span>); el progreso real se anuncia con <span class="mono">role="progressbar"</span>.</div>
+            </div>
+
+            <div class="stack-16">
+              <div class="panel">
+                <div class="panel__head"><span class="panel__title">Chips de fase</span><span class="mono small dim">completada / activa / bloqueada</span></div>
+                <div class="panel__body">
+                  <div class="cluster">
+                    <span class="phase phase--done">
+                      <span class="phase__icon" aria-hidden="true"><svg class="od-icon icon i-14"><use href="#i-check"></use></svg></span>
+                      Fase 1 · Fundamentos
+                    </span>
+                    <span class="phase phase--active">
+                      <span class="phase__icon" aria-hidden="true"><svg class="od-icon icon i-14"><use href="#i-bolt"></use></svg></span>
+                      Fase 2 · Construcción
+                    </span>
+                    <span class="phase phase--locked">
+                      <span class="phase__icon" aria-hidden="true"><svg class="od-icon icon i-14"><use href="#i-lock"></use></svg></span>
+                      Fase 3 · Despliegue
+                    </span>
+                  </div>
+                  <p class="small muted" style="margin-top:14px">El estado nunca depende solo del color: cambia el icono, el texto y el tratamiento del borde. La fase activa es la única que recibe glow.</p>
+                </div>
+              </div>
+
+              <div class="panel">
+                <div class="panel__head"><span class="panel__title">Badges de estado</span><span class="mono small dim">dot + texto</span></div>
+                <div class="panel__body">
+                  <div class="cluster">
+                    <span class="badge badge--violet">En curso</span>
+                    <span class="badge badge--mint">Completado</span>
+                    <span class="badge badge--amber">En revisión</span>
+                    <span class="badge badge--coral">Bloqueado</span>
+                    <span class="badge">Borrador</span>
+                  </div>
+                  <p class="small muted" style="margin-top:14px">El badge describe un estado del sistema; el chip describe una categoría. No se intercambian.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================================
+             08 GAMIFICACIÓN
+             ============================================================ -->
+        <section class="section" id="gamificacion" aria-labelledby="gamificacion-title">
+          <div class="section__head">
+            <p class="section__eyebrow">08 · Componentes</p>
+            <h2 class="section__title" id="gamificacion-title">Celebrar el trabajo, no el clic</h2>
+            <p class="section__lead">La racha y el XP reconocen constancia real. Se muestran cerca del progreso, con números legibles y sin interrumpir la tarea. Las medallas se ganan; no se compran.</p>
+          </div>
+
+          <div class="grid-2">
+            <div class="panel">
+              <div class="panel__head"><span class="panel__title">Racha, XP y nivel</span><span class="mono small dim">demo</span></div>
+              <div class="panel__body stack-24">
+                <div class="cluster">
+                  <span class="streak">
+                    <span class="streak__flame" aria-hidden="true"><svg class="od-icon icon i-18"><use href="#i-flame"></use></svg></span>
+                    <span class="streak__value"><b>12 días</b><span>Racha activa</span></span>
+                  </span>
+                  <span class="xp">
+                    <svg class="od-icon icon i-14" aria-hidden="true"><use href="#i-bolt"></use></svg>
+                    <b data-xp data-xp-value="2480">2.480</b><span>XP</span>
+                  </span>
+                </div>
+                <div class="level">
+                  <div class="level__top"><b>Nivel 7 · Constructor</b><span>720 / 1.000 XP</span></div>
+                  <div class="progress" role="progressbar" aria-label="Progreso al nivel 8" aria-valuemin="0" aria-valuemax="100" aria-valuenow="72"><span style="--value:72%"></span></div>
+                </div>
+                <div class="demo-row">
+                  <button class="btn btn--secondary btn--sm" type="button" data-xp-add>Simular +40 XP</button>
+                  <span class="mono small dim">La demo actualiza el contador y la racha.</span>
+                </div>
+              </div>
+              <div class="panel__foot">El número usa <span class="mono">font-variant-numeric</span> tabular y <span class="mono">od-nowrap</span> para que no se parta junto a la unidad.</div>
+            </div>
+
+            <div class="panel">
+              <div class="panel__head"><span class="panel__title">Medallas</span><span class="mono small dim">3 desbloqueadas / 1 bloqueada</span></div>
+              <div class="panel__body">
+                <div class="medals">
+                  <div class="medal medal--unlocked">
+                    <span class="medal__disc" aria-hidden="true"><svg class="od-icon icon i-24"><use href="#i-trophy"></use></svg></span>
+                    <span class="medal__name">Primer deploy</span>
+                    <span class="medal__status">Desbloqueada</span>
+                  </div>
+                  <div class="medal medal--unlocked">
+                    <span class="medal__disc" aria-hidden="true"><svg class="od-icon icon i-24"><use href="#i-flame"></use></svg></span>
+                    <span class="medal__name">Racha de 7</span>
+                    <span class="medal__status">Desbloqueada</span>
+                  </div>
+                  <div class="medal medal--unlocked">
+                    <span class="medal__disc" aria-hidden="true"><svg class="od-icon icon i-24"><use href="#i-code"></use></svg></span>
+                    <span class="medal__name">Debugger</span>
+                    <span class="medal__status">Desbloqueada</span>
+                  </div>
+                  <div class="medal medal--locked">
+                    <span class="medal__disc" aria-hidden="true"><svg class="od-icon icon i-20"><use href="#i-lock"></use></svg></span>
+                    <span class="medal__name">100 tests</span>
+                    <span class="medal__status">Bloqueada</span>
+                  </div>
+                </div>
+                <p class="small muted" style="margin-top:18px">La medalla bloqueada mantiene su nombre visible y usa borde discontinuo; la opacidad nunca baja de 0.55 para conservar legibilidad.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================================
+             09 QUIZ
+             ============================================================ -->
+        <section class="section" id="quiz" aria-labelledby="quiz-title">
+          <div class="section__head">
+            <p class="section__eyebrow">09 · Componentes</p>
+            <h2 class="section__title" id="quiz-title">Comprobar también es aprender</h2>
+            <p class="section__lead">Opciones A/B/C, una comprobación por intento y feedback que explica el porqué. El acierto suma XP; el error no castiga, redirige.</p>
+          </div>
+
+          <div class="grid-2">
+            <div class="quiz" data-quiz data-correct="b"
+                 data-correct-title="Correcto: un deque crece por ambos extremos"
+                 data-correct-msg="Un deque permite insertar y eliminar al inicio y al final en O(1). Es la estructura que pide un historial de acciones."
+                 data-wrong-title="Casi: revisa los extremos"
+                 data-wrong-msg="La estructura debe permitir crecer por ambos lados. Una pila solo trabaja por un extremo; un árbol ordena, no encola. Vuelve a intentarlo con esa pista.">
+              <div class="quiz__top">
+                <span class="badge badge--violet">Comprobación · Unidad 03</span>
+                <span class="xp"><svg class="od-icon icon i-14" aria-hidden="true"><use href="#i-bolt"></use></svg><b>20</b><span>XP</span></span>
+              </div>
+              <form>
+                <h3>Tu rover necesita un historial que permita deshacer y rehacer. ¿Qué estructura encaja mejor?</h3>
+                <fieldset class="quiz__options">
+                  <legend class="sr-only">Elige una respuesta</legend>
+                  <label class="quiz-opt">
+                    <input type="radio" name="quiz-answer" value="a">
+                    <span class="quiz-opt__key" aria-hidden="true">A</span>
+                    <span class="quiz-opt__text">Pila (LIFO)</span>
+                    <span class="quiz-opt__state" aria-hidden="true"></span>
+                  </label>
+                  <label class="quiz-opt">
+                    <input type="radio" name="quiz-answer" value="b">
+                    <span class="quiz-opt__key" aria-hidden="true">B</span>
+                    <span class="quiz-opt__text">Cola doble o deque</span>
+                    <span class="quiz-opt__state" aria-hidden="true"></span>
+                  </label>
+                  <label class="quiz-opt">
+                    <input type="radio" name="quiz-answer" value="c">
+                    <span class="quiz-opt__key" aria-hidden="true">C</span>
+                    <span class="quiz-opt__text">Árbol binario de búsqueda</span>
+                    <span class="quiz-opt__state" aria-hidden="true"></span>
+                  </label>
+                </fieldset>
+                <div class="quiz__actions">
+                  <button class="btn btn--primary" type="submit" data-quiz-submit>Comprobar respuesta</button>
+                  <button class="btn btn--secondary" type="button" data-quiz-retry hidden>Reintentar</button>
+                  <span class="quiz__hint">Sin penalización en el primer intento</span>
+                </div>
+                <div class="quiz__feedback" data-quiz-feedback aria-live="polite">
+                  <svg class="od-icon icon i-18" aria-hidden="true"><use data-quiz-icon href="#i-check"></use></svg>
+                  <div>
+                    <strong data-quiz-title></strong>
+                    <p data-quiz-msg></p>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <div class="panel">
+              <div class="panel__head"><span class="panel__title">Reglas de feedback</span><span class="mono small dim">acierto / error</span></div>
+              <div class="panel__body">
+                <ul class="spec-list">
+                  <li><svg class="od-icon icon i-16" aria-hidden="true"><use href="#i-check"></use></svg><span><strong>Acierto:</strong> borde menta, icono de check, explicación y +XP. La tarjeta hace un pop de 320ms.</span></li>
+                  <li><svg class="od-icon icon i-16" aria-hidden="true"><use href="#i-check"></use></svg><span><strong>Error:</strong> borde coral, shake de 340ms y una pista concreta. La opción correcta también se revela.</span></li>
+                  <li><svg class="od-icon icon i-16" aria-hidden="true"><use href="#i-check"></use></svg><span>El feedback se anuncia con <span class="mono">aria-live="polite"</span> y el foco pasa a “Reintentar”.</span></li>
+                  <li><svg class="od-icon icon i-16" aria-hidden="true"><use href="#i-check"></use></svg><span>Sin selección, se pide elegir una opción; nunca se marca como error sin respuesta.</span></li>
+                  <li><svg class="od-icon icon i-16 is-warn" aria-hidden="true"><use href="#i-x"></use></svg><span>No se encadenan más de 3 opciones ni se mezclan escalas de XP en la misma comprobación.</span></li>
+                </ul>
+              </div>
+              <div class="panel__foot"><strong>Accesibilidad:</strong> las opciones son radios nativos, se recorren con flechas y el foco visible se dibuja en todo el contenedor.</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================================
+             10 MAKI
+             ============================================================ -->
+        <section class="section" id="maki" aria-labelledby="maki-title">
+          <div class="section__head">
+            <p class="section__eyebrow">10 · Componentes</p>
+            <h2 class="section__title" id="maki-title">Maki, un tutor que pregunta</h2>
+            <p class="section__lead">Maki es un búho-cubo geométrico, no una foto ni un emoji. Tres estados comunican su papel socrático: escucha, piensa y celebra. Nunca da la respuesta antes de la hipótesis.</p>
+          </div>
+
+          <div class="panel">
+            <div class="panel__head"><span class="panel__title">Avatar + burbuja</span><span class="mono small dim">idle / think / cheer</span></div>
+            <div class="panel__body">
+              <div class="maki-stage">
+                <div class="maki-avatar-wrap">
+                  <svg class="maki maki-avatar" data-maki data-state="idle" viewBox="0 0 160 160" role="img" aria-label="Maki, tutor socrático de MakerLearn: un búho-cubo violeta">
+                    <ellipse cx="80" cy="146" rx="36" ry="6" fill="rgba(0,0,0,.35)"/>
+                    <path d="M34 50 28 22 58 32Z" fill="#5A3BE0" stroke="#5A3BE0" stroke-width="7" stroke-linejoin="round"/>
+                    <path d="M126 50 132 22 102 32Z" fill="#5A3BE0" stroke="#5A3BE0" stroke-width="7" stroke-linejoin="round"/>
+                    <rect x="26" y="30" width="108" height="46" rx="18" fill="#8B5CF6"/>
+                    <rect x="20" y="62" width="120" height="70" rx="18" fill="#6C4CF1"/>
+                    <path d="M46 66h68" stroke="#9A7BFF" stroke-width="2" stroke-linecap="round" opacity=".55"/>
+                    <g class="maki__blink maki__eyes-open">
+                      <circle cx="58" cy="90" r="17" fill="#F4F5FA"/>
+                      <circle cx="102" cy="90" r="17" fill="#F4F5FA"/>
+                      <circle cx="61" cy="92" r="6.5" fill="#1A1D2A"/>
+                      <circle cx="99" cy="92" r="6.5" fill="#1A1D2A"/>
+                      <circle cx="63.5" cy="89" r="2.2" fill="#F4F5FA"/>
+                      <circle cx="101.5" cy="89" r="2.2" fill="#F4F5FA"/>
+                    </g>
+                    <g class="maki__eyes-think">
+                      <circle cx="58" cy="90" r="15" fill="#F4F5FA"/>
+                      <circle cx="60" cy="92" r="6" fill="#1A1D2A"/>
+                      <circle cx="62" cy="89" r="2" fill="#F4F5FA"/>
+                      <path d="M92 92q9-7 18 0" fill="none" stroke="#F4F5FA" stroke-width="4.5" stroke-linecap="round"/>
+                    </g>
+                    <g class="maki__eyes-happy">
+                      <path d="M47 92q11-14 22 0" fill="none" stroke="#F4F5FA" stroke-width="5" stroke-linecap="round"/>
+                      <path d="M91 92q11-14 22 0" fill="none" stroke="#F4F5FA" stroke-width="5" stroke-linecap="round"/>
+                    </g>
+                    <circle cx="40" cy="108" r="5" fill="#B3A1FF" opacity=".35"/>
+                    <circle cx="120" cy="108" r="5" fill="#B3A1FF" opacity=".35"/>
+                    <path d="M80 100 88 110 80 120 72 110Z" fill="#FFB020"/>
+                    <path d="M80 124v8M80 132h-15M80 132h15" fill="none" stroke="#00D4A0" stroke-width="3" stroke-linecap="round"/>
+                    <circle cx="64" cy="132" r="3.2" fill="#00D4A0"/>
+                    <circle cx="96" cy="132" r="3.2" fill="#00D4A0"/>
+                    <g class="maki__thought" fill="#B3A1FF">
+                      <circle cx="128" cy="30" r="4.5"/>
+                      <circle cx="138" cy="21" r="3.2"/>
+                      <circle cx="146" cy="13" r="2.2"/>
+                    </g>
+                    <g class="maki__sparkles">
+                      <path d="m24 38 2.4 6.8L33 47l-6.6 2.2L24 56l-2.4-6.8L15 47l6.6-2.2L24 38Z" fill="#B3A1FF"/>
+                      <path d="m138 66 1.9 5.3 5.1 1.7-5.1 1.7-1.9 5.3-1.9-5.3-5.1-1.7 5.1-1.7 1.9-5.3Z" fill="#00D4A0"/>
+                      <path d="m132 112 1.6 4.4 4.4 1.6-4.4 1.6-1.6 4.4-1.6-4.4-4.4-1.6 4.4-1.6 1.6-4.4Z" fill="#FFB020"/>
+                    </g>
+                  </svg>
+                </div>
+
+                <div class="maki-panel">
+                  <div class="maki-speech">
+                    <p data-maki-speech aria-live="polite"><b>Hipótesis primero:</b> si el sensor devuelve un valor vacío, ¿qué debería hacer tu rover? Propón una respuesta antes de tocar el código.</p>
+                  </div>
+                  <div class="maki-controls" role="group" aria-label="Estado de Maki">
+                    <button class="btn btn--secondary btn--sm" type="button" data-maki-state="idle" aria-pressed="true">Inactivo</button>
+                    <button class="btn btn--secondary btn--sm" type="button" data-maki-state="think" aria-pressed="false">Pensando</button>
+                    <button class="btn btn--secondary btn--sm" type="button" data-maki-state="cheer" aria-pressed="false">Celebrando</button>
+                  </div>
+
+                  <div class="maki-sizes" role="group" aria-label="Tamaños del avatar">
+                    <div class="maki-size">
+                      <svg width="32" height="32" viewBox="0 0 160 160" aria-hidden="true"><use href="#maki-mini"></use></svg>
+                      <span class="mono">32</span>
+                    </div>
+                    <div class="maki-size">
+                      <svg width="48" height="48" viewBox="0 0 160 160" aria-hidden="true"><use href="#maki-mini"></use></svg>
+                      <span class="mono">48</span>
+                    </div>
+                    <div class="maki-size">
+                      <svg width="64" height="64" viewBox="0 0 160 160" aria-hidden="true"><use href="#maki-mini"></use></svg>
+                      <span class="mono">64</span>
+                    </div>
+                  </div>
+
+                  <p class="small muted">Construcción: cubo de 20–140 en un viewBox de 160, cubierta violeta clara, ojos de 17 de radio y pico ámbar. La boca no cambia: la expresión vive en los ojos y los destellos.</p>
+                </div>
+              </div>
+            </div>
+            <div class="panel__foot"><strong>Voz de Maki:</strong> pregunta antes de explicar, una idea por mensaje, sin emojis. El texto se anuncia con <span class="mono">aria-live="polite"</span>.</div>
+          </div>
+        </section>
+
+        <!-- ============================================================
+             11 PISTAS
+             ============================================================ -->
+        <section class="section" id="pistas" aria-labelledby="pistas-title">
+          <div class="section__head">
+            <p class="section__eyebrow">11 · Componentes</p>
+            <h2 class="section__title" id="pistas-title">La pista mínima, no la respuesta</h2>
+            <p class="section__lead">Tres niveles que se desbloquean en orden. Cada revelación cuesta XP y se anuncia; el estudiante puede quedarse en el nivel que le basta.</p>
+          </div>
+
+          <div class="grid-2">
+            <div class="panel">
+              <div class="panel__head"><span class="panel__title">Pistas progresivas</span><span class="mono small dim">demo</span></div>
+              <div class="panel__body">
+                <div class="hints" data-hints>
+                  <div class="hint" data-hint>
+                    <button class="hint__toggle" type="button" aria-expanded="false" aria-controls="hint-panel-1" data-cost="5">
+                      <span class="hint__num" aria-hidden="true">1</span>
+                      <span class="hint__title">Identifica las operaciones</span>
+                      <span class="hint__cost">−5 XP</span>
+                      <svg class="od-icon icon i-18 hint__chev" aria-hidden="true"><use href="#i-chevron-down"></use></svg>
+                    </button>
+                    <div class="hint__panel" id="hint-panel-1">
+                      <p>Escribe en papel qué operaciones necesita el historial: añadir al inicio, añadir al final, quitar de ambos lados. Si una estructura no cubre las cuatro, descártala.</p>
+                    </div>
+                  </div>
+
+                  <div class="hint is-locked" data-hint>
+                    <button class="hint__toggle" type="button" aria-expanded="false" aria-controls="hint-panel-2" data-cost="10" disabled>
+                      <span class="hint__num" aria-hidden="true">2</span>
+                      <span class="hint__title">Compara los extremos</span>
+                      <span class="hint__cost">−10 XP</span>
+                      <svg class="od-icon icon i-16 hint__lock" aria-hidden="true"><use href="#i-lock"></use></svg>
+                      <svg class="od-icon icon i-18 hint__chev" aria-hidden="true"><use href="#i-chevron-down"></use></svg>
+                    </button>
+                    <div class="hint__panel" id="hint-panel-2">
+                      <p>Una pila solo trabaja por un extremo y una cola simple tiene direcciones fijas. Fíjate en la operación que ocurre al final del historial.</p>
+                    </div>
+                  </div>
+
+                  <div class="hint is-locked" data-hint>
+                    <button class="hint__toggle" type="button" aria-expanded="false" aria-controls="hint-panel-3" data-cost="20" disabled>
+                      <span class="hint__num" aria-hidden="true">3</span>
+                      <span class="hint__title">Nombra el contrato</span>
+                      <span class="hint__cost">−20 XP</span>
+                      <svg class="od-icon icon i-16 hint__lock" aria-hidden="true"><use href="#i-lock"></use></svg>
+                      <svg class="od-icon icon i-18 hint__chev" aria-hidden="true"><use href="#i-chevron-down"></use></svg>
+                    </button>
+                    <div class="hint__panel" id="hint-panel-3">
+                      <p>Necesitas inserciones y eliminaciones en ambos extremos, en O(1). Ese contrato lo cumple un deque: <code>collections.deque</code> en Python.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="panel__foot">El nivel 2 y 3 están deshabilitados a propósito hasta revelar el anterior.</div>
+            </div>
+
+            <div class="panel">
+              <div class="panel__head"><span class="panel__title">Reglas del sistema de pistas</span><span class="mono small dim">3 niveles</span></div>
+              <div class="panel__body">
+                <ul class="spec-list">
+                  <li><svg class="od-icon icon i-16" aria-hidden="true"><use href="#i-check"></use></svg><span>Nivel 1: dirección. Nivel 2: comparación. Nivel 3: el concepto concreto.</span></li>
+                  <li><svg class="od-icon icon i-16" aria-hidden="true"><use href="#i-check"></use></svg><span>El coste se muestra antes de abrir, en ámbar, para que la decisión sea informada.</span></li>
+                  <li><svg class="od-icon icon i-16" aria-hidden="true"><use href="#i-check"></use></svg><span>Una pista revelada queda disponible durante toda la unidad.</span></li>
+                  <li><svg class="od-icon icon i-16 is-warn" aria-hidden="true"><use href="#i-x"></use></svg><span>Nunca se revela la solución completa ni se abre el siguiente nivel automáticamente.</span></li>
+                </ul>
+              </div>
+              <div class="panel__foot"><strong>Demo:</strong> al abrir el nivel 1 se descuentan 5 XP del contador de gamificación y se anuncia en un toast.</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================================
+             12 TERMINAL
+             ============================================================ -->
+        <section class="section" id="terminal" aria-labelledby="terminal-title">
+          <div class="section__head">
+            <p class="section__eyebrow">12 · Componentes</p>
+            <h2 class="section__title" id="terminal-title">El editor también es interfaz</h2>
+            <p class="section__lead">Una terminal embebida con tipografía mono, contraste alto y salida progresiva. El entorno siempre es oscuro, incluso en modo claro: reduce el deslumbramiento y conserva la lectura de código.</p>
+          </div>
+
+          <div class="terminal" data-terminal>
+            <div class="terminal__bar">
+              <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+              <div class="terminal__tabs" role="tablist" aria-label="Escenario de terminal">
+                <button class="terminal__tab" type="button" role="tab" id="term-tab-env" aria-selected="true" aria-controls="term-panel" tabindex="0" data-term-tab="env">Entorno</button>
+                <button class="terminal__tab" type="button" role="tab" id="term-tab-test" aria-selected="false" aria-controls="term-panel" tabindex="-1" data-term-tab="test">Tests</button>
+              </div>
+              <span class="mono terminal__cwd">~/makerlearn</span>
+            </div>
+            <div class="terminal__out" id="term-panel" role="tabpanel" aria-labelledby="term-tab-env" data-term-out></div>
+            <span class="sr-only" data-term-status aria-live="polite"></span>
+            <div class="terminal__actions">
+              <button class="btn btn--terminal" type="button" data-term-run>
+                <svg class="od-icon icon i-14" aria-hidden="true"><use href="#i-play"></use></svg>
+                <span data-term-run-label>Ejecutar</span>
+              </button>
+              <button class="btn btn--terminal" type="button" data-term-reset>
+                <svg class="od-icon icon i-14" aria-hidden="true"><use href="#i-refresh"></use></svg>
+                Reiniciar
+              </button>
+            </div>
+          </div>
+          <p class="small dim" style="margin-top:12px">Salida simulada para documentar el componente. La terminal real ejecuta comandos del entorno de práctica del estudiante.</p>
+        </section>
+
+        <!-- ============================================================
+             13 FEEDBACK
+             ============================================================ -->
+        <section class="section" id="feedback" aria-labelledby="feedback-title">
+          <div class="section__head">
+            <p class="section__eyebrow">13 · Componentes</p>
+            <h2 class="section__title" id="feedback-title">Feedback breve, contexto intacto</h2>
+            <p class="section__lead">Tooltips para nombres cortos, toasts para confirmaciones y skeletons para esperas. Ninguno roba el foco de la tarea ni bloquea la lectura.</p>
+          </div>
+
+          <div class="grid-3">
+            <div class="panel">
+              <div class="panel__head"><span class="panel__title">Tooltips</span><span class="mono small dim">hover + focus</span></div>
+              <div class="panel__body">
+                <div class="demo-row">
+                  <span class="tip">
+                    <button class="btn btn--secondary btn--icon tip__trigger" type="button" aria-label="Copiar enlace" aria-describedby="tip-copy">
+                      <svg class="od-icon icon i-18" aria-hidden="true"><use href="#i-link"></use></svg>
+                    </button>
+                    <span class="tip__bubble" id="tip-copy" role="tooltip">Copiar enlace del reto</span>
+                  </span>
+                  <span class="tip">
+                    <button class="btn btn--secondary btn--icon tip__trigger" type="button" aria-label="Ver información" aria-describedby="tip-info">
+                      <svg class="od-icon icon i-18" aria-hidden="true"><use href="#i-info"></use></svg>
+                    </button>
+                    <span class="tip__bubble" id="tip-info" role="tooltip">Qué evalúa este reto</span>
+                  </span>
+                  <span class="tip">
+                    <button class="btn btn--secondary btn--icon tip__trigger" type="button" aria-label="Reportar error" aria-describedby="tip-report">
+                      <svg class="od-icon icon i-18" aria-hidden="true"><use href="#i-x"></use></svg>
+                    </button>
+                    <span class="tip__bubble" id="tip-report" role="tooltip">Reportar un problema</span>
+                  </span>
+                </div>
+                <p class="small muted" style="margin-top:16px">En pantallas táctiles, el toque abre el tooltip y <span class="mono">Esc</span> o un toque fuera lo cierra.</p>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel__head"><span class="panel__title">Toasts</span><span class="mono small dim">success / info / error</span></div>
+              <div class="panel__body">
+                <div class="stack-16">
+                  <div class="demo-row">
+                    <button class="btn btn--secondary btn--sm" type="button" data-toast="success" data-toast-title="Reto guardado" data-toast-msg="Tu progreso se sincronizó con la unidad 3.">Éxito</button>
+                    <button class="btn btn--secondary btn--sm" type="button" data-toast="info" data-toast-title="Pista disponible" data-toast-msg="Se desbloqueó el nivel 2 después de 10 minutos de práctica.">Info</button>
+                    <button class="btn btn--secondary btn--sm" type="button" data-toast="error" data-toast-title="Conexión perdida" data-toast-msg="Guardamos tu avance localmente. Reintentaremos al reconectar.">Error</button>
+                  </div>
+                  <p class="small muted">Se apilan arriba a la derecha, se pausan al pasar el cursor y nunca tapan la acción principal.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel__head"><span class="panel__title">Skeletons</span><span class="mono small dim">carga de 1.3s</span></div>
+              <div class="panel__body">
+                <div class="skeleton-demo" data-skeleton-demo aria-busy="false">
+                  <div class="skeleton-placeholder" data-skeleton-placeholder hidden>
+                    <div class="skeleton-row" aria-hidden="true">
+                      <div class="skeleton skeleton--avatar"></div>
+                      <div class="skeleton-row__copy"><div class="skeleton skeleton--line w-60"></div><div class="skeleton skeleton--line w-40"></div></div>
+                      <div class="skeleton skeleton--badge"></div>
+                    </div>
+                    <div class="skeleton-row" aria-hidden="true">
+                      <div class="skeleton skeleton--avatar"></div>
+                      <div class="skeleton-row__copy"><div class="skeleton skeleton--line w-60"></div><div class="skeleton skeleton--line w-40"></div></div>
+                      <div class="skeleton skeleton--badge"></div>
+                    </div>
+                    <div class="skeleton-row" aria-hidden="true">
+                      <div class="skeleton skeleton--avatar"></div>
+                      <div class="skeleton-row__copy"><div class="skeleton skeleton--line w-60"></div><div class="skeleton skeleton--line w-40"></div></div>
+                      <div class="skeleton skeleton--badge"></div>
+                    </div>
+                  </div>
+                  <div data-skeleton-content>
+                    <div class="loaded-row">
+                      <span class="loaded-row__avatar" aria-hidden="true">RV</span>
+                      <span class="loaded-row__body"><b>Rover de riego</b><span>Fase 2 · 4/6 retos</span></span>
+                      <span class="badge badge--violet">En curso</span>
+                    </div>
+                    <div class="loaded-row">
+                      <span class="loaded-row__avatar" aria-hidden="true">AQ</span>
+                      <span class="loaded-row__body"><b>Calidad del aire</b><span>Fase 1 · 2/5 retos</span></span>
+                      <span class="badge badge--amber">Revisión</span>
+                    </div>
+                    <div class="loaded-row">
+                      <span class="loaded-row__avatar" aria-hidden="true">PM</span>
+                      <span class="loaded-row__body"><b>Puente modular</b><span>Fase 3 · 6/6 retos</span></span>
+                      <span class="badge badge--mint">Completado</span>
+                    </div>
+                  </div>
+                  <span class="sr-only" data-skeleton-status aria-live="polite"></span>
+                </div>
+                <div class="demo-row" style="margin-top:14px">
+                  <button class="btn btn--secondary btn--sm" type="button" data-skeleton-toggle>Simular carga</button>
+                  <span class="mono small dim">mismo alto, sin salto</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================================
+             14 TEMAS
+             ============================================================ -->
+        <section class="section" id="temas" aria-labelledby="temas-title">
+          <div class="section__head">
+            <p class="section__eyebrow">14 · Sistema</p>
+            <h2 class="section__title" id="temas-title">Oscuro para construir, claro para repasar</h2>
+            <p class="section__lead">El modo claro no invierte el oscuro: recalibra superficies, texto y acentos para uso diurno. Ambos comparten estructura, escala y componentes; el contraste se audita por separado.</p>
+          </div>
+
+          <div class="theme-compare">
+            <div class="theme-preview" data-theme="dark" aria-hidden="true">
+              <div class="theme-preview__label"><span>Web · escritorio</span><b>Dark</b></div>
+              <div class="mini-card">
+                <div class="cluster" style="justify-content:space-between">
+                  <span class="badge badge--mint">En curso</span>
+                  <span class="mono" style="font-size:9px;color:var(--text-3)">68%</span>
+                </div>
+                <h4>Rover de riego autónomo</h4>
+                <p>Fase 2 · Sensores y umbrales</p>
+                <div class="progress"><span style="--value:68%"></span></div>
+                <div class="mini-field"><span>Correo institucional</span><div>ana@uni.edu</div></div>
+                <div class="mini-card__foot">
+                  <span class="btn btn--primary btn--preview">Continuar</span>
+                  <span class="chip chip--violet">Fase 2</span>
+                  <span class="mono">+20 XP</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="theme-preview" data-theme="light" aria-hidden="true">
+              <div class="theme-preview__label"><span>Móvil · día</span><b>Light</b></div>
+              <div class="mini-card">
+                <div class="cluster" style="justify-content:space-between">
+                  <span class="badge badge--mint">En curso</span>
+                  <span class="mono" style="font-size:9px;color:var(--text-3)">68%</span>
+                </div>
+                <h4>Rover de riego autónomo</h4>
+                <p>Fase 2 · Sensores y umbrales</p>
+                <div class="progress"><span style="--value:68%"></span></div>
+                <div class="mini-field"><span>Correo institucional</span><div>ana@uni.edu</div></div>
+                <div class="mini-card__foot">
+                  <span class="btn btn--primary btn--preview">Continuar</span>
+                  <span class="chip chip--violet">Fase 2</span>
+                  <span class="mono">+20 XP</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel" style="margin-top:16px">
+            <div class="panel__head"><span class="panel__title">Reglas de tema</span><span class="mono small dim">compartido, no invertido</span></div>
+            <div class="panel__body">
+              <ul class="spec-list">
+                <li><svg class="od-icon icon i-16" aria-hidden="true"><use href="#i-check"></use></svg><span>Los tokens de marca (violeta, menta, ámbar, coral) conservan su hex; cambian los roles semánticos de texto y superficie.</span></li>
+                <li><svg class="od-icon icon i-16" aria-hidden="true"><use href="#i-check"></use></svg><span>La terminal permanece oscura en ambos temas; es una superficie de código, no una tarjeta.</span></li>
+                <li><svg class="od-icon icon i-16" aria-hidden="true"><use href="#i-check"></use></svg><span>El glow se reduce en claro: sombras más suaves y sin halo violeta saturado.</span></li>
+                <li><svg class="od-icon icon i-16" aria-hidden="true"><use href="#i-check"></use></svg><span>La preferencia se guarda en <span class="mono">localStorage</span> y se aplica antes del primer pintado.</span></li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================================
+             15 ACCESIBILIDAD
+             ============================================================ -->
+        <section class="section" id="accesibilidad" aria-labelledby="accesibilidad-title">
+          <div class="section__head">
+            <p class="section__eyebrow">15 · Sistema</p>
+            <h2 class="section__title" id="accesibilidad-title">Accesibilidad medida, no prometida</h2>
+            <p class="section__lead">Contraste WCAG 2.1 AA, foco visible, objetivos de 44px, nombres accesibles y movimiento reducido. Los ratios de la tabla se calcularon sobre los valores hex reales, no sobre aproximaciones.</p>
+          </div>
+
+          <div class="table-wrap" role="region" aria-label="Tabla de ratios de contraste" tabindex="0">
+            <table class="table">
+              <caption class="sr-only">Ratios de contraste calculados con la fórmula WCAG 2.1</caption>
+              <thead>
+                <tr><th scope="col">Par de tokens</th><th scope="col">Muestra</th><th scope="col">Ratio</th><th scope="col">Nivel</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>--text / --bg · oscuro</td><td><span class="pair"><i style="background:#F4F5FA"></i><i style="background:#0F1117"></i><span class="mono">#F4F5FA / #0F1117</span></span></td><td class="mono">17.33:1</td><td><span class="level-pill level-pill--aaa">AAA</span></td></tr>
+                <tr><td>--text-2 / --surface · oscuro</td><td><span class="pair"><i style="background:#B6BACB"></i><i style="background:#1A1D2A"></i><span class="mono">#B6BACB / #1A1D2A</span></span></td><td class="mono">8.68:1</td><td><span class="level-pill level-pill--aaa">AAA</span></td></tr>
+                <tr><td>--text-3 / --surface · oscuro</td><td><span class="pair"><i style="background:#9196AC"></i><i style="background:#1A1D2A"></i><span class="mono">#9196AC / #1A1D2A</span></span></td><td class="mono">5.72:1</td><td><span class="level-pill">AA</span></td></tr>
+                <tr><td>--violet-text / --surface · oscuro</td><td><span class="pair"><i style="background:#B3A1FF"></i><i style="background:#1A1D2A"></i><span class="mono">#B3A1FF / #1A1D2A</span></span></td><td class="mono">7.55:1</td><td><span class="level-pill level-pill--aaa">AAA</span></td></tr>
+                <tr><td>--mint-text / --surface · oscuro</td><td><span class="pair"><i style="background:#3FE3B8"></i><i style="background:#1A1D2A"></i><span class="mono">#3FE3B8 / #1A1D2A</span></span></td><td class="mono">10.29:1</td><td><span class="level-pill level-pill--aaa">AAA</span></td></tr>
+                <tr><td>--coral-text / --surface · oscuro</td><td><span class="pair"><i style="background:#FF8095"></i><i style="background:#1A1D2A"></i><span class="mono">#FF8095 / #1A1D2A</span></span></td><td class="mono">7.00:1</td><td><span class="level-pill level-pill--aaa">AAA</span></td></tr>
+                <tr><td>Texto blanco / --grad-action</td><td><span class="pair"><i style="background:#FFFFFF"></i><i style="background:#7F57F5"></i><span class="mono">#FFFFFF / #7F57F5</span></span></td><td class="mono">4.58:1</td><td><span class="level-pill">AA</span></td></tr>
+                <tr><td>--text / --bg · claro</td><td><span class="pair"><i style="background:#14172A"></i><i style="background:#F7F8FC"></i><span class="mono">#14172A / #F7F8FC</span></span></td><td class="mono">16.69:1</td><td><span class="level-pill level-pill--aaa">AAA</span></td></tr>
+                <tr><td>--text-3 / --surface · claro</td><td><span class="pair"><i style="background:#5F657C"></i><i style="background:#FFFFFF"></i><span class="mono">#5F657C / #FFFFFF</span></span></td><td class="mono">5.77:1</td><td><span class="level-pill">AA</span></td></tr>
+                <tr><td>--violet-text / --violet-soft · claro</td><td><span class="pair"><i style="background:#5A3BE0"></i><i style="background:#EFEBFF"></i><span class="mono">#5A3BE0 / #EFEBFF</span></span></td><td class="mono">5.74:1</td><td><span class="level-pill">AA</span></td></tr>
+                <tr><td>--mint-text / --mint-soft · claro</td><td><span class="pair"><i style="background:#007A5E"></i><i style="background:#E2FBF2"></i><span class="mono">#007A5E / #E2FBF2</span></span></td><td class="mono">4.90:1</td><td><span class="level-pill">AA</span></td></tr>
+                <tr><td>--coral-text / --coral-soft · claro</td><td><span class="pair"><i style="background:#C42B47"></i><i style="background:#FFE8EC"></i><span class="mono">#C42B47 / #FFE8EC</span></span></td><td class="mono">4.76:1</td><td><span class="level-pill">AA</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="a11y-grid" style="margin-top:16px">
+            <div class="a11y-card">
+              <h3>Foco siempre visible</h3>
+              <p>Anillo de 2px con 3px de separación. Aplica a enlaces, botones, campos y opciones del quiz.</p>
+              <div class="demo-row">
+                <button class="btn btn--secondary" type="button">Pulsa Tab</button>
+                <a href="#accesibilidad">Enlace con foco</a>
+              </div>
+            </div>
+            <div class="a11y-card">
+              <h3>Objetivo mínimo de 44px</h3>
+              <p>Los controles táctiles miden al menos 44×44px, con 8px entre objetivos adyacentes.</p>
+              <div class="target-demo">
+                <span class="target-box" aria-hidden="true"><svg class="od-icon icon i-18"><use href="#i-target"></use></svg></span>
+                <span class="mono">44 × 44px<br>objetivo mínimo</span>
+              </div>
+            </div>
+            <div class="a11y-card">
+              <h3>Nunca solo color</h3>
+              <p>Estados con icono, texto o patrón. El error añade mensaje; el éxito añade check; la fase bloqueada añade candado.</p>
+              <div class="cluster">
+                <span class="badge badge--mint">Completado</span>
+                <span class="badge badge--coral">Bloqueado</span>
+                <span class="phase phase--locked" style="min-height:34px;font-size:11.5px">Fase 3</span>
+              </div>
+            </div>
+            <div class="a11y-card">
+              <h3>Movimiento reducido</h3>
+              <p>Con <span class="mono">prefers-reduced-motion</span> se detienen flotación, shimmer, shake y parpadeo. El cambio de estado sigue siendo evidente.</p>
+              <div class="cluster">
+                <span class="chip chip--violet">glow estático</span>
+                <span class="chip">sin parallax</span>
+                <span class="chip">sin autoplay</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================================
+             16 EN CONTEXTO
+             ============================================================ -->
+        <section class="section" id="contexto" aria-labelledby="contexto-title">
+          <div class="section__head">
+            <p class="section__eyebrow">16 · Sistema</p>
+            <h2 class="section__title" id="contexto-title">Los componentes, trabajando juntos</h2>
+            <p class="section__lead">Un vistazo al panel diario: racha, XP, proyecto activo, ruta de la semana y la voz de Maki. La composición conserva una sola acción principal y un orden de lectura estable.</p>
+          </div>
+
+          <div class="dash">
+            <div class="dash__bar">
+              <span class="mono">makerlearn.app / hoy</span>
+              <span class="badge badge--violet">Fase 2</span>
+              <div class="dash__stats">
+                <span class="streak">
+                  <span class="streak__flame" aria-hidden="true"><svg class="od-icon icon i-16"><use href="#i-flame"></use></svg></span>
+                  <span class="streak__value"><b>12 d</b><span>Racha</span></span>
+                </span>
+                <span class="xp">
+                  <svg class="od-icon icon i-14" aria-hidden="true"><use href="#i-bolt"></use></svg>
+                  <b>2.480</b><span>XP</span>
+                </span>
+              </div>
+            </div>
+
+            <div class="dash__body">
+              <div class="dash__col">
+                <div class="dash__greeting">
+                  <h3>Buenas tardes, Ana</h3>
+                  <p>Fase 2 · Construcción · 2 retos para cerrar la semana</p>
+                </div>
+
+                <article class="project-card project-card--compact" aria-labelledby="dash-project-title">
+                  <div class="project-cover" aria-hidden="true">
+                    <svg viewBox="0 0 140 220" preserveAspectRatio="xMidYMid slice">
+                      <rect width="140" height="220" fill="#171A27"/>
+                      <g stroke="#2A3046" stroke-width="1">
+                        <path d="M0 44h140M0 88h140M0 132h140M0 176h140"/>
+                        <path d="M44 0v220M88 0v220"/>
+                      </g>
+                      <circle cx="70" cy="104" r="34" fill="none" stroke="#6C4CF1" stroke-opacity=".5" stroke-dasharray="4 6"/>
+                      <rect x="50" y="88" width="40" height="34" rx="9" fill="#6C4CF1"/>
+                      <rect x="58" y="95" width="24" height="14" rx="4" fill="#8B5CF6"/>
+                      <circle cx="70" cy="120" r="3" fill="#00D4A0"/>
+                      <path d="M90 105h16M50 105H34M70 70V52M70 140v18" stroke="#00D4A0" stroke-width="1.4" stroke-dasharray="3 4"/>
+                      <circle cx="70" cy="50" r="3" fill="#FFB020"/>
+                    </svg>
+                  </div>
+                  <div class="project-body">
+                    <div class="project-top">
+                      <span class="badge badge--mint">En curso</span>
+                      <span class="mono">68%</span>
+                    </div>
+                    <h3 id="dash-project-title">Rover de riego autónomo</h3>
+                    <div class="progress-row">
+                      <div class="progress" role="progressbar" aria-label="Progreso del proyecto activo" aria-valuemin="0" aria-valuemax="100" aria-valuenow="68"><span style="--value:68%"></span></div>
+                      <span class="mono od-nowrap">4/6</span>
+                    </div>
+                    <div class="project-foot">
+                      <span class="mono">FASE 2 · 4 DE 6 RETOS</span>
+                      <button class="btn btn--primary btn--sm" type="button">Continuar</button>
+                    </div>
+                  </div>
+                </article>
+
+                <div class="maki-bubble">
+                  <svg width="40" height="40" viewBox="0 0 160 160" aria-hidden="true" style="flex:none"><use href="#maki-mini"></use></svg>
+                  <p><b>Maki:</b> ¿Qué crees que pasará si el sensor devuelve un valor vacío? Escríbelo antes de ejecutar la prueba.</p>
+                </div>
+              </div>
+
+              <div class="dash__col">
+                <div class="panel">
+                  <div class="panel__head">
+                    <span class="panel__title">Ruta de hoy</span>
+                    <span class="mono small dim">3 pasos</span>
+                  </div>
+                  <div class="panel__body" style="padding:10px 16px">
+                    <div class="route">
+                      <div class="route__item is-done">
+                        <span class="route__status" aria-hidden="true"><svg class="od-icon icon i-14"><use href="#i-check"></use></svg></span>
+                        <span class="route__copy"><b>Configurar sensor de humedad</b><span>Completado · 10 XP</span></span>
+                        <span class="route__meta">✓</span>
+                      </div>
+                      <div class="route__item is-now">
+                        <span class="route__status" aria-hidden="true"><svg class="od-icon icon i-14"><use href="#i-play"></use></svg></span>
+                        <span class="route__copy"><b>Calibrar umbrales de riego</b><span>En curso · 20 XP</span></span>
+                        <span class="route__meta">AHORA</span>
+                      </div>
+                      <div class="route__item">
+                        <span class="route__status" aria-hidden="true"><svg class="od-icon icon i-14"><use href="#i-lock"></use></svg></span>
+                        <span class="route__copy"><b>Prueba de integración</b><span>Se abre al terminar</span></span>
+                        <span class="route__meta">+30 XP</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="panel">
+                  <div class="panel__head"><span class="panel__title">Nivel</span><span class="mono small dim">7 / 8</span></div>
+                  <div class="panel__body" style="padding:16px">
+                    <div class="level">
+                      <div class="level__top"><b>Constructor</b><span>720 / 1.000 XP</span></div>
+                      <div class="progress" role="progressbar" aria-label="Progreso al siguiente nivel" aria-valuemin="0" aria-valuemax="100" aria-valuenow="72"><span style="--value:72%"></span></div>
+                    </div>
+                    <div class="demo-row" style="margin-top:14px">
+                      <span class="chip chip--amber"><svg class="od-icon icon i-14" aria-hidden="true"><use href="#i-flame"></use></svg>Racha de 12</span>
+                      <span class="chip chip--mint"><svg class="od-icon icon i-14" aria-hidden="true"><use href="#i-trophy"></use></svg>3 medallas</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <div class="footer__brand">
+          <span class="brand__mark" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round">
+              <path d="M12 2.5 20.5 7v10L12 21.5 3.5 17V7L12 2.5Z"/>
+              <path d="m3.5 7 8.5 5 8.5-5M12 12v9.5"/>
+            </svg>
+          </span>
+          <span><b>MakerLearn Studio</b><span>DESIGN SYSTEM · V1.0</span></span>
+        </div>
+        <p>Sistema vivo para aprendizaje activo con IA. Tipografías <span class="mono">Plus Jakarta Sans</span> y <span class="mono">JetBrains Mono</span> (SIL OFL), servidas vía Google Fonts. Los datos de cursos y proyectos son ejemplos.</p>
+      </footer>
+    </div>
+  </div>
+
+  <div class="toast-region" id="toasts" aria-live="polite" aria-atomic="false"></div>
+
+  <!-- Icon sprite -->
+  <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true" focusable="false">
+    <symbol id="i-flame" viewBox="0 0 24 24">
+      <path d="M12 3c2.4 2.9 4.8 4.9 4.8 8.4a4.8 4.8 0 0 1-9.6 0c0-1.6.6-2.9 1.7-4.1.3 1.3 1.1 2 2.1 2 .2-2.4-.2-4.2 1-6.3Z"/>
+      <path d="M12 12.4c1.1 1.3 1.9 2.2 1.9 3.4a1.9 1.9 0 0 1-3.8 0c0-1.2.8-2.1 1.9-3.4Z"/>
+    </symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24">
+      <path d="M13 2 4.5 13.5H10l-1 8.5 8.5-11.5H12L13 2Z"/>
+    </symbol>
+    <symbol id="i-check" viewBox="0 0 24 24">
+      <path d="m4.5 12.5 4.6 4.6L19.5 6.5"/>
+    </symbol>
+    <symbol id="i-x" viewBox="0 0 24 24">
+      <path d="M6 6l12 12M18 6 6 18"/>
+    </symbol>
+    <symbol id="i-arrow-right" viewBox="0 0 24 24">
+      <path d="M4 12h14M12 6l6 6-6 6"/>
+    </symbol>
+    <symbol id="i-arrow-up-right" viewBox="0 0 24 24">
+      <path d="M7 17 17 7M8 7h9v9"/>
+    </symbol>
+    <symbol id="i-chevron-down" viewBox="0 0 24 24">
+      <path d="m6 9.5 6 6 6-6"/>
+    </symbol>
+    <symbol id="i-chevron-right" viewBox="0 0 24 24">
+      <path d="m9.5 6 6 6-6 6"/>
+    </symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="4"/>
+      <path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/>
+    </symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24">
+      <path d="M20.5 14.6A8.7 8.7 0 0 1 9.4 3.5a8.7 8.7 0 1 0 11.1 11.1Z"/>
+    </symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24">
+      <rect x="9" y="9" width="11" height="11" rx="2"/>
+      <path d="M15 5H6a1 1 0 0 0-1 1v9"/>
+    </symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24">
+      <path d="M4 7h16M4 12h16M4 17h16"/>
+    </symbol>
+    <symbol id="i-terminal" viewBox="0 0 24 24">
+      <rect x="3" y="4" width="18" height="16" rx="3"/>
+      <path d="m7 9.5 2.6 2.5L7 14.5M12.5 15H17"/>
+    </symbol>
+    <symbol id="i-bulb" viewBox="0 0 24 24">
+      <path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.4 10.9c.6.5.9 1.2.9 2.1h5c0-.9.3-1.6.9-2.1A6 6 0 0 0 12 3Z"/>
+    </symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24">
+      <rect x="4.5" y="10" width="15" height="10.5" rx="2.5"/>
+      <path d="M8 10V7.5a4 4 0 0 1 8 0V10M12 14v2.5"/>
+    </symbol>
+    <symbol id="i-trophy" viewBox="0 0 24 24">
+      <path d="M8 4h8v4.5a4 4 0 0 1-8 0V4Z"/>
+      <path d="M8 5H5.5v1.8a3 3 0 0 0 3 3M16 5h2.5v1.8a3 3 0 0 1-3 3M12 12.5V17M8.5 21h7M10 17h4"/>
+    </symbol>
+    <symbol id="i-medal" viewBox="0 0 24 24">
+      <circle cx="12" cy="14.5" r="5"/>
+      <path d="m8.5 10.5-2-7h11l-2 7M12 12.5l.8 1.6 1.8.3-1.3 1.3.3 1.8-1.6-.8-1.6.8.3-1.8-1.3-1.3 1.8-.3.8-1.6Z"/>
+    </symbol>
+    <symbol id="i-sparkles" viewBox="0 0 24 24">
+      <path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z"/>
+      <path d="m19 16 .7 2.3L22 19l-2.3.7L19 22l-.7-2.3L16 19l2.3-.7L19 16Z"/>
+    </symbol>
+    <symbol id="i-book" viewBox="0 0 24 24">
+      <path d="M4.5 5.5A2.5 2.5 0 0 1 7 3h13v15.5H7a2.5 2.5 0 0 0-2.5 2.5V5.5Z"/>
+      <path d="M4.5 18.5A2.5 2.5 0 0 1 7 16h13"/>
+    </symbol>
+    <symbol id="i-code" viewBox="0 0 24 24">
+      <path d="m8 8-4 4 4 4M16 8l4 4-4 4M14 4l-4 16"/>
+    </symbol>
+    <symbol id="i-user" viewBox="0 0 24 24">
+      <circle cx="12" cy="8" r="4"/>
+      <path d="M4.5 21a7.5 7.5 0 0 1 15 0"/>
+    </symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="8.5"/>
+      <path d="M12 7.5V12l3 2"/>
+    </symbol>
+    <symbol id="i-target" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="8.5"/>
+      <circle cx="12" cy="12" r="4.5"/>
+      <circle cx="12" cy="12" r="1"/>
+    </symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24">
+      <path d="m12 3 9 5-9 5-9-5 9-5Z"/>
+      <path d="m3 12.5 9 5 9-5"/>
+      <path d="m3 17 9 5 9-5"/>
+    </symbol>
+    <symbol id="i-search" viewBox="0 0 24 24">
+      <circle cx="11" cy="11" r="6.5"/>
+      <path d="m16 16 4.5 4.5"/>
+    </symbol>
+    <symbol id="i-info" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="8.5"/>
+      <path d="M12 11.5V16M12 8h.01"/>
+    </symbol>
+    <symbol id="i-play" viewBox="0 0 24 24">
+      <path d="M8.5 5.5 19 12 8.5 18.5v-13Z"/>
+    </symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24">
+      <path d="M20 11.5a8 8 0 1 0-2.3 6.1M20 5.5v6h-6"/>
+    </symbol>
+    <symbol id="i-graduation" viewBox="0 0 24 24">
+      <path d="m12 4 9.5 5L12 14 2.5 9 12 4Z"/>
+      <path d="M6 11.2V16c0 1.5 2.7 2.8 6 2.8s6-1.3 6-2.8v-4.8M21.5 9v5"/>
+    </symbol>
+    <symbol id="i-link" viewBox="0 0 24 24">
+      <path d="M10 13a4.5 4.5 0 0 0 6.4 0l2.1-2.1a4.5 4.5 0 0 0-6.4-6.4l-1 1"/>
+      <path d="M14 11a4.5 4.5 0 0 0-6.4 0l-2.1 2.1a4.5 4.5 0 0 0 6.4 6.4l1-1"/>
+    </symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24">
+      <rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/>
+      <rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/>
+      <rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/>
+      <rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/>
+    </symbol>
+    <symbol id="maki-mini" viewBox="0 0 160 160">
+      <path d="M34 50 28 22 58 32Z" fill="#5A3BE0" stroke="#5A3BE0" stroke-width="7" stroke-linejoin="round"/>
+      <path d="M126 50 132 22 102 32Z" fill="#5A3BE0" stroke="#5A3BE0" stroke-width="7" stroke-linejoin="round"/>
+      <rect x="26" y="30" width="108" height="46" rx="18" fill="#8B5CF6"/>
+      <rect x="20" y="62" width="120" height="70" rx="18" fill="#6C4CF1"/>
+      <circle cx="58" cy="90" r="17" fill="#F4F5FA"/>
+      <circle cx="102" cy="90" r="17" fill="#F4F5FA"/>
+      <circle cx="61" cy="92" r="6.5" fill="#1A1D2A"/>
+      <circle cx="99" cy="92" r="6.5" fill="#1A1D2A"/>
+      <circle cx="63.5" cy="89" r="2.2" fill="#F4F5FA"/>
+      <circle cx="101.5" cy="89" r="2.2" fill="#F4F5FA"/>
+      <path d="M80 100 88 110 80 120 72 110Z" fill="#FFB020"/>
+      <path d="M80 124v8M80 132h-15M80 132h15" fill="none" stroke="#00D4A0" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="64" cy="132" r="3.2" fill="#00D4A0"/>
+      <circle cx="96" cy="132" r="3.2" fill="#00D4A0"/>
+    </symbol>
+  </svg>
+</body>
+</html>
